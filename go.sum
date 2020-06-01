@@ -1,0 +1,6 @@
+github.com/Ulbora/Level_Logger v1.0.2 h1:uhuNi1oSQ1zSDhuYQS7NEHqtR4lAYPGyW2XGwJZtxmk=
+github.com/Ulbora/Level_Logger v1.0.2/go.mod h1:epRidhkOBJSzCCon816WfFCO9vtai8VCmdI8S/xcTbA=
+github.com/Ulbora/dbinterface v1.0.5 h1:hzAsS92kIKIApFb6av1vGGz4+lRNOyfzhh5HXxoUiIg=
+github.com/Ulbora/dbinterface v1.0.5/go.mod h1:msBriehF2JgLgSpNWq2Yc3MKy3/Rn9aChefibmW1xWM=
+github.com/Ulbora/six910-database-interface v1.0.0 h1:9DrXedKqeCRWa7sxID+Zbi550qr39GMth6alHHjMNvc=
+github.com/Ulbora/six910-database-interface v1.0.0/go.mod h1:OGqZQ5ETgqxsHB636qmivSR36NzQxhV4T+ATsIUJSLM=
