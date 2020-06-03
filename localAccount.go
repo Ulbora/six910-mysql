@@ -1,6 +1,11 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+	"time"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -25,18 +30,39 @@ import mdb "github.com/Ulbora/six910-database-interface"
 //Local Accounts when oauth not used
 
 //AddLocalAccount AddLocalAccount
-func (d *Six910Mysql) AddLocalAccount(a *mdb.LocalAccount) bool {
-	return false
+func (d *Six910Mysql) AddLocalAccount(c *mdb.LocalAccount) bool {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, c.UserName, c.Password, c.Enabled, c.Role, c.StoreID, c.CustomerID,
+		time.Now())
+	suc, _ := d.DB.Insert(insertLocalAccount, a...)
+	d.Log.Debug("suc in add local account", suc)
+	return suc
 }
 
 //UpdateLocalAccount UpdateLocalAccount
-func (d *Six910Mysql) UpdateLocalAccount(a *mdb.LocalAccount) bool {
-	return false
+func (d *Six910Mysql) UpdateLocalAccount(c *mdb.LocalAccount) bool {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, c.Password, c.Enabled, c.Role, time.Now(), c.UserName, c.StoreID)
+	suc := d.DB.Update(updateLocalAccount, a...)
+	return suc
 }
 
 //GetLocalAccount GetLocalAccount
 func (d *Six910Mysql) GetLocalAccount(username string, storeID int64) *mdb.LocalAccount {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, username, storeID)
+	row := d.DB.Get(getLocalAccount, a...)
+	rtn := d.parseLocalAccountRow(&row.Row)
+	return rtn
 }
 
 //GetLocalAccountList GetLocalAccountList
@@ -47,4 +73,36 @@ func (d *Six910Mysql) GetLocalAccountList(store int64) *[]mdb.LocalAccount {
 //DeleteLocalAccount DeleteLocalAccount
 func (d *Six910Mysql) DeleteLocalAccount(username string, storeID int64) bool {
 	return false
+}
+
+func (d *Six910Mysql) parseLocalAccountRow(foundRow *[]string) *mdb.LocalAccount {
+	d.Log.Debug("foundRow in get local account", *foundRow)
+	var rtn mdb.LocalAccount
+	if len(*foundRow) > 0 {
+		sid, err := strconv.ParseInt((*foundRow)[4], 10, 64)
+		d.Log.Debug("id err in get local account", err)
+		if err == nil {
+			cid, serr := strconv.ParseInt((*foundRow)[5], 10, 64)
+			d.Log.Debug("id err in get local account", serr)
+			if serr == nil {
+				eTime, eerr := time.Parse(timeFormat, (*foundRow)[6])
+				d.Log.Debug("eTime err in get local account", eerr)
+				if eerr == nil {
+					uTime, _ := time.Parse(timeFormat, (*foundRow)[7])
+					enabled, enerr := strconv.ParseBool((*foundRow)[2])
+					if enerr == nil {
+						rtn.StoreID = sid
+						rtn.CustomerID = cid
+						rtn.Enabled = enabled
+						rtn.DateEntered = eTime
+						rtn.DateUpdated = uTime
+						rtn.UserName = (*foundRow)[0]
+						rtn.Password = (*foundRow)[1]
+						rtn.Role = (*foundRow)[3]
+					}
+				}
+			}
+		}
+	}
+	return &rtn
 }

@@ -105,7 +105,12 @@ func (d *MockSix910Mysql) UpdateCustomer(c *mdb.Customer) bool {
 }
 
 //GetCustomer GetCustomer
-func (d *MockSix910Mysql) GetCustomer(email string) *mdb.Customer {
+func (d *MockSix910Mysql) GetCustomer(email string, storeID int64) *mdb.Customer {
+	return nil
+}
+
+//GetCustomerList GetCustomerList
+func (d *MockSix910Mysql) GetCustomerList(storeID int64) *[]mdb.Customer {
 	return nil
 }
 

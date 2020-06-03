@@ -1,6 +1,11 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+	"time"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -25,30 +30,115 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddStore AddStore
 func (d *Six910Mysql) AddStore(s *mdb.Store) (bool, int64) {
-	return false, 0
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, s.Company, s.FirstName, s.LastName, s.LocalDomain, s.RemoteDomain, s.OauthClientID,
+		s.OauthSecret, s.Email, s.City, s.State, s.Zip, time.Now(), s.StoreName, s.StoreSlogan, s.Logo, s.Currency, s.Enabled)
+	suc, id := d.DB.Insert(insertStore, a...)
+	d.Log.Debug("suc in add store", suc)
+	d.Log.Debug("id in add store", id)
+	return suc, id
 }
 
 //UpdateStore UpdateStore
 func (d *Six910Mysql) UpdateStore(s *mdb.Store) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, s.Company, s.FirstName, s.LastName, s.LocalDomain, s.RemoteDomain,
+		s.OauthClientID, s.OauthSecret, s.Email, s.City, s.State, s.Zip, s.StoreName, s.StoreSlogan, s.Logo, s.Currency, time.Now(), s.Enabled, s.ID)
+	suc := d.DB.Update(updateStore, a...)
+	return suc
 }
 
 //GetStore GetStore
 func (d *Six910Mysql) GetStore(sname string) *mdb.Store {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, sname)
+	row := d.DB.Get(getStoreByName, a...)
+	rtn := d.parseStoreRow(&row.Row)
+	return rtn
 }
 
 //GetStoreID GetStoreID
 func (d *Six910Mysql) GetStoreID(id int64) *mdb.Store {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getStoreByID, a...)
+	rtn := d.parseStoreRow(&row.Row)
+	return rtn
 }
 
 //GetStoreByLocal GetStoreByLocal
 func (d *Six910Mysql) GetStoreByLocal(localDomain string) *mdb.Store {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, localDomain)
+	row := d.DB.Get(getStoreByLocalDomain, a...)
+	rtn := d.parseStoreRow(&row.Row)
+	return rtn
 }
 
 //DeleteStore DeleteStore
 func (d *Six910Mysql) DeleteStore(id int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	return d.DB.Delete(deleteStore, a...)
+}
+
+func (d *Six910Mysql) parseStoreRow(foundRow *[]string) *mdb.Store {
+	d.Log.Debug("foundRow in get store", *foundRow)
+	var rtn mdb.Store
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get store", err)
+		if err == nil {
+			oauthID, oerr := strconv.ParseInt((*foundRow)[6], 10, 64)
+			d.Log.Debug("oauthID err in get store", oerr)
+			if oerr == nil {
+				eTime, eerr := time.Parse(timeFormat, (*foundRow)[12])
+				d.Log.Debug("eTime err in get store", eerr)
+				if eerr == nil {
+					uTime, _ := time.Parse(timeFormat, (*foundRow)[13])
+					enabled, enerr := strconv.ParseBool((*foundRow)[18])
+					if enerr == nil {
+						rtn.ID = id
+						rtn.DateEntered = eTime
+						rtn.DateUpdated = uTime
+						rtn.OauthClientID = oauthID
+						rtn.Enabled = enabled
+						rtn.Company = (*foundRow)[1]
+						rtn.FirstName = (*foundRow)[2]
+						rtn.LastName = (*foundRow)[3]
+						rtn.LocalDomain = (*foundRow)[4]
+						rtn.RemoteDomain = (*foundRow)[5]
+						rtn.OauthSecret = (*foundRow)[7]
+						rtn.Email = (*foundRow)[8]
+						rtn.City = (*foundRow)[9]
+						rtn.State = (*foundRow)[10]
+						rtn.Zip = (*foundRow)[11]
+						rtn.StoreName = (*foundRow)[14]
+						rtn.StoreSlogan = (*foundRow)[15]
+						rtn.Logo = (*foundRow)[16]
+						rtn.Currency = (*foundRow)[17]
+					}
+				}
+			}
+		}
+	}
+	return &rtn
 }
