@@ -10,7 +10,7 @@ import (
 	sdbi "github.com/Ulbora/six910-database-interface"
 )
 
-func TestSix910Mysql_AddProduct(t *testing.T) {
+func TestSix910Mysql_AddCartItem(t *testing.T) {
 	var mydb mdb.MyDB
 	mydb.Host = "localhost:3306"
 	mydb.User = "admin"
@@ -34,13 +34,13 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	str.Email = "tester@tester.com"
 	str.FirstName = "Tester"
 	str.LastName = "Bill"
-	str.LocalDomain = "localhost6:8080"
+	str.LocalDomain = "localhost8:8080"
 	str.Logo = "some logo"
-	str.OauthClientID = 10
+	str.OauthClientID = 12
 	str.OauthSecret = "this is secret"
-	str.RemoteDomain = "www.someCart6.com"
+	str.RemoteDomain = "www.someCart8.com"
 	str.State = "GA"
-	str.StoreName = "testers6 fantastic store"
+	str.StoreName = "testers8 fantastic store"
 	str.StoreSlogan = "we test for less"
 	str.Zip = "30036"
 	str.Enabled = false
@@ -63,6 +63,14 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 
 	csuc, cid := si.AddCustomer(&cus)
 	if !csuc || cid == 0 {
+		t.Fail()
+	}
+
+	var cart sdbi.Cart
+	cart.CustomerID = cid
+	cart.StoreID = sid
+	carsuc, carid := si.AddCart(&cart)
+	if !carsuc || carid == 0 {
 		t.Fail()
 	}
 
@@ -122,125 +130,38 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 		t.Fail()
 	}
 
-	prod.Color = "green"
-	prod.ParentProductID = pid
-	psuc2, pid2 := si.AddProduct(&prod)
-	if !psuc2 || pid2 == 0 {
+	var citm sdbi.CartItem
+	citm.CartID = carid
+	citm.ProductID = pid
+	citm.Quantity = 5
+
+	itemSuc, itemid := si.AddCartItem(&citm)
+	if !itemSuc || itemid == 0 {
 		t.Fail()
 	}
 
-	prod.ID = pid
-	prod.Color = "red2"
-	prod.Cost = 100.52
-	prod.Currency = "US2"
-	prod.Depth = 5.42
-	prod.Desc = "some long desc about product2"
-	prod.DistributorID = did
-	prod.Dropship = true
-	prod.FreeShipping = false
-	prod.Gtin = "44555ggggg2"
-	prod.Height = 22.32
-	prod.Image1 = "image12"
-	prod.Image2 = "image22"
-	prod.Image3 = "image32"
-	prod.Image4 = "image42"
-	prod.Manufacturer = "some mfg2"
-	prod.Map = 150.92
-	prod.Msrp = 185.92
-	prod.MultiBox = true
-	prod.Name = "some top product that sale well2"
-	//prod.ParentProductID
-	prod.Price = 170.92
-	prod.Promoted = false
-	prod.SalePrice = 160.92
-	prod.Searchable = false
-	prod.ShipSeperately = true
-	prod.ShippingMarkup = 3.42
-	prod.ShortDesc = "short desc2"
-	prod.Size = "XL2"
-	prod.Sku = "1234567892"
-	prod.SpecialProcessing = false
-	prod.SpecialProcessingType = "CODE 42"
-	prod.Stock = 552
-	prod.StockAlert = 102
-	prod.StoreID = sid
-	prod.Thumbnail = "someimage2"
-	prod.Visible = false
-	prod.Weight = 15.42
-	prod.Width = 22.42
-	prod.ParentProductID = 0
+	citm.ID = itemid
+	citm.Quantity = 15
 
-	usuc := si.UpdateProduct(&prod)
-	if !usuc {
+	uitemSuc := si.UpdateCartItem(&citm)
+	if !uitemSuc {
 		t.Fail()
 	}
 
-	fprod := si.GetProductByID(pid)
-	fmt.Println("fprod", fprod)
-	if fprod.ID != pid {
-		t.Fail()
-	}
-	if fprod.DistributorID != did {
-		t.Fail()
-	}
-	if fprod.StoreID != sid {
-		t.Fail()
-	}
-	if fprod.Map != prod.Map {
-		t.Fail()
-	}
-	if fprod.MultiBox != prod.MultiBox {
+	fitem1 := si.GetCarItem(carid, pid)
+	fmt.Println("fitem1", fitem1)
+	if fitem1.Quantity != 15 {
 		t.Fail()
 	}
 
-	fprodn := si.GetProductsByName("well2", 0, 100)
-	fmt.Println("fprodn", fprodn)
-	if len(*fprodn) != 1 {
+	fitemlist := si.GetCartItemList(carid)
+	fmt.Println("fitemlist", fitemlist)
+	if len(*fitemlist) != 1 {
 		t.Fail()
 	}
 
-	//add cat here
-
-	var cat sdbi.Category
-	cat.Description = "this is a car category"
-	cat.Image = "http://car/123/desc.png"
-	cat.Thumbnail = "http://car/123/desc.png"
-	cat.Name = "cars"
-	cat.StoreID = sid
-
-	ctsuc, ctid := si.AddCategory(&cat)
-	if !ctsuc || ctid == 0 {
-		t.Fail()
-	}
-
-	var pcat sdbi.ProductCategory
-	pcat.CategoryID = ctid
-	pcat.ProductID = pid
-
-	pcatsuc := si.AddProductCategory(&pcat)
-	if !pcatsuc {
-		t.Fail()
-	}
-
-	prodCatlist := si.GetProductsByCaterory(ctid, 0, 100)
-	fmt.Println("prodCatlist", prodCatlist)
-	if len(*prodCatlist) != 1 {
-		t.Fail()
-	}
-
-	prodStr := si.GetProductList(sid, 0, 100)
-	fmt.Println("prodStr", prodStr)
-	if len(*prodStr) != 2 {
-		t.Fail()
-	}
-
-	dprodCatSuc := si.DeleteProductCategory(&pcat)
-	if !dprodCatSuc {
-		t.Fail()
-	}
-
-	dprodSuc := si.DeleteProduct(pid)
-	if !dprodSuc {
+	dlsuc := si.DeleteCartItem(itemid)
+	if !dlsuc {
 		t.Fail()
 	}
 

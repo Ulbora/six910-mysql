@@ -1,6 +1,10 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -26,25 +30,86 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddRegion AddRegion
 func (d *Six910Mysql) AddRegion(r *mdb.Region) (bool, int64) {
-	return false, 0
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, r.Name, r.RegionCode, r.StoreID)
+	suc, id := d.DB.Insert(insertRegion, a...)
+	d.Log.Debug("suc in add Region", suc)
+	d.Log.Debug("id in add Region", id)
+	return suc, id
 }
 
 //UpdateRegion UpdateRegion
 func (d *Six910Mysql) UpdateRegion(r *mdb.Region) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, r.Name, r.RegionCode, r.ID)
+	suc := d.DB.Update(updateRegion, a...)
+	return suc
 }
 
 //GetRegion GetRegion
 func (d *Six910Mysql) GetRegion(id int64) *mdb.Region {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getRegion, a...)
+	rtn := d.parseRegionRow(&row.Row)
+	return rtn
 }
 
 //GetRegionList GetRegionList
 func (d *Six910Mysql) GetRegionList(storeID int64) *[]mdb.Region {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.Region
+	var a []interface{}
+	a = append(a, storeID)
+	rows := d.DB.GetList(getRegionList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseRegionRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //DeleteRegion DeleteRegion
 func (d *Six910Mysql) DeleteRegion(id int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	return d.DB.Delete(deleteRegion, a...)
+}
+
+func (d *Six910Mysql) parseRegionRow(foundRow *[]string) *mdb.Region {
+	d.Log.Debug("foundRow in get Region", *foundRow)
+	var rtn mdb.Region
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get Region", err)
+		if err == nil {
+			sid, cerr := strconv.ParseInt((*foundRow)[3], 10, 64)
+			d.Log.Debug("qty err in get Region", cerr)
+			if cerr == nil {
+				rtn.ID = id
+				rtn.StoreID = sid
+				rtn.Name = (*foundRow)[1]
+				rtn.RegionCode = (*foundRow)[2]
+			}
+		}
+	}
+	return &rtn
 }

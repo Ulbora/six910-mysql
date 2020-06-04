@@ -187,4 +187,90 @@ const (
 		" image4, special_processing, special_processing_type " +
 		" FROM product " +
 		" WHERE id = ? "
+
+	getProductByName = "SELECT id, sku, gtin, name, short_description, description, " +
+		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
+		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		" ship_seperate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
+		" image4, special_processing, special_processing_type " +
+		" FROM product " +
+		" WHERE name like ? LIMIT ?, ? "
+
+	getProductByCat = "SELECT p.id, p.sku, p.gtin, p.name, p.short_description, p.description, " +
+		" p.cost, p.msrp, p.map, p.price, p.sale_price, p.currency, p.manufacturer, p.stock, p.stock_alert, p.weight, " +
+		" p.width, p.height, p.depth, p.shipping_markup, p.visible, p.searchable, p.multibox, " +
+		" p.ship_seperate, p.free_shipping, p.date_entered, p.date_updated, p.distributor_id, p.promoted, p.dropship, " +
+		" p.size, p.color, p.parient_product_id, p.store_id, p.thumbnail, p.image1, p.image2, p.image3, " +
+		" p.image4, p.special_processing, p.special_processing_type " +
+		" FROM product p " +
+		" inner join product_category pc " +
+		" on p.id = pc.product_id " +
+		" inner join category c " +
+		" on pc.category_id = c.id " +
+		" WHERE c.id = ? LIMIT ?, ? "
+
+	getProductByStore = "SELECT id, sku, gtin, name, short_description, description, " +
+		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
+		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		" ship_seperate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
+		" image4, special_processing, special_processing_type " +
+		" FROM product " +
+		" WHERE store_id = ? LIMIT ?, ? "
+
+	deleteProduct = "DELETE FROM product WHERE id = ? "
+
+	insertProductCategory = "INSERT INTO product_category (category_id, product_id) values(?, ?) "
+	deleteProductCategory = "DELETE FROM product_category WHERE category_id = ? and product_id = ? "
+
+	insertCart = "INSERT INTO cart (store_id, customer_id, date_entered) values(?, ?, ?) "
+
+	getCart = "SELECT id, store_id, customer_id, date_entered, date_updated " +
+		" FROM cart " +
+		" WHERE customer_id = ? "
+
+	deleteCart = "DELETE FROM cart WHERE id = ? "
+
+	insertCartItem = "INSERT INTO cart_item (cart_id, quantity, product_id) values(?, ?, ?) "
+
+	updateCartItem = "UPDATE cart_item SET quantity = ? WHERE id = ? "
+
+	getCartItem = "SELECT id, quantity, cart_id, product_id " +
+		" FROM cart_item " +
+		" WHERE cart_id = ? and product_id = ? "
+
+	getCartItemList = "SELECT id, quantity, cart_id, product_id " +
+		" FROM cart_item " +
+		" WHERE cart_id = ? "
+
+	deleteCartItem = "DELETE FROM cart_item WHERE id = ? "
+
+	insertRegion = "INSERT INTO region (name, region_code, store_id) values(?, ?, ?) "
+
+	updateRegion = "UPDATE region SET name = ?, region_code = ? WHERE id = ? "
+
+	getRegion = "SELECT id, name, region_code, store_id " +
+		" FROM region " +
+		" WHERE id = ? "
+
+	getRegionList = "SELECT id, name, region_code, store_id " +
+		" FROM region " +
+		" WHERE store_id = ? "
+
+	deleteRegion = "DELETE FROM region WHERE id = ? "
+
+	insertSubRegion = "INSERT INTO sub_region (name, sub_region_code, region_id) values(?, ?, ?) "
+
+	updateSubRegion = "UPDATE sub_region SET name = ?, sub_region_code = ? WHERE id = ? "
+
+	getSubRegion = "SELECT id, name, sub_region_code, region_id " +
+		" FROM sub_region " +
+		" WHERE id = ? "
+
+	getSubRegionList = "SELECT id, name, sub_region_code, region_id " +
+		" FROM sub_region " +
+		" WHERE region_id = ? "
+
+	deleteSubRegion = "DELETE FROM sub_region WHERE id = ? "
 )

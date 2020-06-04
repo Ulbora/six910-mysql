@@ -26,10 +26,23 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddProductCategory AddProductCategory
 func (d *Six910Mysql) AddProductCategory(pc *mdb.ProductCategory) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, pc.CategoryID, pc.ProductID)
+	suc, id := d.DB.Insert(insertProductCategory, a...)
+	d.Log.Debug("suc in add ProductCategory", suc)
+	d.Log.Debug("id in add ProductCategory", id)
+	return suc
 }
 
 //DeleteProductCategory DeleteProductCategory
 func (d *Six910Mysql) DeleteProductCategory(pc *mdb.ProductCategory) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, pc.CategoryID, pc.ProductID)
+	return d.DB.Delete(deleteProductCategory, a...)
 }

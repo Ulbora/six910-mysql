@@ -77,22 +77,72 @@ func (d *Six910Mysql) GetProductByID(id int64) *mdb.Product {
 
 //GetProductsByName GetProductsByName
 func (d *Six910Mysql) GetProductsByName(name string, start int64, end int64) *[]mdb.Product {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.Product
+	var a []interface{}
+	a = append(a, "%"+name+"%", start, end)
+	rows := d.DB.GetList(getProductByName, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseProductRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //GetProductsByCaterory GetProductsByCaterory
 func (d *Six910Mysql) GetProductsByCaterory(catID int64, start int64, end int64) *[]mdb.Product {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.Product
+	var a []interface{}
+	a = append(a, catID, start, end)
+	rows := d.DB.GetList(getProductByCat, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseProductRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //GetProductList GetProductList
 func (d *Six910Mysql) GetProductList(storeID int64, start int64, end int64) *[]mdb.Product {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.Product
+	var a []interface{}
+	a = append(a, storeID, start, end)
+	rows := d.DB.GetList(getProductByStore, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseProductRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //DeleteProduct DeleteProduct
 func (d *Six910Mysql) DeleteProduct(id int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	return d.DB.Delete(deleteProduct, a...)
 }
 
 func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
