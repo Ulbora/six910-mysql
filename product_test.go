@@ -1,6 +1,7 @@
 package six910mysql
 
 import (
+	"fmt"
 	"testing"
 
 	lg "github.com/Ulbora/Level_Logger"
@@ -171,6 +172,24 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 
 	usuc := si.UpdateProduct(&prod)
 	if !usuc {
+		t.Fail()
+	}
+
+	fprod := si.GetProductByID(pid)
+	fmt.Println("fprod", fprod)
+	if fprod.ID != pid {
+		t.Fail()
+	}
+	if fprod.DistributorID != did {
+		t.Fail()
+	}
+	if fprod.StoreID != sid {
+		t.Fail()
+	}
+	if fprod.Map != prod.Map {
+		t.Fail()
+	}
+	if fprod.MultiBox != prod.MultiBox {
 		t.Fail()
 	}
 
