@@ -10,7 +10,7 @@ import (
 	sdbi "github.com/Ulbora/six910-database-interface"
 )
 
-func TestSix910Mysql_AddLocalAccount(t *testing.T) {
+func TestSix910Mysql_Address(t *testing.T) {
 	var mydb mdb.MyDB
 	mydb.Host = "localhost:3306"
 	mydb.User = "admin"
@@ -34,13 +34,13 @@ func TestSix910Mysql_AddLocalAccount(t *testing.T) {
 	str.Email = "tester@tester.com"
 	str.FirstName = "Tester"
 	str.LastName = "Bill"
-	str.LocalDomain = "localhost3:8080"
+	str.LocalDomain = "localhost4:8080"
 	str.Logo = "some logo"
-	str.OauthClientID = 7
+	str.OauthClientID = 8
 	str.OauthSecret = "this is secret"
-	str.RemoteDomain = "www.someCart3.com"
+	str.RemoteDomain = "www.someCart4.com"
 	str.State = "GA"
-	str.StoreName = "testers3 fantastic store"
+	str.StoreName = "testers4 fantastic store"
 	str.StoreSlogan = "we test for less"
 	str.Zip = "30036"
 	str.Enabled = false
@@ -66,44 +66,52 @@ func TestSix910Mysql_AddLocalAccount(t *testing.T) {
 		t.Fail()
 	}
 
-	var lac sdbi.LocalAccount
-	lac.CustomerID = cid
-	lac.StoreID = sid
-	lac.Enabled = true
-	lac.Password = "password"
-	lac.UserName = "someuser"
-	lac.Role = "customer"
+	var add sdbi.Address
+	add.Address = "12345 shootout lane"
+	add.City = "gunville"
+	add.State = "LA"
+	add.Zip = "12345"
+	add.County = "Polk"
+	add.Country = "US"
+	add.Type = "BILLING"
+	add.CustomerID = cid
 
-	lacsuc := si.AddLocalAccount(&lac)
-	if !lacsuc {
+	asuc, aid := si.AddAddress(&add)
+	if !asuc || aid == 0 {
 		t.Fail()
 	}
 
-	lac.Enabled = false
-	lac.Password = "password2"
-	lac.Role = "customer2"
+	add.ID = aid
+	add.Address = "12345 shootout st"
+	add.City = "gunerville"
+	add.State = "CA"
+	add.Zip = "45678"
+	add.County = "Smoke"
+	add.Country = "CA"
+	add.Type = "SHIPPING"
 
-	lacUsuc := si.UpdateLocalAccount(&lac)
-	if !lacUsuc {
+	ausuc := si.UpdateAddress(&add)
+	if !ausuc {
 		t.Fail()
 	}
 
-	rlac := si.GetLocalAccount("someuser", sid)
-	fmt.Println("rlac", rlac)
-	if rlac.CustomerID != cid {
+	radd := si.GetAddress(aid)
+	fmt.Println("radd", radd)
+	if radd.CustomerID != cid {
 		t.Fail()
 	}
 
-	rlacList := si.GetLocalAccountList(sid)
-	fmt.Println("rlacList", rlacList)
-	if len(*rlacList) != 1 {
+	raddlist := si.GetAddressList(cid)
+	fmt.Println("raddlist", raddlist)
+	if len(*raddlist) != 1 {
 		t.Fail()
 	}
 
-	dsuc := si.DeleteLocalAccount("someuser", sid)
+	dsuc := si.DeleteAddress(aid)
 	if !dsuc {
 		t.Fail()
 	}
+
 	dssuc := si.DeleteStore(sid)
 	fmt.Println("delete store in customer suc: ", dssuc)
 	if !dssuc {

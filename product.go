@@ -1,6 +1,11 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+	"time"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -26,17 +31,48 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddProduct AddProduct
 func (d *Six910Mysql) AddProduct(p *mdb.Product) (bool, int64) {
-	return false, 0
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, p.Sku, p.Gtin, p.Name, p.ShortDesc, p.Desc, p.Cost, p.Msrp, p.Map, p.Price, p.SalePrice,
+		p.Currency, p.Manufacturer, p.Stock, p.StockAlert, p.Weight, p.Width, p.Height, p.Depth,
+		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeperately, p.FreeShipping,
+		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
+		p.StoreID, p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
+		p.SpecialProcessingType)
+	suc, id := d.DB.Insert(insertProduct, a...)
+	d.Log.Debug("suc in add Product", suc)
+	d.Log.Debug("id in add Product", id)
+	return suc, id
 }
 
 //UpdateProduct UpdateProduct
 func (d *Six910Mysql) UpdateProduct(p *mdb.Product) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, p.Sku, p.Gtin, p.Name, p.ShortDesc, p.Desc, p.Cost, p.Msrp, p.Map, p.Price, p.SalePrice,
+		p.Currency, p.Manufacturer, p.Stock, p.StockAlert, p.Weight, p.Width, p.Height, p.Depth,
+		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeperately, p.FreeShipping,
+		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
+		p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
+		p.SpecialProcessingType, p.ID)
+	suc := d.DB.Update(updateProduct, a...)
+	return suc
 }
 
 //GetProductByID GetProductByID
 func (d *Six910Mysql) GetProductByID(id int64) *mdb.Product {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getProduct, a...)
+	rtn := d.parseProductRow(&row.Row)
+	return rtn
 }
 
 //GetProductsByName GetProductsByName
@@ -57,4 +93,147 @@ func (d *Six910Mysql) GetProductList(storeID int64, start int64, end int64) *[]m
 //DeleteProduct DeleteProduct
 func (d *Six910Mysql) DeleteProduct(id int64) bool {
 	return false
+}
+
+func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
+	d.Log.Debug("foundRow in get Product", *foundRow)
+	var rtn mdb.Product
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get Product", err)
+		if err == nil {
+			sid, serr := strconv.ParseInt((*foundRow)[33], 10, 64)
+			d.Log.Debug("id err in get Product", err)
+			if serr == nil {
+				eTime, eerr := time.Parse(timeFormat, (*foundRow)[25])
+				d.Log.Debug("eTime err in get Product", eerr)
+				if eerr == nil {
+					uTime, _ := time.Parse(timeFormat, (*foundRow)[26])
+					visible, enerr := strconv.ParseBool((*foundRow)[20])
+					if enerr == nil {
+						cost, err := strconv.ParseFloat((*foundRow)[6], 64)
+						d.Log.Debug("cost err in get Product", err)
+						if err == nil {
+							msrp, err := strconv.ParseFloat((*foundRow)[7], 64)
+							d.Log.Debug("msrp err in get Product", err)
+							if err == nil {
+								mapPrice, err := strconv.ParseFloat((*foundRow)[8], 64)
+								d.Log.Debug("mapPrice err in get Product", err)
+								if err == nil {
+									price, err := strconv.ParseFloat((*foundRow)[9], 64)
+									d.Log.Debug("price err in get Product", err)
+									if err == nil {
+										salePrice, err := strconv.ParseFloat((*foundRow)[10], 64)
+										d.Log.Debug("salePrice err in get Product", err)
+										if err == nil {
+											stock, err := strconv.ParseInt((*foundRow)[13], 10, 64)
+											d.Log.Debug("id err in get Product", err)
+											if err == nil {
+												stockAlert, err := strconv.ParseInt((*foundRow)[14], 10, 64)
+												d.Log.Debug("stockAlert err in get Product", err)
+												if err == nil {
+													weight, err := strconv.ParseFloat((*foundRow)[15], 64)
+													d.Log.Debug("weight err in get Product", err)
+													if err == nil {
+														width, err := strconv.ParseFloat((*foundRow)[16], 64)
+														d.Log.Debug("width err in get Product", err)
+														if err == nil {
+															height, err := strconv.ParseFloat((*foundRow)[17], 64)
+															d.Log.Debug("height err in get Product", err)
+															if err == nil {
+																depth, err := strconv.ParseFloat((*foundRow)[18], 64)
+																d.Log.Debug("depth err in get Product", err)
+																if err == nil {
+																	sMarkup, err := strconv.ParseFloat((*foundRow)[19], 64)
+																	d.Log.Debug("sMarkup err in get Product", err)
+																	if err == nil {
+																		searchable, err := strconv.ParseBool((*foundRow)[21])
+																		if err == nil {
+																			mbox, err := strconv.ParseBool((*foundRow)[22])
+																			if err == nil {
+																				sSep, err := strconv.ParseBool((*foundRow)[23])
+																				if err == nil {
+																					sFree, err := strconv.ParseBool((*foundRow)[24])
+																					if err == nil {
+																						promoted, err := strconv.ParseBool((*foundRow)[28])
+																						if err == nil {
+																							dship, err := strconv.ParseBool((*foundRow)[29])
+																							if err == nil {
+																								sproc, err := strconv.ParseBool((*foundRow)[39])
+																								if err == nil {
+																									did, err := strconv.ParseInt((*foundRow)[27], 10, 64)
+																									d.Log.Debug("did err in get Product", err)
+																									if err == nil {
+																										ppid, err := strconv.ParseInt((*foundRow)[32], 10, 64)
+																										d.Log.Debug("did err in get Product", err)
+																										if err == nil {
+																											rtn.ID = id
+																											rtn.Cost = cost
+																											rtn.DateEntered = eTime
+																											rtn.DateUpdated = uTime
+																											rtn.Depth = depth
+																											rtn.DistributorID = did
+																											rtn.Dropship = dship
+																											rtn.FreeShipping = sFree
+																											rtn.Height = height
+																											rtn.Map = mapPrice
+																											rtn.Msrp = msrp
+																											rtn.MultiBox = mbox
+																											rtn.ParentProductID = ppid
+																											rtn.Price = price
+																											rtn.Promoted = promoted
+																											rtn.SalePrice = salePrice
+																											rtn.Searchable = searchable
+																											rtn.ShipSeperately = sSep
+																											rtn.ShippingMarkup = sMarkup
+																											rtn.SpecialProcessing = sproc
+																											rtn.Stock = stock
+																											rtn.StockAlert = stockAlert
+																											rtn.StoreID = sid
+																											rtn.Visible = visible
+																											rtn.Weight = weight
+																											rtn.Width = width
+																											rtn.Sku = (*foundRow)[1]
+																											rtn.Gtin = (*foundRow)[2]
+																											rtn.Name = (*foundRow)[3]
+																											rtn.ShortDesc = (*foundRow)[4]
+																											rtn.Desc = (*foundRow)[5]
+																											rtn.Currency = (*foundRow)[11]
+																											rtn.Manufacturer = (*foundRow)[12]
+																											rtn.Size = (*foundRow)[30]
+																											rtn.Color = (*foundRow)[31]
+																											rtn.Thumbnail = (*foundRow)[34]
+																											rtn.Image1 = (*foundRow)[35]
+																											rtn.Image2 = (*foundRow)[36]
+																											rtn.Image3 = (*foundRow)[37]
+																											rtn.Image4 = (*foundRow)[39]
+																											rtn.SpecialProcessingType = (*foundRow)[40]
+
+																										}
+																									}
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return &rtn
 }

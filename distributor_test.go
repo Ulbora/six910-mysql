@@ -10,7 +10,7 @@ import (
 	sdbi "github.com/Ulbora/six910-database-interface"
 )
 
-func TestSix910Mysql_AddLocalAccount(t *testing.T) {
+func TestSix910Mysql_AddDistributor(t *testing.T) {
 	var mydb mdb.MyDB
 	mydb.Host = "localhost:3306"
 	mydb.User = "admin"
@@ -34,13 +34,13 @@ func TestSix910Mysql_AddLocalAccount(t *testing.T) {
 	str.Email = "tester@tester.com"
 	str.FirstName = "Tester"
 	str.LastName = "Bill"
-	str.LocalDomain = "localhost3:8080"
+	str.LocalDomain = "localhost5:8080"
 	str.Logo = "some logo"
-	str.OauthClientID = 7
+	str.OauthClientID = 9
 	str.OauthSecret = "this is secret"
-	str.RemoteDomain = "www.someCart3.com"
+	str.RemoteDomain = "www.someCart5.com"
 	str.State = "GA"
-	str.StoreName = "testers3 fantastic store"
+	str.StoreName = "testers5 fantastic store"
 	str.StoreSlogan = "we test for less"
 	str.Zip = "30036"
 	str.Enabled = false
@@ -66,44 +66,43 @@ func TestSix910Mysql_AddLocalAccount(t *testing.T) {
 		t.Fail()
 	}
 
-	var lac sdbi.LocalAccount
-	lac.CustomerID = cid
-	lac.StoreID = sid
-	lac.Enabled = true
-	lac.Password = "password"
-	lac.UserName = "someuser"
-	lac.Role = "customer"
+	var dis sdbi.Distributor
+	dis.Company = "abc supply"
+	dis.ContactName = "Ricky Bobby"
+	dis.Phone = "123-456-7891"
+	dis.StoreID = sid
 
-	lacsuc := si.AddLocalAccount(&lac)
-	if !lacsuc {
+	dsuc, did := si.AddDistributor(&dis)
+	if !dsuc || did == 0 {
+		t.Fail()
+	}
+	dis.ID = did
+	dis.Company = "efg supply"
+	dis.ContactName = "Ricky Bobby Jr"
+	dis.Phone = "123-456-9696"
+
+	udsuc := si.UpdateDistributor(&dis)
+	if !udsuc {
 		t.Fail()
 	}
 
-	lac.Enabled = false
-	lac.Password = "password2"
-	lac.Role = "customer2"
-
-	lacUsuc := si.UpdateLocalAccount(&lac)
-	if !lacUsuc {
+	fdis := si.GetDistributor(did)
+	fmt.Println("fdis", fdis)
+	if fdis.StoreID != sid {
 		t.Fail()
 	}
 
-	rlac := si.GetLocalAccount("someuser", sid)
-	fmt.Println("rlac", rlac)
-	if rlac.CustomerID != cid {
+	fdisList := si.GetDistributorList(sid)
+	fmt.Println("fdisList", fdisList)
+	if len(*fdisList) != 1 {
 		t.Fail()
 	}
 
-	rlacList := si.GetLocalAccountList(sid)
-	fmt.Println("rlacList", rlacList)
-	if len(*rlacList) != 1 {
+	desuc := si.DeleteDistributor(did)
+	if !desuc {
 		t.Fail()
 	}
 
-	dsuc := si.DeleteLocalAccount("someuser", sid)
-	if !dsuc {
-		t.Fail()
-	}
 	dssuc := si.DeleteStore(sid)
 	fmt.Println("delete store in customer suc: ", dssuc)
 	if !dssuc {
@@ -111,4 +110,5 @@ func TestSix910Mysql_AddLocalAccount(t *testing.T) {
 	}
 
 	dbi.Close()
+
 }

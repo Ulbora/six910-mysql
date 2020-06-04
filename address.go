@@ -1,6 +1,10 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -25,26 +29,92 @@ import mdb "github.com/Ulbora/six910-database-interface"
 //address
 
 //AddAddress AddAddress
-func (d *Six910Mysql) AddAddress(a *mdb.Address) (bool, int64) {
-	return false, 0
+func (d *Six910Mysql) AddAddress(ad *mdb.Address) (bool, int64) {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, ad.Address, ad.City, ad.State, ad.Zip, ad.County, ad.Country, ad.Type, ad.CustomerID)
+	suc, id := d.DB.Insert(insertAddress, a...)
+	d.Log.Debug("suc in add address", suc)
+	d.Log.Debug("id in add address", id)
+	return suc, id
 }
 
 //UpdateAddress UpdateAddress
-func (d *Six910Mysql) UpdateAddress(a *mdb.Address) bool {
-	return false
+func (d *Six910Mysql) UpdateAddress(ad *mdb.Address) bool {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, ad.Address, ad.City, ad.State, ad.Zip, ad.County, ad.Country, ad.Type, ad.ID)
+	suc := d.DB.Update(updateAddress, a...)
+	return suc
 }
 
 //GetAddress GetAddress
 func (d *Six910Mysql) GetAddress(id int64) *mdb.Address {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getAddress, a...)
+	rtn := d.parseAddressRow(&row.Row)
+	return rtn
 }
 
 //GetAddressList GetAddressList
 func (d *Six910Mysql) GetAddressList(cid int64) *[]mdb.Address {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.Address
+	var a []interface{}
+	a = append(a, cid)
+	rows := d.DB.GetList(getAddressList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseAddressRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //DeleteAddress DeleteAddress
 func (d *Six910Mysql) DeleteAddress(id int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	return d.DB.Delete(deleteAddress, a...)
+}
+
+func (d *Six910Mysql) parseAddressRow(foundRow *[]string) *mdb.Address {
+	d.Log.Debug("foundRow in get Address", *foundRow)
+	var rtn mdb.Address
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get address", err)
+		if err == nil {
+			cid, cerr := strconv.ParseInt((*foundRow)[8], 10, 64)
+			d.Log.Debug("cid err in get address", cerr)
+			if cerr == nil {
+				rtn.ID = id
+				rtn.CustomerID = cid
+				rtn.Address = (*foundRow)[1]
+				rtn.City = (*foundRow)[2]
+				rtn.State = (*foundRow)[3]
+				rtn.Zip = (*foundRow)[4]
+				rtn.County = (*foundRow)[5]
+				rtn.Country = (*foundRow)[6]
+				rtn.Type = (*foundRow)[7]
+			}
+		}
+	}
+	return &rtn
 }

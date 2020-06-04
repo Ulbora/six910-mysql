@@ -93,4 +93,98 @@ const (
 		" store_id, customer_id, date_entered, date_updated " +
 		" FROM local_account " +
 		" WHERE username = ? and store_id = ?"
+	getLocalAccountList = "SELECT username, password, enabled, role, " +
+		" store_id, customer_id, date_entered, date_updated " +
+		" FROM local_account " +
+		" WHERE store_id = ?"
+
+	deleteLocalAccount = "DELETE FROM local_account WHERE username = ? and store_id = ? "
+
+	insertAddress = "INSERT into address(address, city, state, zip, " +
+		" county, country, address_type, customer_id) " +
+		" values(?,?,?,?,?,?,?,?)"
+
+	updateAddress = " UPDATE address SET address = ?, city = ?, state = ?, " +
+		" zip = ?, county = ?, country = ?, address_type = ? " +
+		" WHERE id = ?"
+
+	getAddress = "SELECT id, address, city, state, " +
+		" zip, county, country, address_type, customer_id " +
+		" FROM address " +
+		" WHERE id = ? "
+	getAddressList = "SELECT id, address, city, state, " +
+		" zip, county, country, address_type, customer_id " +
+		" FROM address " +
+		" WHERE customer_id = ? "
+
+	deleteAddress = "DELETE FROM address WHERE id = ? "
+
+	insertDistributor = "INSERT into distributor(company, contact_name, phone, store_id) " +
+		" values(?,?,?,?)"
+
+	updateDistributor = " UPDATE distributor SET company = ?, contact_name = ?, phone = ? " +
+		" WHERE id = ?"
+
+	getDistributor = "SELECT id, company, contact_name, phone, " +
+		" store_id " +
+		" FROM distributor " +
+		" WHERE id = ? "
+
+	getDistributorList = "SELECT id, company, contact_name, phone, " +
+		" store_id " +
+		" FROM distributor " +
+		" WHERE store_id = ? "
+
+	deleteDistributor = "DELETE FROM distributor WHERE id = ? "
+
+	insertCategory = "INSERT into category(name, description, image, thumbnail, " +
+		" store_id, parent_category_id) " +
+		" values(?,?,?,?,?,?)"
+
+	updateCategory = " UPDATE category SET name = ?, description = ?, image = ?, " +
+		" thumbnail = ?, parent_category_id = ? " +
+		" WHERE id = ?"
+
+	getCategory = "SELECT id, name, description, image, thumbnail, parent_category_id, " +
+		" store_id " +
+		" FROM category " +
+		" WHERE id = ? "
+
+	getCategoryList = "SELECT id, name, description, image, thumbnail, parent_category_id, " +
+		" store_id " +
+		" FROM category " +
+		" WHERE store_id = ? "
+
+	getSubCategoryList = "SELECT id, name, description, image, thumbnail, parent_category_id, " +
+		" store_id " +
+		" FROM category " +
+		" WHERE parent_category_id = ? "
+
+	deleteCategory = "DELETE FROM category WHERE id = ? or parent_category_id = ?"
+
+	insertProduct = "INSERT into product(sku, gtin, name, short_description, description, " +
+		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
+		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		" ship_seperate, free_shipping, date_entered, distributor_id, promoted, dropship, " +
+		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
+		" image4, special_processing, special_processing_type) " +
+		" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+
+	updateProduct = "UPDATE product SET sku = ?, gtin = ?, name = ?, short_description = ?, description = ?, " +
+		" cost = ?, msrp = ?, map = ?, price = ?, sale_price = ?, currency = ?, manufacturer = ?, stock = ?, " +
+		" stock_alert = ?, weight = ?, " +
+		" width = ?, height = ?, depth = ?, shipping_markup = ?, visible = ?, searchable = ?, multibox = ?, " +
+		" ship_seperate = ?, free_shipping = ?, date_updated = ?, distributor_id = ?, promoted = ?, dropship = ?, " +
+		" size = ?, color = ?, parient_product_id = ?, thumbnail = ?, image1 = ?, image2 = ?, image3 = ?, " +
+		" image4 = ?, special_processing = ?, special_processing_type = ? " +
+		" WHERE id = ?"
+
+	getProduct = "SELECT id, sku, gtin, name, short_description, description, " +
+		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
+		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		" ship_seperate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
+		" image4, special_processing, special_processing_type " +
+		" FROM product " +
+		" WHERE id = ? "
 )

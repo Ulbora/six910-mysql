@@ -67,12 +67,32 @@ func (d *Six910Mysql) GetLocalAccount(username string, storeID int64) *mdb.Local
 
 //GetLocalAccountList GetLocalAccountList
 func (d *Six910Mysql) GetLocalAccountList(store int64) *[]mdb.LocalAccount {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.LocalAccount
+	var a []interface{}
+	a = append(a, store)
+	rows := d.DB.GetList(getLocalAccountList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseLocalAccountRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //DeleteLocalAccount DeleteLocalAccount
 func (d *Six910Mysql) DeleteLocalAccount(username string, storeID int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, username, storeID)
+	return d.DB.Delete(deleteLocalAccount, a...)
 }
 
 func (d *Six910Mysql) parseLocalAccountRow(foundRow *[]string) *mdb.LocalAccount {

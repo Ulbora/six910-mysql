@@ -276,6 +276,11 @@ func (d *MockSix910Mysql) GetCategoryList(storeID int64) *[]mdb.Category {
 	return nil
 }
 
+//GetSubCategoryList GetSubCategoryList
+func (d *MockSix910Mysql) GetSubCategoryList(catID int64) *[]mdb.Category {
+	return nil
+}
+
 //DeleteCategory DeleteCategory
 func (d *MockSix910Mysql) DeleteCategory(id int64) bool {
 	return false
