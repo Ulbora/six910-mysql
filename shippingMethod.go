@@ -1,6 +1,10 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -26,25 +30,126 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddShippingMethod AddShippingMethod
 func (d *Six910Mysql) AddShippingMethod(s *mdb.ShippingMethod) (bool, int64) {
-	return false, 0
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, s.Name, s.Cost, s.MaxWeight, s.Handling, s.MinOrderAmount, s.MaxOrderAmount,
+		s.RegionID, s.ShippingCarrierID, s.InsuranceID, s.StoreID)
+	suc, id := d.DB.Insert(insertShippingMethod, a...)
+	d.Log.Debug("suc in add ShippingMethod", suc)
+	d.Log.Debug("id in add ShippingMethod", id)
+	return suc, id
 }
 
 //UpdateShippingMethod UpdateShippingMethod
 func (d *Six910Mysql) UpdateShippingMethod(s *mdb.ShippingMethod) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, s.Name, s.Cost, s.MaxWeight, s.Handling, s.MinOrderAmount, s.MaxOrderAmount, s.ID)
+	suc := d.DB.Update(updateShippingMethod, a...)
+	return suc
 }
 
 //GetShippingMethod GetShippingMethod
 func (d *Six910Mysql) GetShippingMethod(id int64) *mdb.ShippingMethod {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getShippingMethod, a...)
+	rtn := d.parseShippingMethodRow(&row.Row)
+	return rtn
 }
 
 //GetShippingMethodList GetShippingMethodList
 func (d *Six910Mysql) GetShippingMethodList(storeID int64) *[]mdb.ShippingMethod {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.ShippingMethod
+	var a []interface{}
+	a = append(a, storeID)
+	rows := d.DB.GetList(getShippingMethodList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseShippingMethodRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //DeleteShippingMethod DeleteShippingMethod
 func (d *Six910Mysql) DeleteShippingMethod(id int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	return d.DB.Delete(deleteShippingMethod, a...)
+}
+
+func (d *Six910Mysql) parseShippingMethodRow(foundRow *[]string) *mdb.ShippingMethod {
+	d.Log.Debug("foundRow in get Insurance", *foundRow)
+	var rtn mdb.ShippingMethod
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get Insurance", err)
+		if err == nil {
+			rid, cerr := strconv.ParseInt((*foundRow)[7], 10, 64)
+			d.Log.Debug("sid err in get Insurance", cerr)
+			if cerr == nil {
+				cost, err := strconv.ParseFloat((*foundRow)[2], 64)
+				d.Log.Debug("cost err in get Insurance", err)
+				if err == nil {
+					min, err := strconv.ParseFloat((*foundRow)[5], 64)
+					d.Log.Debug("min err in get Insurance", err)
+					if err == nil {
+						max, err := strconv.ParseFloat((*foundRow)[6], 64)
+						d.Log.Debug("max err in get Insurance", err)
+						if err == nil {
+							hand, err := strconv.ParseFloat((*foundRow)[4], 64)
+							d.Log.Debug("max err in get Insurance", err)
+							if err == nil {
+								maxw, err := strconv.ParseInt((*foundRow)[3], 10, 64)
+								d.Log.Debug("sid err in get Insurance", err)
+								if err == nil {
+									scid, err := strconv.ParseInt((*foundRow)[8], 10, 64)
+									d.Log.Debug("sid err in get Insurance", err)
+									if err == nil {
+										iid, err := strconv.ParseInt((*foundRow)[9], 10, 64)
+										d.Log.Debug("sid err in get Insurance", err)
+										if err == nil {
+											sid, err := strconv.ParseInt((*foundRow)[10], 10, 64)
+											d.Log.Debug("sid err in get Insurance", err)
+											if err == nil {
+												rtn.ID = id
+												rtn.Name = (*foundRow)[1]
+												rtn.Cost = cost
+												rtn.Handling = hand
+												rtn.InsuranceID = iid
+												rtn.MaxOrderAmount = max
+												rtn.MinOrderAmount = min
+												rtn.MaxWeight = maxw
+												rtn.RegionID = rid
+												rtn.ShippingCarrierID = scid
+												rtn.StoreID = sid
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return &rtn
 }

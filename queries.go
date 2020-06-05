@@ -273,4 +273,56 @@ const (
 		" WHERE region_id = ? "
 
 	deleteSubRegion = "DELETE FROM sub_region WHERE id = ? "
+
+	insertShippingCarrier = "INSERT INTO shipping_carrier (carrier, type, store_id) values(?, ?, ?) "
+
+	updateShippingCarrier = "UPDATE shipping_carrier SET carrier = ?, type = ? WHERE id = ? "
+
+	getShippingCarrierList = "SELECT id, carrier, type, store_id " +
+		" FROM shipping_carrier " +
+		" WHERE store_id = ? "
+
+	deleteShippingCarrier = "DELETE FROM shipping_carrier WHERE id = ? "
+
+	insertInsurance = "INSERT INTO insurance (cost, minimum_order_amount, maximum_order_amount, store_id) values(?, ?, ?, ?) "
+
+	updateInsurance = "UPDATE insurance SET cost = ?, minimum_order_amount = ?, maximum_order_amount = ?  WHERE id = ? "
+
+	getInsurance = "SELECT id, cost, minimum_order_amount, maximum_order_amount, store_id " +
+		" FROM insurance " +
+		" WHERE id = ? "
+
+	getInsuranceList = "SELECT id, cost, minimum_order_amount, maximum_order_amount, store_id " +
+		" FROM insurance " +
+		" WHERE store_id = ? "
+
+	deleteInsurance = "DELETE FROM insurance WHERE id = ? "
+
+	insertShippingMethod = "INSERT INTO shipping_method (name, cost, max_weight, handling, " +
+		"minimum_order, maximum_order, region_id, shipping_carrier_id, " +
+		" insurance_id, store_id) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+
+	updateShippingMethod = "UPDATE shipping_method SET name = ?, cost = ?, max_weight = ?, " +
+		" handling = ?, minimum_order = ?, maximum_order = ?  WHERE id = ? "
+
+	getShippingMethod = "SELECT id, name, cost, max_weight, handling, " +
+		"minimum_order, maximum_order, region_id, shipping_carrier_id, insurance_id, store_id" +
+		" FROM shipping_method " +
+		" WHERE id = ? "
+
+	getShippingMethodList = "SELECT id, name, cost, max_weight, handling, " +
+		"minimum_order, maximum_order, region_id, shipping_carrier_id, insurance_id, store_id" +
+		" FROM shipping_method " +
+		" WHERE store_id = ? "
+
+	deleteShippingMethod = "DELETE FROM shipping_method WHERE id = ? "
+
+	insertIncludedSubRegion = "INSERT INTO included_sub_region (region_id, sub_region_id, " +
+		" shipping_method_id) values(?, ?, ?) "
+
+	getIncludedSubRegionList = "SELECT id, region_id, sub_region_id, shipping_method_id " +
+		" FROM included_sub_region " +
+		" WHERE region_id = ? "
+
+	deleteIncludedSubRegion = "DELETE FROM included_sub_region WHERE id = ? "
 )
