@@ -1,6 +1,10 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -26,20 +30,87 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddZoneZip AddZoneZip
 func (d *Six910Mysql) AddZoneZip(z *mdb.ZoneZip) (bool, int64) {
-	return false, 0
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, z.ZipCode, z.IncludedSubRegionID, z.ExcludedSubRegionID)
+	suc, id := d.DB.Insert(insertZoneZip, a...)
+	d.Log.Debug("suc in add ZoneZip", suc)
+	d.Log.Debug("id in add ZoneZip", id)
+	return suc, id
 }
 
 //GetZoneZipListByExclusion GetZoneZipListByExclusion
 func (d *Six910Mysql) GetZoneZipListByExclusion(exID int64) *[]mdb.ZoneZip {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.ZoneZip
+	var a []interface{}
+	a = append(a, exID)
+	rows := d.DB.GetList(getZipExclustionList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseZoneZipRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //GetZoneZipListByInclusion GetZoneZipListByInclusion
 func (d *Six910Mysql) GetZoneZipListByInclusion(incID int64) *[]mdb.ZoneZip {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.ZoneZip
+	var a []interface{}
+	a = append(a, incID)
+	rows := d.DB.GetList(getZipInclustionList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseZoneZipRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //DeleteZoneZip DeleteZoneZip
 func (d *Six910Mysql) DeleteZoneZip(id int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	return d.DB.Delete(deleteZoneZip, a...)
+}
+
+func (d *Six910Mysql) parseZoneZipRow(foundRow *[]string) *mdb.ZoneZip {
+	d.Log.Debug("foundRow in get IncludedSubRegion", *foundRow)
+	var rtn mdb.ZoneZip
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get IncludedSubRegion", err)
+		if err == nil {
+			inc, cerr := strconv.ParseInt((*foundRow)[2], 10, 64)
+			d.Log.Debug("rid err in get IncludedSubRegion", cerr)
+			if cerr == nil {
+				exc, cerr := strconv.ParseInt((*foundRow)[3], 10, 64)
+				d.Log.Debug("srid err in get IncludedSubRegion", cerr)
+				if cerr == nil {
+					rtn.ID = id
+					rtn.IncludedSubRegionID = inc
+					rtn.ExcludedSubRegionID = exc
+					rtn.ZipCode = (*foundRow)[1]
+				}
+			}
+		}
+	}
+	return &rtn
 }

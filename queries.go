@@ -334,4 +334,17 @@ const (
 		" WHERE region_id = ? "
 
 	deleteExcludedSubRegion = "DELETE FROM excluded_sub_region WHERE id = ? "
+
+	insertZoneZip = "INSERT INTO zone_zip (zip_code, included_sub_region_id, " +
+		" excluded_sub_region_id) values(?, ?, ?) "
+
+	getZipExclustionList = "SELECT id, zip_code, included_sub_region_id, excluded_sub_region_id " +
+		" FROM zone_zip " +
+		" WHERE excluded_sub_region_id = ? "
+
+	getZipInclustionList = "SELECT id, zip_code, included_sub_region_id, excluded_sub_region_id " +
+		" FROM zone_zip " +
+		" WHERE included_sub_region_id = ? "
+
+	deleteZoneZip = "DELETE FROM zone_zip WHERE id = ? "
 )
