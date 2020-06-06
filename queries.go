@@ -325,4 +325,13 @@ const (
 		" WHERE region_id = ? "
 
 	deleteIncludedSubRegion = "DELETE FROM included_sub_region WHERE id = ? "
+
+	insertExcludedSubRegion = "INSERT INTO excluded_sub_region (region_id, sub_region_id, " +
+		" shipping_method_id) values(?, ?, ?) "
+
+	getExcludedSubRegionList = "SELECT id, region_id, sub_region_id, shipping_method_id " +
+		" FROM excluded_sub_region " +
+		" WHERE region_id = ? "
+
+	deleteExcludedSubRegion = "DELETE FROM excluded_sub_region WHERE id = ? "
 )

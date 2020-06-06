@@ -1,6 +1,10 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -26,26 +30,83 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddExcludedSubRegion AddExcludedSubRegion
 func (d *Six910Mysql) AddExcludedSubRegion(e *mdb.ExcludedSubRegion) (bool, int64) {
-	return false, 0
-	//add exclusion
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, e.RegionID, e.SubRegionID, e.ShippingMethodID)
+	suc, id := d.DB.Insert(insertExcludedSubRegion, a...)
+	d.Log.Debug("suc in add ExcludedSubRegion", suc)
+	d.Log.Debug("id in add ExcludedSubRegion", id)
+	return suc, id
 }
 
 //UpdateExcludedSubRegion UpdateExcludedSubRegion
 func (d *Six910Mysql) UpdateExcludedSubRegion(e *mdb.ExcludedSubRegion) bool {
+	//will not be implemented at this stage
 	return false
 }
 
 //GetExcludedSubRegion GetExcludedSubRegion
 func (d *Six910Mysql) GetExcludedSubRegion(id int64) *mdb.ExcludedSubRegion {
+	//will not be implemented at this stage
 	return nil
 }
 
 //GetExcludedSubRegionList GetExcludedSubRegionList
 func (d *Six910Mysql) GetExcludedSubRegionList(regionID int64) *[]mdb.ExcludedSubRegion {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.ExcludedSubRegion
+	var a []interface{}
+	a = append(a, regionID)
+	rows := d.DB.GetList(getExcludedSubRegionList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseExcludedSubRegionRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //DeleteExcludedSubRegion DeleteExcludedSubRegion
 func (d *Six910Mysql) DeleteExcludedSubRegion(id int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	return d.DB.Delete(deleteExcludedSubRegion, a...)
+}
+
+func (d *Six910Mysql) parseExcludedSubRegionRow(foundRow *[]string) *mdb.ExcludedSubRegion {
+	d.Log.Debug("foundRow in get IncludedSubRegion", *foundRow)
+	var rtn mdb.ExcludedSubRegion
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get IncludedSubRegion", err)
+		if err == nil {
+			rid, cerr := strconv.ParseInt((*foundRow)[1], 10, 64)
+			d.Log.Debug("rid err in get IncludedSubRegion", cerr)
+			if cerr == nil {
+				srid, cerr := strconv.ParseInt((*foundRow)[2], 10, 64)
+				d.Log.Debug("srid err in get IncludedSubRegion", cerr)
+				if cerr == nil {
+					smid, cerr := strconv.ParseInt((*foundRow)[3], 10, 64)
+					d.Log.Debug("smid err in get IncludedSubRegion", cerr)
+					if cerr == nil {
+						rtn.ID = id
+						rtn.RegionID = rid
+						rtn.SubRegionID = srid
+						rtn.ShippingMethodID = smid
+					}
+				}
+			}
+		}
+	}
+	return &rtn
 }
