@@ -27,6 +27,7 @@ import mdb "github.com/Ulbora/six910-database-interface"
 //AddExcludedSubRegion AddExcludedSubRegion
 func (d *Six910Mysql) AddExcludedSubRegion(e *mdb.ExcludedSubRegion) (bool, int64) {
 	return false, 0
+	//add exclusion
 }
 
 //UpdateExcludedSubRegion UpdateExcludedSubRegion
