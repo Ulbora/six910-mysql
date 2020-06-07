@@ -165,7 +165,7 @@ const (
 	insertProduct = "INSERT into product(sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
-		" ship_seperate, free_shipping, date_entered, distributor_id, promoted, dropship, " +
+		" ship_separate, free_shipping, date_entered, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type) " +
 		" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
@@ -174,7 +174,7 @@ const (
 		" cost = ?, msrp = ?, map = ?, price = ?, sale_price = ?, currency = ?, manufacturer = ?, stock = ?, " +
 		" stock_alert = ?, weight = ?, " +
 		" width = ?, height = ?, depth = ?, shipping_markup = ?, visible = ?, searchable = ?, multibox = ?, " +
-		" ship_seperate = ?, free_shipping = ?, date_updated = ?, distributor_id = ?, promoted = ?, dropship = ?, " +
+		" ship_separate = ?, free_shipping = ?, date_updated = ?, distributor_id = ?, promoted = ?, dropship = ?, " +
 		" size = ?, color = ?, parient_product_id = ?, thumbnail = ?, image1 = ?, image2 = ?, image3 = ?, " +
 		" image4 = ?, special_processing = ?, special_processing_type = ? " +
 		" WHERE id = ?"
@@ -182,7 +182,7 @@ const (
 	getProduct = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
-		" ship_seperate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type " +
 		" FROM product " +
@@ -191,7 +191,7 @@ const (
 	getProductByName = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
-		" ship_seperate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type " +
 		" FROM product " +
@@ -200,7 +200,7 @@ const (
 	getProductByCat = "SELECT p.id, p.sku, p.gtin, p.name, p.short_description, p.description, " +
 		" p.cost, p.msrp, p.map, p.price, p.sale_price, p.currency, p.manufacturer, p.stock, p.stock_alert, p.weight, " +
 		" p.width, p.height, p.depth, p.shipping_markup, p.visible, p.searchable, p.multibox, " +
-		" p.ship_seperate, p.free_shipping, p.date_entered, p.date_updated, p.distributor_id, p.promoted, p.dropship, " +
+		" p.ship_separate, p.free_shipping, p.date_entered, p.date_updated, p.distributor_id, p.promoted, p.dropship, " +
 		" p.size, p.color, p.parient_product_id, p.store_id, p.thumbnail, p.image1, p.image2, p.image3, " +
 		" p.image4, p.special_processing, p.special_processing_type " +
 		" FROM product p " +
@@ -213,7 +213,7 @@ const (
 	getProductByStore = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
-		" ship_seperate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type " +
 		" FROM product " +
