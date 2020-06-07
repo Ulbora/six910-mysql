@@ -347,4 +347,27 @@ const (
 		" WHERE included_sub_region_id = ? "
 
 	deleteZoneZip = "DELETE FROM zone_zip WHERE id = ? "
+
+	insertPlugin = "INSERT INTO plugins (plugin_name, developer, contact_phone, developer_address, " +
+		"fee, category, activate_url, oauth_redirect_url, " +
+		" is_pgw, enabled) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+
+	updatePlugin = "UPDATE plugins SET plugin_name = ?, developer = ?, contact_phone = ?, developer_address = ?, " +
+		"fee = ?, category = ?, activate_url = ?, oauth_redirect_url = ?, " +
+		" is_pgw = ?, enabled = ? " +
+		" WHERE id = ? "
+
+	getPlugin = "SELECT id, plugin_name, developer, contact_phone, developer_address, " +
+		"fee, category, activate_url, oauth_redirect_url, " +
+		" is_pgw, enabled  " +
+		" FROM plugins " +
+		" WHERE id = ? "
+
+	getPluginList = "SELECT id, plugin_name, developer, contact_phone, developer_address, " +
+		"fee, category, activate_url, oauth_redirect_url, " +
+		" is_pgw, enabled  " +
+		" FROM plugins " +
+		" LIMIT ?, ? "
+
+	deletePlugin = "DELETE FROM plugins WHERE id = ? "
 )
