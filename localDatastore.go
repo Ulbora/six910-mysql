@@ -1,6 +1,11 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+	"time"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -31,7 +36,15 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddLocalDatastore AddLocalDatastore
 func (d *Six910Mysql) AddLocalDatastore(ds *mdb.LocalDataStore) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, ds.StoreID, ds.DataStoreName, ds.Reload, ds.ReloadDate)
+	suc, id := d.DB.Insert(insertLocalDatastore, a...)
+	d.Log.Debug("suc in add LocalDataStore", suc)
+	d.Log.Debug("id in add LocalDataStore", id)
+	return suc
 }
 
 //This get get called when a change is made to a datastore from a node in the cluster
@@ -39,12 +52,48 @@ func (d *Six910Mysql) AddLocalDatastore(ds *mdb.LocalDataStore) bool {
 
 //UpdateLocalDatastore UpdateLocalDatastore
 func (d *Six910Mysql) UpdateLocalDatastore(ds *mdb.LocalDataStore) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, ds.Reload, ds.ReloadDate, ds.StoreID, ds.DataStoreName)
+	suc := d.DB.Update(updateLocalDatastore, a...)
+	return suc
 }
 
 //This gets call by cluster nodes to see if there are pending reload
 
 //GetLocalDatastore GetLocalDatastore
 func (d *Six910Mysql) GetLocalDatastore(storeID int64, dataStoreName string) *mdb.LocalDataStore {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, storeID, dataStoreName)
+	row := d.DB.Get(getLocalDatastore, a...)
+	rtn := d.parseLocalDatastoreRow(&row.Row)
+	return rtn
+}
+
+func (d *Six910Mysql) parseLocalDatastoreRow(foundRow *[]string) *mdb.LocalDataStore {
+	d.Log.Debug("foundRow in get LocalDataStore", *foundRow)
+	var rtn mdb.LocalDataStore
+	if len(*foundRow) > 0 {
+		sid, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get LocalDataStore", err)
+		if err == nil {
+			reltime, err := time.Parse(timeFormat, (*foundRow)[3])
+			d.Log.Debug("reload time err in get LocalDataStore", err)
+			if err == nil {
+				reload, err := strconv.ParseBool((*foundRow)[2])
+				if err == nil {
+					rtn.StoreID = sid
+					rtn.Reload = reload
+					rtn.ReloadDate = reltime
+					rtn.DataStoreName = (*foundRow)[1]
+				}
+			}
+		}
+	}
+	return &rtn
 }

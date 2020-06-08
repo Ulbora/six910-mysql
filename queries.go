@@ -421,4 +421,36 @@ const (
 		" where s.id = ? "
 
 	deletePaymentGateway = "DELETE FROM payment_gateway WHERE id = ? "
+
+	insertLocalDatastore = "INSERT INTO local_data_store (store_id, data_store_name, " +
+		" reload, reload_date) values(?, ?, ?, ?) "
+
+	updateLocalDatastore = "UPDATE local_data_store SET reload = ?, reload_date = ? " +
+		" WHERE store_id = ? and data_store_name = ? "
+
+	getLocalDatastore = "SELECT store_id, data_store_name, reload, reload_date " +
+		" FROM local_data_store " +
+		" WHERE store_id = ? and data_store_name = ? "
+
+	insertInstances = "INSERT INTO instances (instance_name, reload_date, " +
+		" store_id, data_store_name) values(?, ?, ?, ?) "
+
+	updateInstances = "UPDATE instances SET reload_date = ? " +
+		" WHERE instance_name = ? and store_id = ? and data_store_name = ? "
+
+	getInstances = "SELECT instance_name, reload_date, store_id, data_store_name " +
+		" FROM instances " +
+		" WHERE instance_name = ? and store_id = ? and data_store_name = ? "
+
+	insertDataStoreWriteLock = "INSERT INTO datastore_write_lock (datastore_name, locked, " +
+		" locking_instance_name, locked_by_user, locked_time, store_id) values(?, ?, ?, ?, ?, ?) "
+
+	updateDataStoreWriteLock = "UPDATE datastore_write_lock SET locked = ?, " +
+		" locking_instance_name = ?, locked_by_user = ?, locked_time = ? " +
+		" WHERE id = ? "
+
+	getDataStoreWriteLock = "SELECT id, datastore_name, locked, locking_instance_name, locked_by_user, " +
+		" locked_time, store_id " +
+		" FROM datastore_write_lock " +
+		" WHERE datastore_name = ? and store_id = ?  "
 )

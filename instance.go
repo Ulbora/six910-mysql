@@ -1,6 +1,11 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+	"time"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -28,19 +33,60 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddInstance AddInstance
 func (d *Six910Mysql) AddInstance(i *mdb.Instances) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, i.InstanceName, i.ReloadDate, i.StoreID, i.DataStoreName)
+	suc, id := d.DB.Insert(insertInstances, a...)
+	d.Log.Debug("suc in add Instances", suc)
+	d.Log.Debug("id in add Instances", id)
+	return suc
 }
 
 //This gets called after instance gets reloaded
 
 //UpdateInstance UpdateInstance
 func (d *Six910Mysql) UpdateInstance(i *mdb.Instances) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, i.ReloadDate, i.InstanceName, i.StoreID, i.DataStoreName)
+	suc := d.DB.Update(updateInstances, a...)
+	return suc
 }
 
 //Gets called before updating an instance
 
 //GetInstance GetInstance
 func (d *Six910Mysql) GetInstance(name string, dataStoreName string, storeID int64) *mdb.Instances {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, name, storeID, dataStoreName)
+	row := d.DB.Get(getInstances, a...)
+	rtn := d.parseInstanceRow(&row.Row)
+	return rtn
+}
+
+func (d *Six910Mysql) parseInstanceRow(foundRow *[]string) *mdb.Instances {
+	d.Log.Debug("foundRow in get LocalDataStore", *foundRow)
+	var rtn mdb.Instances
+	if len(*foundRow) > 0 {
+		sid, err := strconv.ParseInt((*foundRow)[2], 10, 64)
+		d.Log.Debug("id err in get Instance", err)
+		if err == nil {
+			reltime, err := time.Parse(timeFormat, (*foundRow)[1])
+			d.Log.Debug("reload time err in get Instance", err)
+			if err == nil {
+				rtn.StoreID = sid
+				rtn.ReloadDate = reltime
+				rtn.InstanceName = (*foundRow)[0]
+				rtn.DataStoreName = (*foundRow)[3]
+			}
+		}
+	}
+	return &rtn
 }

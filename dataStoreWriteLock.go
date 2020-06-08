@@ -1,6 +1,11 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+	"time"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -28,17 +33,70 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddDataStoreWriteLock AddDataStoreWriteLock
 func (d *Six910Mysql) AddDataStoreWriteLock(w *mdb.DataStoreWriteLock) (bool, int64) {
-	return false, 0
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, w.DataStoreName, w.Locked, w.LockedInstanceName, w.LockedByUser, w.LockedTime,
+		w.StoreID)
+	suc, id := d.DB.Insert(insertDataStoreWriteLock, a...)
+	d.Log.Debug("suc in add DataStoreWriteLock", suc)
+	d.Log.Debug("id in add DataStoreWriteLock", id)
+	return suc, id
 }
 
 //UpdateDataStoreWriteLock UpdateDataStoreWriteLock
 func (d *Six910Mysql) UpdateDataStoreWriteLock(w *mdb.DataStoreWriteLock) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, w.Locked, w.LockedInstanceName, w.LockedByUser, w.LockedTime,
+		w.ID)
+	suc := d.DB.Update(updateDataStoreWriteLock, a...)
+	return suc
 }
 
 //gets called from within the add method and by any node trying to update a datastore
 
 //GetDataStoreWriteLock GetDataStoreWriteLock
 func (d *Six910Mysql) GetDataStoreWriteLock(dataStore string, storeID int64) *mdb.DataStoreWriteLock {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, dataStore, storeID)
+	row := d.DB.Get(getDataStoreWriteLock, a...)
+	rtn := d.parseDataStoreWriteLockRow(&row.Row)
+	return rtn
+}
+
+func (d *Six910Mysql) parseDataStoreWriteLockRow(foundRow *[]string) *mdb.DataStoreWriteLock {
+	d.Log.Debug("foundRow in get DataStoreWriteLock", *foundRow)
+	var rtn mdb.DataStoreWriteLock
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get DataStoreWriteLock", err)
+		if err == nil {
+			loctime, err := time.Parse(timeFormat, (*foundRow)[5])
+			d.Log.Debug("reload time err in get DataStoreWriteLock", err)
+			if err == nil {
+				locked, err := strconv.ParseBool((*foundRow)[2])
+				if err == nil {
+					sid, err := strconv.ParseInt((*foundRow)[6], 10, 64)
+					d.Log.Debug("id err in get DataStoreWriteLock", err)
+					if err == nil {
+					}
+					rtn.ID = id
+					rtn.StoreID = sid
+					rtn.LockedTime = loctime
+					rtn.Locked = locked
+					rtn.DataStoreName = (*foundRow)[1]
+					rtn.LockedInstanceName = (*foundRow)[3]
+					rtn.LockedByUser = (*foundRow)[4]
+				}
+			}
+		}
+	}
+	return &rtn
 }
