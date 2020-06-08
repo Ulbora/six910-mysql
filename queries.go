@@ -370,4 +370,55 @@ const (
 		" LIMIT ?, ? "
 
 	deletePlugin = "DELETE FROM plugins WHERE id = ? "
+
+	insertStorePlugin = "INSERT INTO store_plugins (plugins_id, plugin_name, category, active, " +
+		" oauth_client_id, oauth_secret, activate_url, oauth_redirect_url, " +
+		" api_key, rekey_try_count, iframe_url, menu_title, menu_icon_url, is_pgw, " +
+		" store_id) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+
+	updateStorePluginNoDate = "UPDATE store_plugins SET  active = ?, " +
+		" oauth_client_id = ?, oauth_secret = ?, activate_url = ?, oauth_redirect_url = ?, " +
+		" api_key = ?, rekey_try_count = ?, iframe_url = ?, menu_title = ?, menu_icon_url = ? " +
+		" WHERE id = ? "
+
+	updateStorePluginDate = "UPDATE store_plugins SET  active = ?, " +
+		" oauth_client_id = ?, oauth_secret = ?, activate_url = ?, oauth_redirect_url = ?, " +
+		" api_key = ?, rekey_try_count = ?, iframe_url = ?, menu_title = ?, menu_icon_url = ?, " +
+		" rekey_date = ? " +
+		" WHERE id = ? "
+
+	getStorePlugin = "SELECT id, plugins_id, plugin_name, category, active, " +
+		" oauth_client_id, oauth_secret, activate_url, oauth_redirect_url, " +
+		" api_key, rekey_try_count, rekey_date, iframe_url, menu_title, menu_icon_url, is_pgw, " +
+		" store_id " +
+		" FROM store_plugins " +
+		" WHERE id = ? "
+
+	getStorePluginList = "SELECT id, plugins_id, plugin_name, category, active, " +
+		" oauth_client_id, oauth_secret, activate_url, oauth_redirect_url, " +
+		" api_key, rekey_try_count, rekey_date, iframe_url, menu_title, menu_icon_url, is_pgw, " +
+		" store_id " +
+		" FROM store_plugins " +
+		" WHERE store_id = ? "
+
+	deleteStorePlugin = "DELETE FROM store_plugins WHERE id = ? "
+
+	insertPaymentGateway = "INSERT into payment_gateway(store_plugins_id, checkout_url, post_order_url, logo_url, " +
+		" client_id, client_key) " +
+		" values(?,?,?,?,?,?)"
+
+	updatePaymentGateway = "UPDATE payment_gateway SET checkout_url = ?, post_order_url = ?, logo_url = ?, " +
+		" client_id = ?, client_key = ? " +
+		" WHERE id = ? "
+
+	getPaymentGatewayByStore = " SELECT g.id, g.store_plugins_id, g.checkout_url, " +
+		" g.post_order_url, g.logo_url, g.client_id, g.client_key " +
+		" FROM payment_gateway g " +
+		" inner join store_plugins sp " +
+		" on sp.id = g.store_plugins_id " +
+		" inner join store s " +
+		" on s.id = sp.store_id " +
+		" where s.id = ? "
+
+	deletePaymentGateway = "DELETE FROM payment_gateway WHERE id = ? "
 )
