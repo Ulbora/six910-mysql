@@ -1,6 +1,10 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"time"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -26,7 +30,16 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddShipmentBox AddShipmentBox
 func (d *Six910Mysql) AddShipmentBox(sb *mdb.ShipmentBox) (bool, int64) {
-	return false, 0
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, sb.BoxNumber, sb.ShippingMethodID, time.Now(), sb.ShippingAddressID,
+		sb.ShippingAddress, sb.ShipmentID)
+	suc, id := d.DB.Insert(insertShipmentBox, a...)
+	d.Log.Debug("suc in add Shipment", suc)
+	d.Log.Debug("id in add Shipment", id)
+	return suc, id
 }
 
 //UpdateShipmentBox UpdateShipmentBox

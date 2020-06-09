@@ -534,4 +534,9 @@ const (
 		" WHERE order_id = ? "
 
 	deleteShipment = "DELETE FROM shipment WHERE id = ? "
+
+	insertShipmentBox = "INSERT INTO shipment_box (box_number, shipping_method_id, ship_date, " +
+		" shipping_address_id, " +
+		" shipping_address, shipment_id) " +
+		" values(?, ?, ?, ?, ?, ?) "
 )
