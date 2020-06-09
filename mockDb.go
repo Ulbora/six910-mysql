@@ -620,8 +620,8 @@ func (d *MockSix910Mysql) GetShipmentList(orderID int64) *[]mdb.Shipment {
 }
 
 //DeleteShipment DeleteShipment
-func (d *MockSix910Mysql) DeleteShipment(id int64) *mdb.Shipment {
-	return nil
+func (d *MockSix910Mysql) DeleteShipment(id int64) bool {
+	return false
 }
 
 //shipment boxes

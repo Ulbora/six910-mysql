@@ -1,6 +1,10 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -26,10 +30,53 @@ import mdb "github.com/Ulbora/six910-database-interface"
 
 //AddOrderComments AddOrderComments
 func (d *Six910Mysql) AddOrderComments(c *mdb.OrderComment) (bool, int64) {
-	return false, 0
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, c.Comment, c.Username, c.OrderID)
+	suc, id := d.DB.Insert(insertOrderComment, a...)
+	d.Log.Debug("suc in add OrderComment", suc)
+	d.Log.Debug("id in add OrderComment", id)
+	return suc, id
 }
 
 //GetOrderCommentList GetOrderCommentList
 func (d *Six910Mysql) GetOrderCommentList(orderID int64) *[]mdb.OrderComment {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.OrderComment
+	var a []interface{}
+	a = append(a, orderID)
+	rows := d.DB.GetList(getOrderCommentList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseOrderCommentRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
+}
+
+func (d *Six910Mysql) parseOrderCommentRow(foundRow *[]string) *mdb.OrderComment {
+	d.Log.Debug("foundRow in get OrderComment", *foundRow)
+	var rtn mdb.OrderComment
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get OrderComment", err)
+		if err == nil {
+			oid, err := strconv.ParseInt((*foundRow)[3], 10, 64)
+			d.Log.Debug("id err in get OrderComment", err)
+			if err == nil {
+				rtn.ID = id
+				rtn.OrderID = oid
+				rtn.Comment = (*foundRow)[1]
+				rtn.Username = (*foundRow)[2]
+			}
+		}
+	}
+	return &rtn
 }

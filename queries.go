@@ -453,4 +453,85 @@ const (
 		" locked_time, store_id " +
 		" FROM datastore_write_lock " +
 		" WHERE datastore_name = ? and store_id = ?  "
+
+	insertOrder = "INSERT INTO orders (order_date, status, subtotal, shipping_handling, " +
+		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
+		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username)" +
+		" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+
+	updateOrder = "UPDATE orders SET updated = ?, status = ?, subtotal = ?, shipping_handling = ?, " +
+		" insurance = ?, taxes = ?, total = ?, billing_address_id = ?, shipping_address_id = ?, customer_name = ?, " +
+		" billing_address = ?, shipping_address = ?, order_type = ?, pickup = ?, username = ? " +
+		" WHERE id = ? "
+
+	getOrder = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
+		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
+		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username" +
+		" FROM orders " +
+		" WHERE id = ? "
+
+	getOrderByCid = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
+		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
+		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username" +
+		" FROM orders " +
+		" WHERE customer_id = ? "
+
+	deleteOrder = "DELETE FROM orders WHERE id = ? "
+
+	insertOrderItem = "INSERT INTO order_item (order_id, product_id, product_name, product_short_desc, " +
+		" quantity, dropship, backordered) " +
+		" values(?, ?, ?, ?, ?, ?, ?) "
+
+	updateOrderItem = " UPDATE order_item SET quantity = ?, dropship = ?, backordered = ? " +
+		" WHERE id = ? "
+
+	getOrderItem = "SELECT id, order_id, product_id, product_name, product_short_desc, " +
+		" quantity, dropship, backordered " +
+		" FROM order_item " +
+		" WHERE id = ? "
+
+	getOrderItemList = "SELECT id, order_id, product_id, product_name, product_short_desc, " +
+		" quantity, dropship, backordered " +
+		" FROM order_item " +
+		" WHERE order_id = ? "
+
+	deleteOrderItem = "DELETE FROM order_item WHERE id = ? "
+
+	insertOrderComment = "INSERT INTO order_comment (comment, username, order_id ) " +
+		" values(?, ?, ?) "
+
+	getOrderCommentList = "SELECT id, comment, username, order_id " +
+		" FROM order_comment " +
+		" WHERE order_id = ? "
+
+	insertOrderTransaction = "INSERT INTO order_transaction (amount, approval, avs, date_entered, " +
+		" gwid, method, order_id, ref_number, response_code, response_message, success, " +
+		" transaction_id, type)" +
+		" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+
+	getOrderTransaction = "SELECT id, amount, approval, avs, date_entered, " +
+		" gwid, method, order_id, ref_number, response_code, response_message, success, " +
+		" transaction_id, type " +
+		" FROM  order_transaction " +
+		" WHERE order_id = ? "
+
+	insertShipment = "INSERT INTO shipment (order_id, create_date, status, boxes, " +
+		" shipping_handling, insurance) " +
+		" values(?, ?, ?, ?, ?, ?) "
+
+	updateShipment = " UPDATE shipment SET status = ?, boxes = ?, shipping_handling = ?, " +
+		" insurance = ?, updated = ? " +
+		" WHERE id = ? "
+
+	getShipment = "SELECT id, order_id, create_date, status, boxes, " +
+		" shipping_handling, insurance, updated " +
+		" FROM  shipment " +
+		" WHERE id = ? "
+
+	getShipmentList = "SELECT id, order_id, create_date, status, boxes, " +
+		" shipping_handling, insurance, updated " +
+		" FROM  shipment " +
+		" WHERE order_id = ? "
+
+	deleteShipment = "DELETE FROM shipment WHERE id = ? "
 )
