@@ -97,4 +97,26 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 	if !sboxsuc || sboxid == 0 {
 		t.Fail()
 	}
+
+	sbox.ID = sboxid
+	sbox.Dropship = false
+	sbox.Cost = 5.55
+
+	usboxsuc := si.UpdateShipmentBox(&sbox)
+	if !usboxsuc {
+		t.Fail()
+	}
+
+	sbox.TrackingNumber = "123track"
+	sbox.Weight = 4.2
+	sbox.Width = 12
+	sbox.Height = 18
+	sbox.Depth = 16
+	sbox.Insurance = 4.56
+
+	usboxsuc2 := si.UpdateShipmentBox(&sbox)
+	if !usboxsuc2 {
+		t.Fail()
+	}
+
 }

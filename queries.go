@@ -539,4 +539,8 @@ const (
 		" shipping_address_id, " +
 		" shipping_address, shipment_id) " +
 		" values(?, ?, ?, ?, ?, ?) "
+
+	updateShipmentBox = "UPDATE shipment_box SET dropshipped = ?, cost = ?, insurance = ?, weight = ?, " +
+		" width = ?, height = ?, depth = ?, updated = ?, tracking_number = ? " +
+		" WHERE id = ? "
 )

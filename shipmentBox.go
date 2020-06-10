@@ -44,7 +44,14 @@ func (d *Six910Mysql) AddShipmentBox(sb *mdb.ShipmentBox) (bool, int64) {
 
 //UpdateShipmentBox UpdateShipmentBox
 func (d *Six910Mysql) UpdateShipmentBox(sb *mdb.ShipmentBox) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, sb.Dropship, sb.Cost, sb.Insurance, sb.Weight, sb.Width, sb.Height, sb.Depth,
+		time.Now(), sb.TrackingNumber, sb.ID)
+	suc := d.DB.Update(updateShipmentBox, a...)
+	return suc
 }
 
 //GetShipmentBox GetShipmentBox
