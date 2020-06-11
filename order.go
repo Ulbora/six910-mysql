@@ -107,37 +107,37 @@ func (d *Six910Mysql) parseOrderRow(foundRow *[]string) *mdb.Order {
 		d.Log.Debug("id err in get Order", err)
 		if err == nil {
 			cid, oerr := strconv.ParseInt((*foundRow)[9], 10, 64)
-			d.Log.Debug("oauthID err in get Order", oerr)
+			d.Log.Debug("cid err in get Order", oerr)
 			if oerr == nil {
 				oTime, eerr := time.Parse(timeFormat, (*foundRow)[1])
-				d.Log.Debug("eTime err in get store", eerr)
+				d.Log.Debug("oTime err in get Order", eerr)
 				if eerr == nil {
 					uTime, _ := time.Parse(timeFormat, (*foundRow)[2])
 					pickup, enerr := strconv.ParseBool((*foundRow)[18])
 					if enerr == nil {
 						baid, err := strconv.ParseInt((*foundRow)[10], 10, 64)
-						d.Log.Debug("oauthID err in get Order", oerr)
+						d.Log.Debug("baid err in get Order", err)
 						if err == nil {
 							said, err := strconv.ParseInt((*foundRow)[11], 10, 64)
-							d.Log.Debug("oauthID err in get Order", oerr)
+							d.Log.Debug("said err in get Order", err)
 							if err == nil {
 								sid, err := strconv.ParseInt((*foundRow)[15], 10, 64)
-								d.Log.Debug("oauthID err in get Order", oerr)
+								d.Log.Debug("sid err in get Order", err)
 								if err == nil {
 									subtot, err := strconv.ParseFloat((*foundRow)[4], 64)
-									d.Log.Debug("cost err in get Product", err)
+									d.Log.Debug("subtot err in get Order", err)
 									if err == nil {
 										sandh, err := strconv.ParseFloat((*foundRow)[5], 64)
-										d.Log.Debug("cost err in get Product", err)
+										d.Log.Debug("sandh err in get Order", err)
 										if err == nil {
 											ins, err := strconv.ParseFloat((*foundRow)[6], 64)
-											d.Log.Debug("cost err in get Product", err)
+											d.Log.Debug("ins err in get Order", err)
 											if err == nil {
 												tax, err := strconv.ParseFloat((*foundRow)[7], 64)
-												d.Log.Debug("cost err in get Product", err)
+												d.Log.Debug("tax err in get Order", err)
 												if err == nil {
 													tot, err := strconv.ParseFloat((*foundRow)[8], 64)
-													d.Log.Debug("cost err in get Product", err)
+													d.Log.Debug("tot err in get Order", err)
 													if err == nil {
 														rtn.ID = id
 														rtn.CustomerID = cid

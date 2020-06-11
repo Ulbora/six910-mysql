@@ -97,20 +97,20 @@ func (d *Six910Mysql) DeletePlugin(id int64) bool {
 }
 
 func (d *Six910Mysql) parsePluginRow(foundRow *[]string) *mdb.Plugins {
-	d.Log.Debug("foundRow in get Insurance", *foundRow)
+	d.Log.Debug("foundRow in get Plugins", *foundRow)
 	var rtn mdb.Plugins
 	if len(*foundRow) > 0 {
 		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get Insurance", err)
+		d.Log.Debug("id err in get Plugins", err)
 		if err == nil {
 			fee, err := strconv.ParseFloat((*foundRow)[5], 64)
-			d.Log.Debug("cost err in get Insurance", err)
+			d.Log.Debug("fee err in get Plugins", err)
 			if err == nil {
 				pgw, err := strconv.ParseBool((*foundRow)[9])
-				d.Log.Debug("min err in get Insurance", err)
+				d.Log.Debug("pgw err in get Plugins", err)
 				if err == nil {
 					enabled, err := strconv.ParseBool((*foundRow)[10])
-					d.Log.Debug("max err in get Insurance", err)
+					d.Log.Debug("enabled err in get Plugins", err)
 					if err == nil {
 						rtn.ID = id
 						rtn.Fee = fee

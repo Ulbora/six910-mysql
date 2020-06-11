@@ -92,7 +92,7 @@ func (d *Six910Mysql) parsePaymentGatewayRow(foundRow *[]string) *mdb.PaymentGat
 		d.Log.Debug("id err in get PaymentGateway", err)
 		if err == nil {
 			spiid, err := strconv.ParseInt((*foundRow)[1], 10, 64)
-			d.Log.Debug("qty err in get PaymentGateway", err)
+			d.Log.Debug("spiid err in get PaymentGateway", err)
 			if err == nil {
 				rtn.ID = id
 				rtn.StorePluginsID = spiid

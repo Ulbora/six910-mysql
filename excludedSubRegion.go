@@ -84,20 +84,20 @@ func (d *Six910Mysql) DeleteExcludedSubRegion(id int64) bool {
 }
 
 func (d *Six910Mysql) parseExcludedSubRegionRow(foundRow *[]string) *mdb.ExcludedSubRegion {
-	d.Log.Debug("foundRow in get IncludedSubRegion", *foundRow)
+	d.Log.Debug("foundRow in get ExcludedSubRegion", *foundRow)
 	var rtn mdb.ExcludedSubRegion
 	if len(*foundRow) > 0 {
 		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get IncludedSubRegion", err)
+		d.Log.Debug("id err in get ExcludedSubRegion", err)
 		if err == nil {
 			rid, cerr := strconv.ParseInt((*foundRow)[1], 10, 64)
-			d.Log.Debug("rid err in get IncludedSubRegion", cerr)
+			d.Log.Debug("rid err in get ExcludedSubRegion", cerr)
 			if cerr == nil {
 				srid, cerr := strconv.ParseInt((*foundRow)[2], 10, 64)
-				d.Log.Debug("srid err in get IncludedSubRegion", cerr)
+				d.Log.Debug("srid err in get ExcludedSubRegion", cerr)
 				if cerr == nil {
 					smid, cerr := strconv.ParseInt((*foundRow)[3], 10, 64)
-					d.Log.Debug("smid err in get IncludedSubRegion", cerr)
+					d.Log.Debug("smid err in get ExcludedSubRegion", cerr)
 					if cerr == nil {
 						rtn.ID = id
 						rtn.RegionID = rid

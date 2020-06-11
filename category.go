@@ -122,10 +122,10 @@ func (d *Six910Mysql) parseCategoryRow(foundRow *[]string) *mdb.Category {
 		d.Log.Debug("id err in get Category", err)
 		if err == nil {
 			pid, perr := strconv.ParseInt((*foundRow)[5], 10, 64)
-			d.Log.Debug("cid err in get Category", perr)
+			d.Log.Debug("pid err in get Category", perr)
 			if perr == nil {
 				sid, serr := strconv.ParseInt((*foundRow)[6], 10, 64)
-				d.Log.Debug("cid err in get Category", serr)
+				d.Log.Debug("sid err in get Category", serr)
 				if serr == nil {
 					rtn.ID = id
 					rtn.ParentCategoryID = pid

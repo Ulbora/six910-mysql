@@ -71,13 +71,13 @@ func (d *Six910Mysql) parseOrderTransactionRow(foundRow *[]string) *mdb.OrderTra
 		d.Log.Debug("id err in get OrderTransaction", err)
 		if err == nil {
 			oid, err := strconv.ParseInt((*foundRow)[7], 10, 64)
-			d.Log.Debug("id err in get OrderTransaction", err)
+			d.Log.Debug("oid err in get OrderTransaction", err)
 			if err == nil {
 				gwid, err := strconv.ParseInt((*foundRow)[5], 10, 64)
-				d.Log.Debug("id err in get OrderTransaction", err)
+				d.Log.Debug("gwid err in get OrderTransaction", err)
 				if err == nil {
 					amount, err := strconv.ParseFloat((*foundRow)[1], 64)
-					d.Log.Debug("id err in get OrderTransaction", err)
+					d.Log.Debug("amount err in get OrderTransaction", err)
 					if err == nil {
 						suc, enerr := strconv.ParseBool((*foundRow)[11])
 						if enerr == nil {

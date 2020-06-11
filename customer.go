@@ -114,13 +114,13 @@ func (d *Six910Mysql) parseCustomerRow(foundRow *[]string) *mdb.Customer {
 	var rtn mdb.Customer
 	if len(*foundRow) > 0 {
 		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get store", err)
+		d.Log.Debug("id err in get customer", err)
 		if err == nil {
 			sid, serr := strconv.ParseInt((*foundRow)[10], 10, 64)
-			d.Log.Debug("id err in get store", err)
+			d.Log.Debug("sid err in get customer", serr)
 			if serr == nil {
 				eTime, eerr := time.Parse(timeFormat, (*foundRow)[11])
-				d.Log.Debug("eTime err in get store", eerr)
+				d.Log.Debug("eTime err in get customer", eerr)
 				if eerr == nil {
 					uTime, _ := time.Parse(timeFormat, (*foundRow)[12])
 					rpass, enerr := strconv.ParseBool((*foundRow)[2])

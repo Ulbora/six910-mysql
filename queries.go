@@ -226,6 +226,8 @@ const (
 
 	insertCart = "INSERT INTO cart (store_id, customer_id, date_entered) values(?, ?, ?) "
 
+	updateCart = "UPDATE cart SET date_updated = ? WHERE id = ? "
+
 	getCart = "SELECT id, store_id, customer_id, date_entered, date_updated " +
 		" FROM cart " +
 		" WHERE customer_id = ? "
@@ -543,4 +545,44 @@ const (
 	updateShipmentBox = "UPDATE shipment_box SET dropshipped = ?, cost = ?, insurance = ?, weight = ?, " +
 		" width = ?, height = ?, depth = ?, updated = ?, tracking_number = ? " +
 		" WHERE id = ? "
+
+	getShipmentBox = "SELECT id, box_number, dropshipped, cost, insurance, shipping_method_id, " +
+		" weight, width, height, depth, ship_date, updated, tracking_number, " +
+		" shipping_address_id, shipping_address, shipment_id " +
+		" FROM shipment_box " +
+		" WHERE id = ? "
+
+	getShipmentBoxList = "SELECT id, box_number, dropshipped, cost, insurance, shipping_method_id, " +
+		" weight, width, height, depth, ship_date, updated, tracking_number, " +
+		" shipping_address_id, shipping_address, shipment_id " +
+		" FROM shipment_box " +
+		" WHERE shipment_id = ? "
+
+	deleteShipmentBox = "DELETE FROM shipment_box WHERE id = ? "
+
+	insertShipmentItem = "INSERT INTO shipment_item (order_item_id, quantity, shipment_id, " +
+		" updated, shipment_box_id )" +
+		" values(?, ?, ?, ?, ?) "
+
+	updateShipmentItem = "UPDATE shipment_item SET quantity = ?, updated = ? " +
+		" WHERE id = ? "
+
+	getShipmentItem = "SELECT id, order_item_id, quantity, shipment_id, updated, " +
+		" shipment_box_id " +
+		" FROM  shipment_item " +
+		" WHERE id = ? "
+
+	getShipmentItemListByShipment = "SELECT id, order_item_id, quantity, shipment_id, updated, " +
+		" shipment_box_id " +
+		" FROM  shipment_item " +
+		" WHERE shipment_id = ? "
+
+	getShipmentItemsInBox = "SELECT si.id, si.order_item_id, si.quantity, si.shipment_id, " +
+		" si.updated, si.shipment_box_id " +
+		" FROM  shipment_item si " +
+		" inner join shipment_box sb " +
+		" on sb.id = si.shipment_box_id " +
+		" WHERE sb.box_number = ? "
+
+	deleteShipmentItem = "DELETE FROM shipment_item WHERE id = ? "
 )

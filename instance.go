@@ -72,11 +72,11 @@ func (d *Six910Mysql) GetInstance(name string, dataStoreName string, storeID int
 }
 
 func (d *Six910Mysql) parseInstanceRow(foundRow *[]string) *mdb.Instances {
-	d.Log.Debug("foundRow in get LocalDataStore", *foundRow)
+	d.Log.Debug("foundRow in get Instances", *foundRow)
 	var rtn mdb.Instances
 	if len(*foundRow) > 0 {
 		sid, err := strconv.ParseInt((*foundRow)[2], 10, 64)
-		d.Log.Debug("id err in get Instance", err)
+		d.Log.Debug("sid err in get Instance", err)
 		if err == nil {
 			reltime, err := time.Parse(timeFormat, (*foundRow)[1])
 			d.Log.Debug("reload time err in get Instance", err)

@@ -92,17 +92,17 @@ func (d *Six910Mysql) DeleteZoneZip(id int64) bool {
 }
 
 func (d *Six910Mysql) parseZoneZipRow(foundRow *[]string) *mdb.ZoneZip {
-	d.Log.Debug("foundRow in get IncludedSubRegion", *foundRow)
+	d.Log.Debug("foundRow in get ZoneZip", *foundRow)
 	var rtn mdb.ZoneZip
 	if len(*foundRow) > 0 {
 		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get IncludedSubRegion", err)
+		d.Log.Debug("id err in get ZoneZip", err)
 		if err == nil {
 			inc, cerr := strconv.ParseInt((*foundRow)[2], 10, 64)
-			d.Log.Debug("rid err in get IncludedSubRegion", cerr)
+			d.Log.Debug("inc err in get ZoneZip", cerr)
 			if cerr == nil {
 				exc, cerr := strconv.ParseInt((*foundRow)[3], 10, 64)
-				d.Log.Debug("srid err in get IncludedSubRegion", cerr)
+				d.Log.Debug("exc err in get ZoneZip", cerr)
 				if cerr == nil {
 					rtn.ID = id
 					rtn.IncludedSubRegionID = inc

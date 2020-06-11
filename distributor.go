@@ -102,7 +102,7 @@ func (d *Six910Mysql) parseDistributorRow(foundRow *[]string) *mdb.Distributor {
 		d.Log.Debug("id err in get Distributor", err)
 		if err == nil {
 			sid, serr := strconv.ParseInt((*foundRow)[4], 10, 64)
-			d.Log.Debug("cid err in get Distributor", serr)
+			d.Log.Debug("sid err in get Distributor", serr)
 			if serr == nil {
 				rtn.ID = id
 				rtn.StoreID = sid

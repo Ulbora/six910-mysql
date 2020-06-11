@@ -83,14 +83,14 @@ func (d *Six910Mysql) DeleteShippingCarrier(id int64) bool {
 }
 
 func (d *Six910Mysql) parseShippingCarrierRow(foundRow *[]string) *mdb.ShippingCarrier {
-	d.Log.Debug("foundRow in get Region", *foundRow)
+	d.Log.Debug("foundRow in get ShippingCarrier", *foundRow)
 	var rtn mdb.ShippingCarrier
 	if len(*foundRow) > 0 {
 		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get Region", err)
+		d.Log.Debug("id err in get ShippingCarrier", err)
 		if err == nil {
 			sid, cerr := strconv.ParseInt((*foundRow)[3], 10, 64)
-			d.Log.Debug("qty err in get Region", cerr)
+			d.Log.Debug("sid err in get ShippingCarrier", cerr)
 			if cerr == nil {
 				rtn.ID = id
 				rtn.StoreID = sid

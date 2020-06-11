@@ -80,7 +80,7 @@ func (d *Six910Mysql) parseLocalDatastoreRow(foundRow *[]string) *mdb.LocalDataS
 	var rtn mdb.LocalDataStore
 	if len(*foundRow) > 0 {
 		sid, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get LocalDataStore", err)
+		d.Log.Debug("sid err in get LocalDataStore", err)
 		if err == nil {
 			reltime, err := time.Parse(timeFormat, (*foundRow)[3])
 			d.Log.Debug("reload time err in get LocalDataStore", err)

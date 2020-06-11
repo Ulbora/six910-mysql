@@ -89,6 +89,12 @@ func TestSix910Mysql_AddStorePlugin(t *testing.T) {
 		t.Fail()
 	}
 
+	fspi1 := si.GetStorePlugin(spiid)
+	fmt.Println("fspi1: ", fspi1)
+	if fspi1.IframeURL != spi.IframeURL {
+		t.Fail()
+	}
+
 	spi.ID = spiid
 	spi.APIKey = "1235"
 	spi.ActivateURL = "/test5"

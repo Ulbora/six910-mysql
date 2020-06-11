@@ -103,13 +103,13 @@ func (d *Six910Mysql) parseShipmentRow(foundRow *[]string) *mdb.Shipment {
 		d.Log.Debug("id err in get Shipment", err)
 		if err == nil {
 			oid, err := strconv.ParseInt((*foundRow)[1], 10, 64)
-			d.Log.Debug("id err in get Shipment", err)
+			d.Log.Debug("oid err in get Shipment", err)
 			if err == nil {
 				boxes, err := strconv.ParseInt((*foundRow)[4], 10, 64)
-				d.Log.Debug("id err in get Shipment", err)
+				d.Log.Debug("boxes err in get Shipment", err)
 				if err == nil {
 					sanh, err := strconv.ParseFloat((*foundRow)[5], 64)
-					d.Log.Debug("id err in get Shipment", err)
+					d.Log.Debug("sanh err in get Shipment", err)
 					if err == nil {
 						ins, enerr := strconv.ParseFloat((*foundRow)[6], 64)
 						if enerr == nil {

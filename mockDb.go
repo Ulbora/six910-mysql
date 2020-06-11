@@ -673,6 +673,11 @@ func (d *MockSix910Mysql) GetShipmentItemList(shipmentID int64) *[]mdb.ShipmentI
 	return nil
 }
 
+//GetShipmentItemListByBox GetShipmentItemListByBox
+func (d *MockSix910Mysql) GetShipmentItemListByBox(boxNumber int64) *[]mdb.ShipmentItem {
+	return nil
+}
+
 //DeleteShipmentItem DeleteShipmentItem
 func (d *MockSix910Mysql) DeleteShipmentItem(id int64) bool {
 	return false

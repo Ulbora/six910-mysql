@@ -11,7 +11,7 @@ import (
 	sdbi "github.com/Ulbora/six910-database-interface"
 )
 
-func TestSix910Mysql_AddShipmentBox(t *testing.T) {
+func TestSix910Mysql_ShipmentItem(t *testing.T) {
 	var mydb mdb.MyDB
 	mydb.Host = "localhost:3306"
 	mydb.User = "admin"
@@ -35,13 +35,13 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 	str.Email = "tester@tester.com"
 	str.FirstName = "Tester"
 	str.LastName = "Bill"
-	str.LocalDomain = "localhost28:8080"
+	str.LocalDomain = "localhost29:8080"
 	str.Logo = "some logo"
-	str.OauthClientID = 32
+	str.OauthClientID = 33
 	str.OauthSecret = "this is secret"
-	str.RemoteDomain = "www.someCart28.com"
+	str.RemoteDomain = "www.someCart29.com"
 	str.State = "GA"
-	str.StoreName = "testers28 fantastic store"
+	str.StoreName = "testers29 fantastic store"
 	str.StoreSlogan = "we test for less"
 	str.Zip = "30036"
 	str.Enabled = false
@@ -75,6 +75,20 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 		t.Fail()
 	}
 
+	var oi sdbi.OrderItem
+	oi.BackOrdered = false
+	oi.Dropship = false
+	oi.OrderID = oid
+	oi.ProductID = 54
+	oi.ProductName = "Printer"
+	oi.ProductShortDesc = "HP deskjet printer"
+	oi.Quantity = 1
+
+	oisuc, oiid := si.AddOrderItem(&oi)
+	if !oisuc || oiid == 0 {
+		t.Fail()
+	}
+
 	var shp sdbi.Shipment
 	shp.Boxes = 1
 	shp.Insurance = 0.00
@@ -99,59 +113,44 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 		t.Fail()
 	}
 
-	sbox.ID = sboxid
-	sbox.Dropship = false
-	sbox.Cost = 5.55
+	var shpitm sdbi.ShipmentItem
+	shpitm.OrderItemID = oiid
+	shpitm.ShipmentID = shpid
+	shpitm.ShipmentBoxID = sboxid
 
-	usboxsuc := si.UpdateShipmentBox(&sbox)
-	if !usboxsuc {
+	shpitmsuc, shpitmid := si.AddShipmentItem(&shpitm)
+	if !shpitmsuc || shpitmid == 0 {
 		t.Fail()
 	}
 
-	sbox.TrackingNumber = "123track"
-	sbox.Weight = 4.2
-	sbox.Width = 12
-	sbox.Height = 18
-	sbox.Depth = 16
-	sbox.Insurance = 4.56
+	shpitm.ID = shpitmid
+	shpitm.Quantity = 2
 
-	usboxsuc2 := si.UpdateShipmentBox(&sbox)
-	if !usboxsuc2 {
+	ushpitmsuc := si.UpdateShipmentItem(&shpitm)
+	if !ushpitmsuc {
 		t.Fail()
 	}
 
-	fsbox := si.GetShipmentBox(sboxid)
-	fmt.Println("fsbox: ", fsbox)
-	if fsbox.BoxNumber != sbox.BoxNumber {
+	fshpitm := si.GetShipmentItem(shpitmid)
+	fmt.Println("fshpitm: ", fshpitm)
+	if fshpitm.ShipmentBoxID != shpitm.ShipmentBoxID {
 		t.Fail()
 	}
 
-	var sbox2 sdbi.ShipmentBox
-	sbox2.BoxNumber = 2
-	sbox2.ShipmentID = shpid
-	sbox2.ShippingAddress = "123 bates st, bates, CA"
-	sbox2.ShippingAddressID = 4
-	sbox2.ShippingMethodID = 55
-
-	sboxsuc2, sboxid2 := si.AddShipmentBox(&sbox2)
-	if !sboxsuc2 || sboxid2 == 0 {
+	fsitmList1 := si.GetShipmentItemList(shpid)
+	fmt.Println("fsitmList1: ", fsitmList1)
+	if len(*fsitmList1) != 1 {
 		t.Fail()
 	}
 
-	fsboxlist := si.GetShipmentBoxList(shpid)
-	fmt.Println("fsboxlist: ", fsboxlist)
-	if len(*fsboxlist) != 2 {
+	fsitmList2 := si.GetShipmentItemListByBox(1)
+	fmt.Println("fsitmList2: ", fsitmList2)
+	if len(*fsitmList2) != 1 {
 		t.Fail()
 	}
 
-	fsbox2 := si.GetShipmentBox(sboxid2)
-	fmt.Println("fsbox2: ", fsbox2)
-	if fsbox2.BoxNumber != sbox2.BoxNumber {
-		t.Fail()
-	}
-
-	dlsboxsuc := si.DeleteShipmentBox(sboxid2)
-	if !dlsboxsuc {
+	dlshpitmsuc := si.DeleteShipmentItem(shpitmid)
+	if !dlshpitmsuc {
 		t.Fail()
 	}
 

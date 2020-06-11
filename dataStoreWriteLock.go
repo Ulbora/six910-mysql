@@ -84,7 +84,7 @@ func (d *Six910Mysql) parseDataStoreWriteLockRow(foundRow *[]string) *mdb.DataSt
 				locked, err := strconv.ParseBool((*foundRow)[2])
 				if err == nil {
 					sid, err := strconv.ParseInt((*foundRow)[6], 10, 64)
-					d.Log.Debug("id err in get DataStoreWriteLock", err)
+					d.Log.Debug("sid err in get DataStoreWriteLock", err)
 					if err == nil {
 					}
 					rtn.ID = id

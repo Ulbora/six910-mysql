@@ -44,7 +44,13 @@ func (d *Six910Mysql) AddCart(c *mdb.Cart) (bool, int64) {
 
 //UpdateCart UpdateCart
 func (d *Six910Mysql) UpdateCart(c *mdb.Cart) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, time.Now(), c.ID)
+	suc := d.DB.Update(updateCart, a...)
+	return suc
 }
 
 //GetCart GetCart

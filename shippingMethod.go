@@ -96,38 +96,38 @@ func (d *Six910Mysql) DeleteShippingMethod(id int64) bool {
 }
 
 func (d *Six910Mysql) parseShippingMethodRow(foundRow *[]string) *mdb.ShippingMethod {
-	d.Log.Debug("foundRow in get Insurance", *foundRow)
+	d.Log.Debug("foundRow in get ShippingMethod", *foundRow)
 	var rtn mdb.ShippingMethod
 	if len(*foundRow) > 0 {
 		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get Insurance", err)
+		d.Log.Debug("id err in get ShippingMethod", err)
 		if err == nil {
 			rid, cerr := strconv.ParseInt((*foundRow)[7], 10, 64)
-			d.Log.Debug("sid err in get Insurance", cerr)
+			d.Log.Debug("rid err in get ShippingMethod", cerr)
 			if cerr == nil {
 				cost, err := strconv.ParseFloat((*foundRow)[2], 64)
-				d.Log.Debug("cost err in get Insurance", err)
+				d.Log.Debug("cost err in get ShippingMethod", err)
 				if err == nil {
 					min, err := strconv.ParseFloat((*foundRow)[5], 64)
-					d.Log.Debug("min err in get Insurance", err)
+					d.Log.Debug("min err in get ShippingMethod", err)
 					if err == nil {
 						max, err := strconv.ParseFloat((*foundRow)[6], 64)
-						d.Log.Debug("max err in get Insurance", err)
+						d.Log.Debug("max err in get ShippingMethod", err)
 						if err == nil {
 							hand, err := strconv.ParseFloat((*foundRow)[4], 64)
-							d.Log.Debug("max err in get Insurance", err)
+							d.Log.Debug("hand err in get ShippingMethod", err)
 							if err == nil {
 								maxw, err := strconv.ParseInt((*foundRow)[3], 10, 64)
-								d.Log.Debug("sid err in get Insurance", err)
+								d.Log.Debug("maxw err in get ShippingMethod", err)
 								if err == nil {
 									scid, err := strconv.ParseInt((*foundRow)[8], 10, 64)
-									d.Log.Debug("sid err in get Insurance", err)
+									d.Log.Debug("scid err in get ShippingMethod", err)
 									if err == nil {
 										iid, err := strconv.ParseInt((*foundRow)[9], 10, 64)
-										d.Log.Debug("sid err in get Insurance", err)
+										d.Log.Debug("iid err in get ShippingMethod", err)
 										if err == nil {
 											sid, err := strconv.ParseInt((*foundRow)[10], 10, 64)
-											d.Log.Debug("sid err in get Insurance", err)
+											d.Log.Debug("sid err in get ShippingMethod", err)
 											if err == nil {
 												rtn.ID = id
 												rtn.Name = (*foundRow)[1]

@@ -1,6 +1,7 @@
 package six910mysql
 
 import (
+	"strconv"
 	"time"
 
 	mdb "github.com/Ulbora/six910-database-interface"
@@ -56,15 +57,118 @@ func (d *Six910Mysql) UpdateShipmentBox(sb *mdb.ShipmentBox) bool {
 
 //GetShipmentBox GetShipmentBox
 func (d *Six910Mysql) GetShipmentBox(id int64) *mdb.ShipmentBox {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getShipmentBox, a...)
+	rtn := d.parseShipmentBoxRow(&row.Row)
+	return rtn
 }
 
 //GetShipmentBoxList GetShipmentBoxList
 func (d *Six910Mysql) GetShipmentBoxList(shipmentID int64) *[]mdb.ShipmentBox {
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn []mdb.ShipmentBox
+	var a []interface{}
+	a = append(a, shipmentID)
+	rows := d.DB.GetList(getShipmentBoxList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseShipmentBoxRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
 }
 
 //DeleteShipmentBox DeleteShipmentBox
 func (d *Six910Mysql) DeleteShipmentBox(id int64) bool {
-	return false
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	return d.DB.Delete(deleteShipmentBox, a...)
+}
+
+func (d *Six910Mysql) parseShipmentBoxRow(foundRow *[]string) *mdb.ShipmentBox {
+	d.Log.Debug("foundRow in get ShipmentBox", *foundRow)
+	var rtn mdb.ShipmentBox
+	if len(*foundRow) > 0 {
+		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
+		d.Log.Debug("id err in get ShipmentBox", err)
+		if err == nil {
+			boxnum, oerr := strconv.ParseInt((*foundRow)[1], 10, 64)
+			d.Log.Debug("boxnum err in get ShipmentBox", oerr)
+			if oerr == nil {
+				sTime, eerr := time.Parse(timeFormat, (*foundRow)[10])
+				d.Log.Debug("eTime err in get ShipmentBox", eerr)
+				if eerr == nil {
+					uTime, _ := time.Parse(timeFormat, (*foundRow)[11])
+					drops, enerr := strconv.ParseBool((*foundRow)[2])
+					if enerr == nil {
+						methID, err := strconv.ParseInt((*foundRow)[5], 10, 64)
+						d.Log.Debug("methID err in get ShipmentBox", err)
+						if err == nil {
+							said, err := strconv.ParseInt((*foundRow)[13], 10, 64)
+							d.Log.Debug("said err in get ShipmentBox", err)
+							if err == nil {
+								sid, err := strconv.ParseInt((*foundRow)[15], 10, 64)
+								d.Log.Debug("sid err in get ShipmentBox", err)
+								if err == nil {
+									cost, err := strconv.ParseFloat((*foundRow)[3], 64)
+									d.Log.Debug("cost err in get ShipmentBox", err)
+									if err == nil {
+										ins, err := strconv.ParseFloat((*foundRow)[4], 64)
+										d.Log.Debug("ins err in get ShipmentBox", err)
+										if err == nil {
+											weight, err := strconv.ParseFloat((*foundRow)[6], 64)
+											d.Log.Debug("weight err in get ShipmentBox", err)
+											if err == nil {
+												width, err := strconv.ParseFloat((*foundRow)[7], 64)
+												d.Log.Debug("width err in get ShipmentBox", err)
+												if err == nil {
+													height, err := strconv.ParseFloat((*foundRow)[8], 64)
+													d.Log.Debug("height err in get ShipmentBox", err)
+													if err == nil {
+														depth, err := strconv.ParseFloat((*foundRow)[9], 64)
+														d.Log.Debug("depth err in get ShipmentBox", err)
+														if err == nil {
+															rtn.ID = id
+															rtn.BoxNumber = boxnum
+															rtn.ShipDate = sTime
+															rtn.Updated = uTime
+															rtn.Dropship = drops
+															rtn.ShippingMethodID = methID
+															rtn.ShippingAddressID = said
+															rtn.ShipmentID = sid
+															rtn.Cost = cost
+															rtn.Insurance = ins
+															rtn.Weight = weight
+															rtn.Width = width
+															rtn.Height = height
+															rtn.Depth = depth
+															rtn.TrackingNumber = (*foundRow)[12]
+															rtn.ShippingAddress = (*foundRow)[14]
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return &rtn
 }

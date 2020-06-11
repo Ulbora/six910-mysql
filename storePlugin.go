@@ -116,44 +116,41 @@ func (d *Six910Mysql) parseStorePluginRow(foundRow *[]string) *mdb.StorePlugins 
 		d.Log.Debug("id err in get StorePlugins", err)
 		if err == nil {
 			pid, err := strconv.ParseInt((*foundRow)[1], 10, 64)
-			d.Log.Debug("cost err in get StorePlugins", err)
+			d.Log.Debug("pid err in get StorePlugins", err)
 			if err == nil {
 				active, err := strconv.ParseBool((*foundRow)[4])
-				d.Log.Debug("min err in get StorePlugins", err)
+				d.Log.Debug("active err in get StorePlugins", err)
 				if err == nil {
 					pgw, err := strconv.ParseBool((*foundRow)[15])
-					d.Log.Debug("max err in get StorePlugins", err)
+					d.Log.Debug("pgw err in get StorePlugins", err)
 					if err == nil {
 						oid, err := strconv.ParseInt((*foundRow)[5], 10, 64)
-						d.Log.Debug("cost err in get StorePlugins", err)
+						d.Log.Debug("oid err in get StorePlugins", err)
 						if err == nil {
 							rtcnt, err := strconv.ParseInt((*foundRow)[10], 10, 64)
-							d.Log.Debug("cost err in get StorePlugins", err)
+							d.Log.Debug("rtcnt err in get StorePlugins", err)
 							if err == nil {
-								rtTime, err := time.Parse(timeFormat, (*foundRow)[11])
-								d.Log.Debug("eTime err in get StorePlugins", err)
+								rtTime, _ := time.Parse(timeFormat, (*foundRow)[11])
+								sid, err := strconv.ParseInt((*foundRow)[16], 10, 64)
+								d.Log.Debug("cost err in get StorePlugins", err)
 								if err == nil {
-									sid, err := strconv.ParseInt((*foundRow)[16], 10, 64)
-									d.Log.Debug("cost err in get StorePlugins", err)
-									if err == nil {
-										rtn.ID = id
-										rtn.PluginID = pid
-										rtn.Active = active
-										rtn.IsPGW = pgw
-										rtn.OauthClientID = oid
-										rtn.RekeyTryCount = rtcnt
-										rtn.RekeyDate = rtTime
-										rtn.StoreID = sid
-										rtn.PluginName = (*foundRow)[2]
-										rtn.Category = (*foundRow)[3]
-										rtn.OauthSecret = (*foundRow)[6]
-										rtn.ActivateURL = (*foundRow)[7]
-										rtn.OauthRedirectURL = (*foundRow)[8]
-										rtn.APIKey = (*foundRow)[9]
-										rtn.IframeURL = (*foundRow)[12]
-										rtn.MenuTitle = (*foundRow)[13]
-										rtn.MenuIconURL = (*foundRow)[14]
-									}
+									rtn.ID = id
+									rtn.PluginID = pid
+									rtn.Active = active
+									rtn.IsPGW = pgw
+									rtn.OauthClientID = oid
+									rtn.RekeyTryCount = rtcnt
+									rtn.RekeyDate = rtTime
+									rtn.StoreID = sid
+									rtn.PluginName = (*foundRow)[2]
+									rtn.Category = (*foundRow)[3]
+									rtn.OauthSecret = (*foundRow)[6]
+									rtn.ActivateURL = (*foundRow)[7]
+									rtn.OauthRedirectURL = (*foundRow)[8]
+									rtn.APIKey = (*foundRow)[9]
+									rtn.IframeURL = (*foundRow)[12]
+									rtn.MenuTitle = (*foundRow)[13]
+									rtn.MenuIconURL = (*foundRow)[14]
 								}
 							}
 						}

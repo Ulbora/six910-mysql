@@ -74,9 +74,9 @@ func TestSix910Mysql_Cart(t *testing.T) {
 		t.Fail()
 	}
 
-	//this should always fail because cart doesn't get updated in this version of Six910
+	cart.ID = carid
 	ucartSuc := si.UpdateCart(&cart)
-	if ucartSuc {
+	if !ucartSuc {
 		t.Fail()
 	}
 

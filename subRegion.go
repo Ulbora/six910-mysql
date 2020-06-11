@@ -95,14 +95,14 @@ func (d *Six910Mysql) DeleteSubRegion(id int64) bool {
 }
 
 func (d *Six910Mysql) parseSubRegionRow(foundRow *[]string) *mdb.SubRegion {
-	d.Log.Debug("foundRow in get Region", *foundRow)
+	d.Log.Debug("foundRow in get SubRegion", *foundRow)
 	var rtn mdb.SubRegion
 	if len(*foundRow) > 0 {
 		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get Region", err)
+		d.Log.Debug("id err in get SubRegion", err)
 		if err == nil {
 			rid, cerr := strconv.ParseInt((*foundRow)[3], 10, 64)
-			d.Log.Debug("qty err in get Region", cerr)
+			d.Log.Debug("rid err in get SubRegion", cerr)
 			if cerr == nil {
 				rtn.ID = id
 				rtn.RegionID = rid

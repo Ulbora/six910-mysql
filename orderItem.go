@@ -103,13 +103,13 @@ func (d *Six910Mysql) parseOrderItemRow(foundRow *[]string) *mdb.OrderItem {
 		d.Log.Debug("id err in get OrderItem", err)
 		if err == nil {
 			oid, err := strconv.ParseInt((*foundRow)[1], 10, 64)
-			d.Log.Debug("id err in get OrderItem", err)
+			d.Log.Debug("oid err in get OrderItem", err)
 			if err == nil {
 				pid, err := strconv.ParseInt((*foundRow)[2], 10, 64)
-				d.Log.Debug("id err in get OrderItem", err)
+				d.Log.Debug("pid err in get OrderItem", err)
 				if err == nil {
 					qty, err := strconv.ParseInt((*foundRow)[5], 10, 64)
-					d.Log.Debug("id err in get OrderItem", err)
+					d.Log.Debug("qty err in get OrderItem", err)
 					if err == nil {
 						dship, enerr := strconv.ParseBool((*foundRow)[6])
 						if enerr == nil {

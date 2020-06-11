@@ -102,7 +102,7 @@ func (d *Six910Mysql) parseRegionRow(foundRow *[]string) *mdb.Region {
 		d.Log.Debug("id err in get Region", err)
 		if err == nil {
 			sid, cerr := strconv.ParseInt((*foundRow)[3], 10, 64)
-			d.Log.Debug("qty err in get Region", cerr)
+			d.Log.Debug("sid err in get Region", cerr)
 			if cerr == nil {
 				rtn.ID = id
 				rtn.StoreID = sid

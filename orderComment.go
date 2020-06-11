@@ -69,7 +69,7 @@ func (d *Six910Mysql) parseOrderCommentRow(foundRow *[]string) *mdb.OrderComment
 		d.Log.Debug("id err in get OrderComment", err)
 		if err == nil {
 			oid, err := strconv.ParseInt((*foundRow)[3], 10, 64)
-			d.Log.Debug("id err in get OrderComment", err)
+			d.Log.Debug("oid err in get OrderComment", err)
 			if err == nil {
 				rtn.ID = id
 				rtn.OrderID = oid

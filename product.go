@@ -153,7 +153,7 @@ func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
 		d.Log.Debug("id err in get Product", err)
 		if err == nil {
 			sid, serr := strconv.ParseInt((*foundRow)[33], 10, 64)
-			d.Log.Debug("id err in get Product", err)
+			d.Log.Debug("sid err in get Product", serr)
 			if serr == nil {
 				eTime, eerr := time.Parse(timeFormat, (*foundRow)[25])
 				d.Log.Debug("eTime err in get Product", eerr)
@@ -177,7 +177,7 @@ func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
 										d.Log.Debug("salePrice err in get Product", err)
 										if err == nil {
 											stock, err := strconv.ParseInt((*foundRow)[13], 10, 64)
-											d.Log.Debug("id err in get Product", err)
+											d.Log.Debug("stock err in get Product", err)
 											if err == nil {
 												stockAlert, err := strconv.ParseInt((*foundRow)[14], 10, 64)
 												d.Log.Debug("stockAlert err in get Product", err)
@@ -215,7 +215,7 @@ func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
 																									d.Log.Debug("did err in get Product", err)
 																									if err == nil {
 																										ppid, err := strconv.ParseInt((*foundRow)[32], 10, 64)
-																										d.Log.Debug("did err in get Product", err)
+																										d.Log.Debug("ppid err in get Product", err)
 																										if err == nil {
 																											rtn.ID = id
 																											rtn.Cost = cost
