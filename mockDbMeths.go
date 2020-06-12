@@ -637,108 +637,108 @@ func (d *MockSix910Mysql) DeleteShipmentBox(id int64) bool {
 
 //AddShipmentItem AddShipmentItem
 func (d *MockSix910Mysql) AddShipmentItem(si *mdb.ShipmentItem) (bool, int64) {
-	return false, 0
+	return d.MockAddShipmentItemSuccess, d.MockShipmentItemID
 }
 
 //UpdateShipmentItem UpdateShipmentItem
 func (d *MockSix910Mysql) UpdateShipmentItem(si *mdb.ShipmentItem) bool {
-	return false
+	return d.MockUpdateShipmentItemSuccess
 }
 
 //GetShipmentItem GetShipmentItem
 func (d *MockSix910Mysql) GetShipmentItem(id int64) *mdb.ShipmentItem {
-	return nil
+	return d.MockShipmentItem
 }
 
 //GetShipmentItemList GetShipmentItemList
 func (d *MockSix910Mysql) GetShipmentItemList(shipmentID int64) *[]mdb.ShipmentItem {
-	return nil
+	return d.MockShipmentItemList
 }
 
 //GetShipmentItemListByBox GetShipmentItemListByBox
 func (d *MockSix910Mysql) GetShipmentItemListByBox(boxNumber int64) *[]mdb.ShipmentItem {
-	return nil
+	return d.MockShipmentItemList
 }
 
 //DeleteShipmentItem DeleteShipmentItem
 func (d *MockSix910Mysql) DeleteShipmentItem(id int64) bool {
-	return false
+	return d.MockDeleteShipmentItemSuccess
 }
 
 //Global Plugins
 
 //AddPlugin AddPlugin
 func (d *MockSix910Mysql) AddPlugin(p *mdb.Plugins) (bool, int64) {
-	return false, 0
+	return d.MockAddPluginSuccess, d.MockPluginID
 }
 
 //UpdatePlugin UpdatePlugin
 func (d *MockSix910Mysql) UpdatePlugin(p *mdb.Plugins) bool {
-	return false
+	return d.MockUpdatePluginSuccess
 }
 
 //GetPlugin GetPlugin
 func (d *MockSix910Mysql) GetPlugin(id int64) *mdb.Plugins {
-	return nil
+	return d.MockPlugin
 }
 
 //GetPluginList GetPluginList
 func (d *MockSix910Mysql) GetPluginList(start int64, end int64) *[]mdb.Plugins {
-	return nil
+	return d.MockPluginList
 }
 
 //DeletePlugin DeletePlugin
 func (d *MockSix910Mysql) DeletePlugin(id int64) bool {
-	return false
+	return d.MockDeletePluginSuccess
 }
 
 //store plugins installed
 
 //AddStorePlugin AddStorePlugin
 func (d *MockSix910Mysql) AddStorePlugin(sp *mdb.StorePlugins) (bool, int64) {
-	return false, 0
+	return d.MockAddStorePluginSuccess, d.MockStorePluginID
 }
 
 //UpdateStorePlugin UpdateStorePlugin
 func (d *MockSix910Mysql) UpdateStorePlugin(sp *mdb.StorePlugins) bool {
-	return false
+	return d.MockUpdateStorePluginSuccess
 }
 
 //GetStorePlugin GetStorePlugin
 func (d *MockSix910Mysql) GetStorePlugin(id int64) *mdb.StorePlugins {
-	return nil
+	return d.MockStorePlugin
 }
 
 //GetStorePluginList GetStorePluginList
 func (d *MockSix910Mysql) GetStorePluginList(storeID int64) *[]mdb.StorePlugins {
-	return nil
+	return d.MockStorePluginList
 }
 
 //DeleteStorePlugin DeleteStorePlugin
 func (d *MockSix910Mysql) DeleteStorePlugin(id int64) bool {
-	return false
+	return d.MockDeleteStorePluginSuccess
 }
 
 //Plugins that are payment gateways
 
 //AddPaymentGateway AddPaymentGateway
 func (d *MockSix910Mysql) AddPaymentGateway(pgw *mdb.PaymentGateway) (bool, int64) {
-	return false, 0
+	return d.MockAddPaymentGatewaySuccess, d.MockPaymentGatewayID
 }
 
 //UpdatePaymentGateway UpdatePaymentGateway
 func (d *MockSix910Mysql) UpdatePaymentGateway(pgw *mdb.PaymentGateway) bool {
-	return false
+	return d.MockUpdatePaymentGatewaySuccess
 }
 
 //GetPaymentGateways GetPaymentGateways
 func (d *MockSix910Mysql) GetPaymentGateways(storeID int64) *[]mdb.PaymentGateway {
-	return nil
+	return d.MockPaymentGatewayList
 }
 
 //DeletePaymentGateway DeletePaymentGateway
 func (d *MockSix910Mysql) DeletePaymentGateway(id int64) bool {
-	return false
+	return d.MockDeletePaymentGatewaySuccess
 }
 
 //store shipment carrier like UPS and FEDex

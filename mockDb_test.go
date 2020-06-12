@@ -843,4 +843,137 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	var shpitm sdbi.ShipmentItem
+	shpitm.OrderItemID = 3
+
+	sdb.MockAddShipmentItemSuccess = true
+	sdb.MockShipmentItemID = 4
+	sitmsuc, sitmid := si.AddShipmentItem(&shpitm)
+	if !sitmsuc || sitmid == 0 {
+		t.Fail()
+	}
+
+	sdb.MockUpdateShipmentItemSuccess = true
+	usitm := si.UpdateShipmentItem(&shpitm)
+	if !usitm {
+		t.Fail()
+	}
+
+	sdb.MockShipmentItem = &shpitm
+	fshpitm := si.GetShipmentItem(6)
+	if fshpitm.OrderItemID != shpitm.OrderItemID {
+		t.Fail()
+	}
+
+	var shpitlst []sdbi.ShipmentItem
+	shpitlst = append(shpitlst, shpitm)
+	sdb.MockShipmentItemList = &shpitlst
+
+	fshpitlst := si.GetShipmentItemList(5)
+	if len(*fshpitlst) != 1 {
+		t.Fail()
+	}
+
+	fshpitlst2 := si.GetShipmentItemListByBox(1)
+	if len(*fshpitlst2) != 1 {
+		t.Fail()
+	}
+
+	sdb.MockDeleteShipmentItemSuccess = true
+	dlshpitm := si.DeleteShipmentItem(4)
+	if !dlshpitm {
+		t.Fail()
+	}
+
+	var pi sdbi.Plugins
+	pi.ActivateURL = "test"
+
+	sdb.MockAddPluginSuccess = true
+	sdb.MockPluginID = 1
+	pisuc, piid := si.AddPlugin(&pi)
+	if !pisuc || piid == 0 {
+		t.Fail()
+	}
+
+	sdb.MockUpdatePluginSuccess = true
+	upi := si.UpdatePlugin(&pi)
+	if !upi {
+		t.Fail()
+	}
+
+	sdb.MockPlugin = &pi
+	fpi := si.GetPlugin(3)
+	if fpi.ActivateURL != pi.ActivateURL {
+		t.Fail()
+	}
+
+	var fpilst []sdbi.Plugins
+	fpilst = append(fpilst, pi)
+	sdb.MockPluginList = &fpilst
+
+	pilst := si.GetPluginList(6, 8)
+	if len(*pilst) != 1 {
+		t.Fail()
+	}
+
+	sdb.MockDeletePluginSuccess = true
+	dlpi := si.DeletePlugin(4)
+	if !dlpi {
+		t.Fail()
+	}
+
+	var spi sdbi.StorePlugins
+	spi.APIKey = "123"
+
+	sdb.MockAddStorePluginSuccess = true
+	sdb.MockStorePluginID = 2
+
+	spisuc, spiid := si.AddStorePlugin(&spi)
+	if !spisuc || spiid == 0 {
+		t.Fail()
+	}
+
+	sdb.MockUpdateStorePluginSuccess = true
+	uspi := si.UpdateStorePlugin(&spi)
+	if !uspi {
+		t.Fail()
+	}
+
+	sdb.MockStorePlugin = &spi
+	fspi := si.GetStorePlugin(5)
+	if fspi.APIKey != spi.APIKey {
+		t.Fail()
+	}
+
+	var pgw sdbi.PaymentGateway
+	pgw.CheckoutURL = "/test"
+
+	sdb.MockAddPaymentGatewaySuccess = true
+	sdb.MockPaymentGatewayID = 3
+
+	pgwsuc, pgwid := si.AddPaymentGateway(&pgw)
+	if !pgwsuc || pgwid == 0 {
+		t.Fail()
+	}
+
+	sdb.MockUpdatePaymentGatewaySuccess = true
+	upgw := si.UpdatePaymentGateway(&pgw)
+	if !upgw {
+		t.Fail()
+	}
+
+	var pgwlst []sdbi.PaymentGateway
+	pgwlst = append(pgwlst, pgw)
+
+	sdb.MockPaymentGatewayList = &pgwlst
+	fpgwlst := si.GetPaymentGateways(5)
+	if len(*fpgwlst) != 1 {
+		t.Fail()
+	}
+
+	sdb.MockDeletePaymentGatewaySuccess = true
+	dpgw := si.DeletePaymentGateway(4)
+	if !dpgw {
+		t.Fail()
+	}
 }
