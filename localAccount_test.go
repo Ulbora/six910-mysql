@@ -74,6 +74,7 @@ func TestSix910Mysql_AddLocalAccount(t *testing.T) {
 	lac.UserName = "someuser"
 	lac.Role = "customer"
 
+	dbi.Close()
 	lacsuc := si.AddLocalAccount(&lac)
 	if !lacsuc {
 		t.Fail()
@@ -83,23 +84,27 @@ func TestSix910Mysql_AddLocalAccount(t *testing.T) {
 	lac.Password = "password2"
 	lac.Role = "customer2"
 
+	dbi.Close()
 	lacUsuc := si.UpdateLocalAccount(&lac)
 	if !lacUsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	rlac := si.GetLocalAccount("someuser", sid)
 	fmt.Println("rlac", rlac)
 	if rlac.CustomerID != cid {
 		t.Fail()
 	}
 
+	dbi.Close()
 	rlacList := si.GetLocalAccountList(sid)
 	fmt.Println("rlacList", rlacList)
 	if len(*rlacList) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dsuc := si.DeleteLocalAccount("someuser", sid)
 	if !dsuc {
 		t.Fail()

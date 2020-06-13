@@ -745,22 +745,22 @@ func (d *MockSix910Mysql) DeletePaymentGateway(id int64) bool {
 
 //AddShippingCarrier AddShippingCarrier
 func (d *MockSix910Mysql) AddShippingCarrier(c *mdb.ShippingCarrier) (bool, int64) {
-	return false, 0
+	return d.MockAddShippingCarrierSuccess, d.MockShippingCarrierID
 }
 
 //UpdateShippingCarrier UpdateShippingCarrier
 func (d *MockSix910Mysql) UpdateShippingCarrier(c *mdb.ShippingCarrier) bool {
-	return false
+	return d.MockUpdateShippingMethodSuccess
 }
 
 //GetShippingCarrierList GetShippingCarrierList
 func (d *MockSix910Mysql) GetShippingCarrierList(storeID int64) *[]mdb.ShippingCarrier {
-	return nil
+	return d.MockShippingCarrierList
 }
 
 //DeleteShippingCarrier DeleteShippingCarrier
 func (d *MockSix910Mysql) DeleteShippingCarrier(id int64) bool {
-	return false
+	return d.MockDeleteShippingCarrierSuccess
 }
 
 //----UI Cluster installation: this is only called if UI is running in a cluster---
@@ -772,7 +772,7 @@ func (d *MockSix910Mysql) DeleteShippingCarrier(id int64) bool {
 
 //AddLocalDatastore AddLocalDatastore
 func (d *MockSix910Mysql) AddLocalDatastore(ds *mdb.LocalDataStore) bool {
-	return false
+	return d.MockAddLocalDataStoreSuccess
 }
 
 //This get get called when a change is made to a datastore from a node in the cluster
@@ -780,14 +780,14 @@ func (d *MockSix910Mysql) AddLocalDatastore(ds *mdb.LocalDataStore) bool {
 
 //UpdateLocalDatastore UpdateLocalDatastore
 func (d *MockSix910Mysql) UpdateLocalDatastore(ds *mdb.LocalDataStore) bool {
-	return false
+	return d.MockUpdateLocalDataStoreSuccess
 }
 
 //This gets call by cluster nodes to see if there are pending reload
 
 //GetLocalDatastore GetLocalDatastore
 func (d *MockSix910Mysql) GetLocalDatastore(storeID int64, dataStoreName string) *mdb.LocalDataStore {
-	return nil
+	return d.MockLocalDataStore
 }
 
 //---------------------start instance--------------------
@@ -796,21 +796,21 @@ func (d *MockSix910Mysql) GetLocalDatastore(storeID int64, dataStoreName string)
 
 //AddInstance AddInstance
 func (d *MockSix910Mysql) AddInstance(i *mdb.Instances) bool {
-	return false
+	return d.MockAddInstancesSuccess
 }
 
 //This gets called after instance gets reloaded
 
 //UpdateInstance UpdateInstance
 func (d *MockSix910Mysql) UpdateInstance(i *mdb.Instances) bool {
-	return false
+	return d.MockUpdateInstancesSuccess
 }
 
 //Gets called before updating an instance
 
 //GetInstance GetInstance
 func (d *MockSix910Mysql) GetInstance(name string, dataStoreName string, storeID int64) *mdb.Instances {
-	return nil
+	return d.MockInstances
 }
 
 //-------------------start write lock-------------
@@ -819,17 +819,17 @@ func (d *MockSix910Mysql) GetInstance(name string, dataStoreName string, storeID
 
 //AddDataStoreWriteLock AddDataStoreWriteLock
 func (d *MockSix910Mysql) AddDataStoreWriteLock(w *mdb.DataStoreWriteLock) (bool, int64) {
-	return false, 0
+	return d.MockAddDataStoreWriteLockSuccess, d.MockDataStoreWriteLockID
 }
 
 //UpdateDataStoreWriteLock UpdateDataStoreWriteLock
 func (d *MockSix910Mysql) UpdateDataStoreWriteLock(w *mdb.DataStoreWriteLock) bool {
-	return false
+	return d.MockUpdateDataStoreWriteLockSuccess
 }
 
 //gets called from within the add method and by any node trying to update a datastore
 
 //GetDataStoreWriteLock GetDataStoreWriteLock
 func (d *MockSix910Mysql) GetDataStoreWriteLock(dataStore string, storeID int64) *mdb.DataStoreWriteLock {
-	return nil
+	return d.MockDataStoreWriteLock
 }

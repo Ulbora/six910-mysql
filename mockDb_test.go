@@ -327,7 +327,12 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	sdb.MockCategoryList = &catlst
 	fcatlst := si.GetCategoryList(4)
 	if len(*fcatlst) != 1 {
+		t.Fail()
+	}
 
+	fcatlst2 := si.GetSubCategoryList(3)
+	if len(*fcatlst2) != 1 {
+		t.Fail()
 	}
 
 	sdb.MockDeleteCategorySuccess = true
@@ -976,4 +981,99 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	if !dpgw {
 		t.Fail()
 	}
+
+	var sc sdbi.ShippingCarrier
+	sc.Carrier = "UPS"
+
+	sdb.MockAddShippingCarrierSuccess = true
+	sdb.MockShippingCarrierID = 3
+	scsuc, scid := si.AddShippingCarrier(&sc)
+	if !scsuc || scid == 0 {
+		t.Fail()
+	}
+
+	sdb.MockUpdateShippingCarrierSuccess = true
+	usc := si.UpdateShippingCarrier(&sc)
+	if !usc {
+		t.Fail()
+	}
+
+	var sclst []sdbi.ShippingCarrier
+	sclst = append(sclst, sc)
+	sdb.MockShippingCarrierList = &sclst
+	fsclst := si.GetShippingCarrierList(4)
+	if len(*fsclst) != 1 {
+		t.Fail()
+	}
+
+	sdb.MockDeleteShippingCarrierSuccess = true
+	dlsc := si.DeleteShippingCarrier(4)
+	if !dlsc {
+		t.Fail()
+	}
+
+	var lds sdbi.LocalDataStore
+	lds.DataStoreName = "content"
+
+	sdb.MockAddLocalDataStoreSuccess = true
+	ldssuc := si.AddLocalDatastore(&lds)
+	if !ldssuc {
+		t.Fail()
+	}
+
+	sdb.MockUpdateLocalDataStoreSuccess = true
+	ulds := si.UpdateLocalDatastore(&lds)
+	if !ulds {
+		t.Fail()
+	}
+
+	sdb.MockLocalDataStore = &lds
+	flds := si.GetLocalDatastore(4, "test")
+	if flds.DataStoreName != lds.DataStoreName {
+		t.Fail()
+	}
+
+	var inst sdbi.Instances
+	inst.DataStoreName = "content"
+
+	sdb.MockAddInstancesSuccess = true
+	instsuc := si.AddInstance(&inst)
+	if !instsuc {
+		t.Fail()
+	}
+
+	sdb.MockUpdateInstancesSuccess = true
+	uinst := si.UpdateInstance(&inst)
+	if !uinst {
+		t.Fail()
+	}
+
+	sdb.MockInstances = &inst
+	finst := si.GetInstance("test", "store", 3)
+	if finst.DataStoreName != inst.DataStoreName {
+		t.Fail()
+	}
+
+	var lc sdbi.DataStoreWriteLock
+	lc.DataStoreName = "content"
+
+	sdb.MockAddDataStoreWriteLockSuccess = true
+	sdb.MockDataStoreWriteLockID = 2
+	lcsuc, lcid := si.AddDataStoreWriteLock(&lc)
+	if !lcsuc || lcid == 0 {
+		t.Fail()
+	}
+
+	sdb.MockUpdateDataStoreWriteLockSuccess = true
+	ulc := si.UpdateDataStoreWriteLock(&lc)
+	if !ulc {
+		t.Fail()
+	}
+
+	sdb.MockDataStoreWriteLock = &lc
+	flc := si.GetDataStoreWriteLock("test", 1)
+	if flc.DataStoreName != lc.DataStoreName {
+		t.Fail()
+	}
+
 }

@@ -55,6 +55,7 @@ func TestSix910Mysql_AddInsurance(t *testing.T) {
 	ins.MaxOrderAmount = 500.00
 	ins.StoreID = sid
 
+	dbi.Close()
 	inssuc, insid := si.AddInsurance(&ins)
 	if !inssuc || insid == 0 {
 		t.Fail()
@@ -65,23 +66,27 @@ func TestSix910Mysql_AddInsurance(t *testing.T) {
 	ins.MinOrderAmount = 80.00
 	ins.MaxOrderAmount = 1000.00
 
+	dbi.Close()
 	uinssuc := si.UpdateInsurance(&ins)
 	if !uinssuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fins := si.GetInsurance(insid)
 	fmt.Println("fins: ", fins)
 	if fins.MaxOrderAmount != ins.MaxOrderAmount {
 		t.Fail()
 	}
 
+	dbi.Close()
 	finslist := si.GetInsuranceList(sid)
 	fmt.Println("finslist: ", finslist)
 	if len(*finslist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlins := si.DeleteInsurance(insid)
 	if !dlins {
 		t.Fail()

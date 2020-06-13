@@ -227,6 +227,34 @@ type MockSix910Mysql struct {
 	MockPaymentGateway              *mdb.PaymentGateway
 	MockPaymentGatewayList          *[]mdb.PaymentGateway
 	MockDeletePaymentGatewaySuccess bool
+
+	MockAddShippingCarrierSuccess    bool
+	MockShippingCarrierID            int64
+	MockUpdateShippingCarrierSuccess bool
+	MockShippingCarrier              *mdb.ShippingCarrier
+	MockShippingCarrierList          *[]mdb.ShippingCarrier
+	MockDeleteShippingCarrierSuccess bool
+
+	MockAddLocalDataStoreSuccess    bool
+	MockLocalDataStoreID            int64
+	MockUpdateLocalDataStoreSuccess bool
+	MockLocalDataStore              *mdb.LocalDataStore
+	MockLocalDataStoreList          *[]mdb.LocalDataStore
+	MockDeleteLocalDataStoreSuccess bool
+
+	MockAddInstancesSuccess    bool
+	MockInstancesID            int64
+	MockUpdateInstancesSuccess bool
+	MockInstances              *mdb.Instances
+	MockInstancesList          *[]mdb.Instances
+	MockDeleteInstancesSuccess bool
+
+	MockAddDataStoreWriteLockSuccess    bool
+	MockDataStoreWriteLockID            int64
+	MockUpdateDataStoreWriteLockSuccess bool
+	MockDataStoreWriteLock              *mdb.DataStoreWriteLock
+	MockDataStoreWriteLockList          *[]mdb.DataStoreWriteLock
+	MockDeleteDataStoreWriteLockSuccess bool
 }
 
 //GetNew GetNew

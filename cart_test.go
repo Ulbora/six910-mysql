@@ -66,6 +66,7 @@ func TestSix910Mysql_Cart(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	var cart sdbi.Cart
 	cart.CustomerID = cid
 	cart.StoreID = sid
@@ -74,18 +75,21 @@ func TestSix910Mysql_Cart(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	cart.ID = carid
 	ucartSuc := si.UpdateCart(&cart)
 	if !ucartSuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fcart := si.GetCart(cid)
 	fmt.Println("fcart", fcart)
 	if fcart.ID != carid || fcart.CustomerID != cid {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dcartsuc := si.DeleteCart(carid)
 	if !dcartsuc {
 		t.Fail()

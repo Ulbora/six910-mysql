@@ -40,6 +40,7 @@ func TestSix910Mysql_AddPlugin(t *testing.T) {
 	pi.OauthRedirectURL = "/redirect"
 	pi.PluginName = "Catalog Easy"
 
+	dbi.Close()
 	pisuc, piid := si.AddPlugin(&pi)
 	if !pisuc || piid == 0 {
 		t.Fail()
@@ -57,17 +58,20 @@ func TestSix910Mysql_AddPlugin(t *testing.T) {
 	pi.OauthRedirectURL = "/redirec2t"
 	pi.PluginName = "Catalog Easy2"
 
+	dbi.Close()
 	upisuc := si.UpdatePlugin(&pi)
 	if !upisuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fpi := si.GetPlugin(piid)
 	fmt.Println("fpi: ", fpi)
 	if fpi.DeveloperAddress != pi.DeveloperAddress {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fpilist := si.GetPluginList(0, 10)
 	fmt.Println("fpilist:", fpilist)
 	fmt.Println("fpilist len:", len(*fpilist))
@@ -75,6 +79,7 @@ func TestSix910Mysql_AddPlugin(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlpi := si.DeletePlugin(piid)
 	if !dlpi {
 		t.Fail()

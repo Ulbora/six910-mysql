@@ -82,6 +82,7 @@ func TestSix910Mysql_AddShipment(t *testing.T) {
 	shp.ShippingHandling = 5.26
 	shp.Status = "Processing"
 
+	dbi.Close()
 	shpsuc, shpid := si.AddShipment(&shp)
 	if !shpsuc || shpid == 0 {
 		t.Fail()
@@ -92,23 +93,28 @@ func TestSix910Mysql_AddShipment(t *testing.T) {
 	shp.Insurance = 4.00
 	shp.ShippingHandling = 10.26
 	shp.Status = "Shipped"
+
+	dbi.Close()
 	ushpsuc := si.UpdateShipment(&shp)
 	if !ushpsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fshp := si.GetShipment(shpid)
 	fmt.Println("fshp:", fshp)
 	if fshp.Boxes != shp.Boxes {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fshplist := si.GetShipmentList(oid)
 	fmt.Println("fshplist:", fshplist)
 	if len(*fshplist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlshp := si.DeleteShipment(shpid)
 	if !dlshp {
 		t.Fail()

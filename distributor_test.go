@@ -72,6 +72,7 @@ func TestSix910Mysql_AddDistributor(t *testing.T) {
 	dis.Phone = "123-456-7891"
 	dis.StoreID = sid
 
+	dbi.Close()
 	dsuc, did := si.AddDistributor(&dis)
 	if !dsuc || did == 0 {
 		t.Fail()
@@ -81,23 +82,27 @@ func TestSix910Mysql_AddDistributor(t *testing.T) {
 	dis.ContactName = "Ricky Bobby Jr"
 	dis.Phone = "123-456-9696"
 
+	dbi.Close()
 	udsuc := si.UpdateDistributor(&dis)
 	if !udsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fdis := si.GetDistributor(did)
 	fmt.Println("fdis", fdis)
 	if fdis.StoreID != sid {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fdisList := si.GetDistributorList(sid)
 	fmt.Println("fdisList", fdisList)
 	if len(*fdisList) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	desuc := si.DeleteDistributor(did)
 	if !desuc {
 		t.Fail()

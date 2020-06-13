@@ -27,6 +27,7 @@ func TestSix910Mysql_Security(t *testing.T) {
 	si := sdb.GetNew()
 	var sec sdbi.Security
 	sec.OauthOn = true
+	dbi.Close()
 	suc, id := si.AddSecurity(&sec)
 	fmt.Println("add success: ", suc)
 	fmt.Println("add success id: ", id)
@@ -34,6 +35,7 @@ func TestSix910Mysql_Security(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	secr := si.GetSecurity()
 	fmt.Println("get : ", secr)
 	if !secr.OauthOn {
@@ -42,6 +44,7 @@ func TestSix910Mysql_Security(t *testing.T) {
 	sec.ID = id
 	sec.OauthOn = false
 
+	dbi.Close()
 	sucu := si.UpdateSecurity(&sec)
 	if !sucu {
 		t.Fail()
@@ -53,6 +56,7 @@ func TestSix910Mysql_Security(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dsuc := si.DeleteSecurity()
 	if !dsuc {
 		t.Fail()

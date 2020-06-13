@@ -118,6 +118,7 @@ func TestSix910Mysql_ShipmentItem(t *testing.T) {
 	shpitm.ShipmentID = shpid
 	shpitm.ShipmentBoxID = sboxid
 
+	dbi.Close()
 	shpitmsuc, shpitmid := si.AddShipmentItem(&shpitm)
 	if !shpitmsuc || shpitmid == 0 {
 		t.Fail()
@@ -126,29 +127,34 @@ func TestSix910Mysql_ShipmentItem(t *testing.T) {
 	shpitm.ID = shpitmid
 	shpitm.Quantity = 2
 
+	dbi.Close()
 	ushpitmsuc := si.UpdateShipmentItem(&shpitm)
 	if !ushpitmsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fshpitm := si.GetShipmentItem(shpitmid)
 	fmt.Println("fshpitm: ", fshpitm)
 	if fshpitm.ShipmentBoxID != shpitm.ShipmentBoxID {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsitmList1 := si.GetShipmentItemList(shpid)
 	fmt.Println("fsitmList1: ", fsitmList1)
 	if len(*fsitmList1) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsitmList2 := si.GetShipmentItemListByBox(1)
 	fmt.Println("fsitmList2: ", fsitmList2)
 	if len(*fsitmList2) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlshpitmsuc := si.DeleteShipmentItem(shpitmid)
 	if !dlshpitmsuc {
 		t.Fail()

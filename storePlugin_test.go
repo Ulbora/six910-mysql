@@ -84,11 +84,13 @@ func TestSix910Mysql_AddStorePlugin(t *testing.T) {
 	spi.PluginName = "the great plugin"
 	spi.StoreID = sid
 
+	dbi.Close()
 	spisuc, spiid := si.AddStorePlugin(&spi)
 	if !spisuc || spiid == 0 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fspi1 := si.GetStorePlugin(spiid)
 	fmt.Println("fspi1: ", fspi1)
 	if fspi1.IframeURL != spi.IframeURL {
@@ -106,6 +108,7 @@ func TestSix910Mysql_AddStorePlugin(t *testing.T) {
 	spi.OauthRedirectURL = "/redirect5"
 	spi.OauthSecret = "123456kjh5"
 
+	dbi.Close()
 	uspisuc := si.UpdateStorePlugin(&spi)
 	if !uspisuc {
 		t.Fail()
@@ -134,12 +137,14 @@ func TestSix910Mysql_AddStorePlugin(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fspilist := si.GetStorePluginList(sid)
 	fmt.Println("fspilist: ", fspilist)
 	if len(*fspilist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlspisuc := si.DeleteStorePlugin(spiid)
 	if !dlspisuc {
 		t.Fail()

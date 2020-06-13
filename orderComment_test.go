@@ -90,11 +90,13 @@ func TestSix910Mysql_AddOrderComments(t *testing.T) {
 	oc2.Username = "marymary"
 	oc2.OrderID = oid
 
+	dbi.Close()
 	ocsuc2, ocid2 := si.AddOrderComments(&oc2)
 	if !ocsuc2 || ocid2 == 0 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	oclist := si.GetOrderCommentList(oid)
 	fmt.Println("oclist: ", oclist)
 	if len(*oclist) != 2 {

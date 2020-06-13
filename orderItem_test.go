@@ -84,6 +84,7 @@ func TestSix910Mysql_AddOrderItem(t *testing.T) {
 	oi.ProductShortDesc = "HP deskjet printer"
 	oi.Quantity = 1
 
+	dbi.Close()
 	oisuc, oiid := si.AddOrderItem(&oi)
 	if !oisuc || oiid == 0 {
 		t.Fail()
@@ -94,23 +95,27 @@ func TestSix910Mysql_AddOrderItem(t *testing.T) {
 	oi.Dropship = true
 	oi.Quantity = 10
 
+	dbi.Close()
 	uoissuc := si.UpdateOrderItem(&oi)
 	if !uoissuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	foi := si.GetOrderItem(oiid)
 	fmt.Println("foi: ", foi)
 	if foi.ProductName != oi.ProductName || foi.Quantity != oi.Quantity {
 		t.Fail()
 	}
 
+	dbi.Close()
 	foilist := si.GetOrderItemList(oid)
 	fmt.Println("foilist: ", foilist)
 	if len(*foilist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dloisuc := si.DeleteOrderItem(oiid)
 	if !dloisuc {
 		t.Fail()

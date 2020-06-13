@@ -117,6 +117,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Weight = 15.4
 	prod.Width = 22.4
 
+	dbi.Close()
 	psuc, pid := si.AddProduct(&prod)
 	if !psuc || pid == 0 {
 		t.Fail()
@@ -170,11 +171,13 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Width = 22.42
 	prod.ParentProductID = 0
 
+	dbi.Close()
 	usuc := si.UpdateProduct(&prod)
 	if !usuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fprod := si.GetProductByID(pid)
 	fmt.Println("fprod", fprod)
 	if fprod.ID != pid {
@@ -193,6 +196,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fprodn := si.GetProductsByName("well2", 0, 100)
 	fmt.Println("fprodn", fprodn)
 	if len(*fprodn) != 1 {
@@ -208,11 +212,13 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	cat.Name = "cars"
 	cat.StoreID = sid
 
+	dbi.Close()
 	ctsuc, ctid := si.AddCategory(&cat)
 	if !ctsuc || ctid == 0 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	var pcat sdbi.ProductCategory
 	pcat.CategoryID = ctid
 	pcat.ProductID = pid
@@ -222,23 +228,27 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	prodCatlist := si.GetProductsByCaterory(ctid, 0, 100)
 	fmt.Println("prodCatlist", prodCatlist)
 	if len(*prodCatlist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	prodStr := si.GetProductList(sid, 0, 100)
 	fmt.Println("prodStr", prodStr)
 	if len(*prodStr) != 2 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dprodCatSuc := si.DeleteProductCategory(&pcat)
 	if !dprodCatSuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dprodSuc := si.DeleteProduct(pid)
 	if !dprodSuc {
 		t.Fail()

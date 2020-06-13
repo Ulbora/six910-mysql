@@ -56,6 +56,7 @@ func TestSix910Mysql_AddLocalDatastore(t *testing.T) {
 	lds.Reload = false
 	lds.ReloadDate = time.Now()
 
+	dbi.Close()
 	ldssuc := si.AddLocalDatastore(&lds)
 	if !ldssuc {
 		t.Fail()
@@ -69,11 +70,13 @@ func TestSix910Mysql_AddLocalDatastore(t *testing.T) {
 	lds.Reload = true
 	lds.ReloadDate = time.Now().Add(time.Minute * 10)
 
+	dbi.Close()
 	uldssuc := si.UpdateLocalDatastore(&lds)
 	if !uldssuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	flds := si.GetLocalDatastore(sid, "content")
 	fmt.Println("flds: ", flds)
 	if flds.Reload != lds.Reload {

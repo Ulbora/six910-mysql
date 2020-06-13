@@ -54,6 +54,7 @@ func TestSix910Mysql_AddShippingCarrier(t *testing.T) {
 	sc.Type = "GROUND"
 	sc.StoreID = sid
 
+	dbi.Close()
 	scsuc, scid := si.AddShippingCarrier(&sc)
 	if !scsuc || scid == 0 {
 		t.Fail()
@@ -63,17 +64,20 @@ func TestSix910Mysql_AddShippingCarrier(t *testing.T) {
 	sc.Carrier = "FEXex"
 	sc.Type = "AIR"
 
+	dbi.Close()
 	uscsuc := si.UpdateShippingCarrier(&sc)
 	if !uscsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsclist := si.GetShippingCarrierList(sid)
 	fmt.Println("fsclist: ", fsclist)
 	if len(*fsclist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlsc := si.DeleteShippingCarrier(scid)
 	if !dlsc {
 		t.Fail()

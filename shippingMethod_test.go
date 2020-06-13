@@ -92,6 +92,7 @@ func TestSix910Mysql_ShippingMethod(t *testing.T) {
 	sm.ShippingCarrierID = scid
 	sm.StoreID = sid
 
+	dbi.Close()
 	smsuc, smid := si.AddShippingMethod(&sm)
 	if !smsuc || smid == 0 {
 		t.Fail()
@@ -105,11 +106,13 @@ func TestSix910Mysql_ShippingMethod(t *testing.T) {
 	sm.MinOrderAmount = 5.00
 	sm.Name = "USP Ground Express"
 
+	dbi.Close()
 	usmsuc := si.UpdateShippingMethod(&sm)
 	if !usmsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsm := si.GetShippingMethod(smid)
 	fmt.Println("fsm: ", fsm)
 	if fsm.Cost != sm.Cost || fsm.MaxWeight != sm.MaxWeight || fsm.ShippingCarrierID != sm.ShippingCarrierID ||
@@ -117,12 +120,14 @@ func TestSix910Mysql_ShippingMethod(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsmlist := si.GetShippingMethodList(sid)
 	fmt.Println("fsmlist: ", fsmlist)
 	if len(*fsmlist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlsm := si.DeleteShippingMethod(smid)
 	if !dlsm {
 		t.Fail()

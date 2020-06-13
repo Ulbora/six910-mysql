@@ -96,6 +96,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	pgw.PostOrderURL = "/post"
 	pgw.StorePluginsID = spiid
 
+	dbi.Close()
 	pgwsuc, pgwid := si.AddPaymentGateway(&pgw)
 	if !pgwsuc || pgwid == 0 {
 		t.Fail()
@@ -107,17 +108,21 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	pgw.ClientKey = "56165162"
 	pgw.LogoURL = "/login2"
 	pgw.PostOrderURL = "/post2"
+
+	dbi.Close()
 	upgwsuc := si.UpdatePaymentGateway(&pgw)
 	if !upgwsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fpgwliststr := si.GetPaymentGateways(sid)
 	fmt.Println("fpgw: ", fpgwliststr)
 	if len(*fpgwliststr) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlpgw := si.DeletePaymentGateway(pgwid)
 	if !dlpgw {
 		t.Fail()

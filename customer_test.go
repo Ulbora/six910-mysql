@@ -61,6 +61,7 @@ func TestSix910Mysql_Customer(t *testing.T) {
 	cus.Phone = "123-456-7897"
 	cus.StoreID = sid
 
+	dbi.Close()
 	csuc, cid := si.AddCustomer(&cus)
 	if !csuc || cid == 0 {
 		t.Fail()
@@ -77,28 +78,33 @@ func TestSix910Mysql_Customer(t *testing.T) {
 	cus.Zip = "301472"
 	cus.Phone = "123-456-7892"
 
+	dbi.Close()
 	ucsuc := si.UpdateCustomer(&cus)
 	if !ucsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fcus := si.GetCustomer("tester2@test.com", sid)
 	if fcus.ID != cid {
 		t.Fail()
 	}
 
+	dbi.Close()
 	cusList := si.GetCustomerList(sid)
 	fmt.Println("cusList", cusList)
 	if len(*cusList) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fcus2 := si.GetCustomerID(cid)
 	fmt.Println("fcus2", fcus2)
 	if fcus2.StoreID != sid {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dsuc := si.DeleteCustomer(cid)
 	if !dsuc {
 		t.Fail()

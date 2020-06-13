@@ -70,6 +70,7 @@ func TestSix910Mysql_Order(t *testing.T) {
 	odr.Total = 146.32
 	odr.Username = "billybob"
 
+	dbi.Close()
 	odrsuc, oid := si.AddOrder(&odr)
 	if !odrsuc || oid == 0 {
 		t.Fail()
@@ -95,23 +96,27 @@ func TestSix910Mysql_Order(t *testing.T) {
 	odr.Total = 146.22
 	odr.Username = "billybob2"
 
+	dbi.Close()
 	uodrsuc := si.UpdateOrder(&odr)
 	if !uodrsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fodr := si.GetOrder(oid)
 	fmt.Println("fodr: ", fodr)
 	if fodr.CustomerID != odr.CustomerID || fodr.OrderType != odr.OrderType {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fodrlist := si.GetOrderList(44)
 	fmt.Println("fodrlist: ", fodrlist)
 	if len(*fodrlist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlodr := si.DeleteOrder(oid)
 	if !dlodr {
 		t.Fail()

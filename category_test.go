@@ -73,6 +73,7 @@ func TestSix910Mysql_AddCategory(t *testing.T) {
 	cat.Name = "cars"
 	cat.StoreID = sid
 
+	dbi.Close()
 	ctsuc, ctid := si.AddCategory(&cat)
 	if !ctsuc || ctid == 0 {
 		t.Fail()
@@ -86,6 +87,7 @@ func TestSix910Mysql_AddCategory(t *testing.T) {
 	cat2.StoreID = sid
 	//cat2.ParentCategoryID = ctid
 
+	dbi.Close()
 	ctsuc2, ctid2 := si.AddCategory(&cat2)
 	if !ctsuc2 || ctid2 == 0 {
 		t.Fail()
@@ -98,29 +100,35 @@ func TestSix910Mysql_AddCategory(t *testing.T) {
 	cat2.Name = "cars3"
 	cat2.StoreID = sid
 	cat2.ParentCategoryID = ctid
+
+	dbi.Close()
 	uctsuc := si.UpdateCategory(&cat2)
 	if !uctsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fcat := si.GetCategory(ctid)
 	fmt.Println("fcat", fcat)
 	if fcat.StoreID != sid {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fcatList := si.GetCategoryList(sid)
 	fmt.Println("fcatList", fcatList)
 	if len(*fcatList) != 2 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fscatList := si.GetSubCategoryList(ctid)
 	fmt.Println("fscatList", fscatList)
 	if len(*fscatList) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dcatsuc := si.DeleteCategory(ctid)
 	if !dcatsuc {
 		t.Fail()

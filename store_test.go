@@ -44,17 +44,21 @@ func TestSix910Mysql_AddStore(t *testing.T) {
 	str.StoreSlogan = "we test for less"
 	str.Zip = "30036"
 	str.Enabled = false
+
+	dbi.Close()
 	suc, id := si.AddStore(&str)
 	if !suc || id == 0 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fstr := si.GetStore("testers fantastic store")
 	fmt.Println("found store: ", fstr)
 	if fstr.ID == 0 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fstrid := si.GetStoreID(id)
 	fmt.Println("found store by id: ", fstrid)
 	if fstrid.ID == 0 {
@@ -79,17 +83,20 @@ func TestSix910Mysql_AddStore(t *testing.T) {
 	str.Zip = "300362"
 	str.Enabled = true
 
+	dbi.Close()
 	sucu := si.UpdateStore(&str)
 	if !sucu {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fstr2 := si.GetStoreByLocal("localhost:80802")
 	fmt.Println("found store by local domain: ", fstr2)
 	if fstr2.ID == 0 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dsuc := si.DeleteStore(id)
 	fmt.Println("delete suc: ", dsuc)
 	if !dsuc {

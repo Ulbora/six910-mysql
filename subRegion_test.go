@@ -64,6 +64,7 @@ func TestSix910Mysql_SubRegion(t *testing.T) {
 	srgn.SubRegionCode = "G"
 	srgn.RegionID = rgnid
 
+	dbi.Close()
 	srgnsuc, srgnid := si.AddSubRegion(&srgn)
 	if !srgnsuc || srgnid == 0 {
 		t.Fail()
@@ -73,23 +74,27 @@ func TestSix910Mysql_SubRegion(t *testing.T) {
 	srgn.Name = "State of Georgia"
 	srgn.SubRegionCode = "GA"
 
+	dbi.Close()
 	usrgnsuc := si.UpdateSubRegion(&srgn)
 	if !usrgnsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsrgn := si.GetSubRegion(srgnid)
 	fmt.Println("fsrgn", fsrgn)
 	if fsrgn.SubRegionCode != srgn.SubRegionCode {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsrgnlist := si.GetSubRegionList(rgnid)
 	fmt.Println("fsrgnlist", fsrgnlist)
 	if len(*fsrgnlist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlsuc := si.DeleteSubRegion(srgnid)
 	if !dlsuc {
 		t.Fail()

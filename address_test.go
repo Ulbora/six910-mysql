@@ -76,6 +76,7 @@ func TestSix910Mysql_Address(t *testing.T) {
 	add.Type = "BILLING"
 	add.CustomerID = cid
 
+	dbi.Close()
 	asuc, aid := si.AddAddress(&add)
 	if !asuc || aid == 0 {
 		t.Fail()
@@ -90,23 +91,27 @@ func TestSix910Mysql_Address(t *testing.T) {
 	add.Country = "CA"
 	add.Type = "SHIPPING"
 
+	dbi.Close()
 	ausuc := si.UpdateAddress(&add)
 	if !ausuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	radd := si.GetAddress(aid)
 	fmt.Println("radd", radd)
 	if radd.CustomerID != cid {
 		t.Fail()
 	}
 
+	dbi.Close()
 	raddlist := si.GetAddressList(cid)
 	fmt.Println("raddlist", raddlist)
 	if len(*raddlist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dsuc := si.DeleteAddress(aid)
 	if !dsuc {
 		t.Fail()

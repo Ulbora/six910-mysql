@@ -94,6 +94,7 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 	sbox.ShippingAddressID = 4
 	sbox.ShippingMethodID = 55
 
+	dbi.Close()
 	sboxsuc, sboxid := si.AddShipmentBox(&sbox)
 	if !sboxsuc || sboxid == 0 {
 		t.Fail()
@@ -103,6 +104,7 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 	sbox.Dropship = false
 	sbox.Cost = 5.55
 
+	dbi.Close()
 	usboxsuc := si.UpdateShipmentBox(&sbox)
 	if !usboxsuc {
 		t.Fail()
@@ -120,6 +122,7 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsbox := si.GetShipmentBox(sboxid)
 	fmt.Println("fsbox: ", fsbox)
 	if fsbox.BoxNumber != sbox.BoxNumber {
@@ -138,6 +141,7 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fsboxlist := si.GetShipmentBoxList(shpid)
 	fmt.Println("fsboxlist: ", fsboxlist)
 	if len(*fsboxlist) != 2 {
@@ -150,6 +154,7 @@ func TestSix910Mysql_AddShipmentBox(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlsboxsuc := si.DeleteShipmentBox(sboxid2)
 	if !dlsboxsuc {
 		t.Fail()

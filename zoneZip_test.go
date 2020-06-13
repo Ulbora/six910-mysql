@@ -132,23 +132,27 @@ func TestSix910Mysql_ZoneZip(t *testing.T) {
 	zip.ExcludedSubRegionID = esrid
 	zip.IncludedSubRegionID = isrid
 
+	dbi.Close()
 	zipsuc, zipid := si.AddZoneZip(&zip)
 	if !zipsuc || zipid == 0 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	exziplist := si.GetZoneZipListByExclusion(esrid)
 	fmt.Println("exziplist: ", exziplist)
 	if len(*exziplist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	inziplist := si.GetZoneZipListByInclusion(isrid)
 	fmt.Println("inziplist: ", inziplist)
 	if len(*inziplist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlzipsuc := si.DeleteZoneZip(zipid)
 	if !dlzipsuc {
 		t.Fail()

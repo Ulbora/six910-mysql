@@ -89,11 +89,13 @@ func TestSix910Mysql_AddOrderTransaction(t *testing.T) {
 	ot.TransactionID = "6699665"
 	ot.Type = "CC"
 
+	dbi.Close()
 	otsuc, otid := si.AddOrderTransaction(&ot)
 	if !otsuc || otid == 0 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	otlist := si.GetOrderTransactionList(oid)
 	fmt.Println("otlist: ", otlist)
 	if len(*otlist) != 1 {

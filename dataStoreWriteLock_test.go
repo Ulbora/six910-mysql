@@ -58,6 +58,7 @@ func TestSix910Mysql_AddDataStoreWriteLock(t *testing.T) {
 	lc.LockedTime = time.Now()
 	lc.StoreID = sid
 
+	dbi.Close()
 	lcsuc, lcid := si.AddDataStoreWriteLock(&lc)
 	if !lcsuc || lcid == 0 {
 		t.Fail()
@@ -69,11 +70,13 @@ func TestSix910Mysql_AddDataStoreWriteLock(t *testing.T) {
 	lc.LockedInstanceName = "inst-12"
 	lc.LockedTime = time.Now().Add(time.Minute * 10)
 
+	dbi.Close()
 	ulcsuc := si.UpdateDataStoreWriteLock(&lc)
 	if !ulcsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	flc := si.GetDataStoreWriteLock("content", sid)
 	fmt.Println("flc: ", flc)
 	if flc.LockedInstanceName != lc.LockedInstanceName {

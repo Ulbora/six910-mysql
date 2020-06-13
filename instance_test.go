@@ -67,17 +67,20 @@ func TestSix910Mysql_AddInstance(t *testing.T) {
 	ins.InstanceName = "inst-1"
 	ins.ReloadDate = time.Now()
 
+	dbi.Close()
 	inssuc := si.AddInstance(&ins)
 	if !inssuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	ins.ReloadDate = time.Now().Add(time.Minute * 10)
 	uinssuc := si.UpdateInstance(&ins)
 	if !uinssuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fins := si.GetInstance("inst-1", "content", sid)
 	fmt.Println("fins: ", fins)
 	fmt.Println("fins: ", ins)

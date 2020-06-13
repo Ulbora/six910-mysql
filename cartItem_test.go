@@ -130,6 +130,7 @@ func TestSix910Mysql_AddCartItem(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	var citm sdbi.CartItem
 	citm.CartID = carid
 	citm.ProductID = pid
@@ -143,23 +144,27 @@ func TestSix910Mysql_AddCartItem(t *testing.T) {
 	citm.ID = itemid
 	citm.Quantity = 15
 
+	dbi.Close()
 	uitemSuc := si.UpdateCartItem(&citm)
 	if !uitemSuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fitem1 := si.GetCarItem(carid, pid)
 	fmt.Println("fitem1", fitem1)
 	if fitem1.Quantity != 15 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fitemlist := si.GetCartItemList(carid)
 	fmt.Println("fitemlist", fitemlist)
 	if len(*fitemlist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlsuc := si.DeleteCartItem(itemid)
 	if !dlsuc {
 		t.Fail()

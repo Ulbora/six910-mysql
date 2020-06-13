@@ -112,6 +112,7 @@ func TestSix910Mysql_AddExcludedSubRegion(t *testing.T) {
 	esr.ShippingMethodID = smid
 	esr.SubRegionID = srgnid
 
+	dbi.Close()
 	esrsuc, esrid := si.AddExcludedSubRegion(&esr)
 	if !esrsuc || esrid == 0 {
 		t.Fail()
@@ -129,12 +130,14 @@ func TestSix910Mysql_AddExcludedSubRegion(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
 	fesrlist := si.GetExcludedSubRegionList(rgnid)
 	fmt.Println("fesrlist: ", fesrlist)
 	if len(*fesrlist) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlesrsuc := si.DeleteExcludedSubRegion(esrid)
 	if !dlesrsuc {
 		t.Fail()

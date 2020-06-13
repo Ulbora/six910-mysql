@@ -54,6 +54,7 @@ func TestSix910Mysql_AddRegion(t *testing.T) {
 	rgn.RegionCode = "US"
 	rgn.StoreID = sid
 
+	dbi.Close()
 	rgnsuc, rgnid := si.AddRegion(&rgn)
 	if !rgnsuc || rgnid == 0 {
 		t.Fail()
@@ -63,23 +64,27 @@ func TestSix910Mysql_AddRegion(t *testing.T) {
 	rgn.Name = "United States of America"
 	rgn.RegionCode = "USA"
 
+	dbi.Close()
 	urgnsuc := si.UpdateRegion(&rgn)
 	if !urgnsuc {
 		t.Fail()
 	}
 
+	dbi.Close()
 	frgn := si.GetRegion(rgnid)
 	fmt.Println("frgn", frgn)
 	if frgn.RegionCode != rgn.RegionCode {
 		t.Fail()
 	}
 
+	dbi.Close()
 	frgnList := si.GetRegionList(sid)
 	fmt.Println("frgnList", frgnList)
 	if len(*frgnList) != 1 {
 		t.Fail()
 	}
 
+	dbi.Close()
 	dlsuc := si.DeleteRegion(rgnid)
 	if !dlsuc {
 		t.Fail()
