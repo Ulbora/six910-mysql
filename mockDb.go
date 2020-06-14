@@ -44,6 +44,7 @@ type MockSix910Mysql struct {
 	MockStoreID            int64
 	MockUpdateStoreSuccess bool
 	MockStore              *mdb.Store
+	MockStoreCount         int64
 	MockDeleteStoreSuccess bool
 
 	MockAddCustomerSuccess    bool

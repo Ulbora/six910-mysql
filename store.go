@@ -90,6 +90,24 @@ func (d *Six910Mysql) GetStoreByLocal(localDomain string) *mdb.Store {
 	return rtn
 }
 
+//GetStoreCount GetStoreCount
+func (d *Six910Mysql) GetStoreCount() int64 {
+	var rtn int64
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	row := d.DB.Get(getStoreCount, a...)
+	if len(row.Row) > 0 {
+		cnt, err := strconv.ParseInt((row.Row)[0], 10, 64)
+		d.Log.Debug("store count err", err)
+		if err == nil {
+			rtn = cnt
+		}
+	}
+	return rtn
+}
+
 //DeleteStore DeleteStore
 func (d *Six910Mysql) DeleteStore(id int64) bool {
 	if !d.testConnection() {

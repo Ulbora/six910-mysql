@@ -69,6 +69,11 @@ func (d *MockSix910Mysql) GetStoreByLocal(localDomain string) *mdb.Store {
 	return d.MockStore
 }
 
+//GetStoreCount GetStoreCount
+func (d *MockSix910Mysql) GetStoreCount() int64 {
+	return d.MockStoreCount
+}
+
 //DeleteStore DeleteStore
 func (d *MockSix910Mysql) DeleteStore(id int64) bool {
 	return d.MockDeleteStoreSuccess

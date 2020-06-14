@@ -76,6 +76,12 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	sdb.MockStoreCount = 3
+	scnt := si.GetStoreCount()
+	if scnt != 3 {
+		t.Fail()
+	}
+
 	sdb.MockDeleteStoreSuccess = true
 
 	dlstr := si.DeleteStore(1)

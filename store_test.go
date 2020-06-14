@@ -97,6 +97,13 @@ func TestSix910Mysql_AddStore(t *testing.T) {
 	}
 
 	dbi.Close()
+	cnt := si.GetStoreCount()
+	fmt.Println("store count: ", cnt)
+	if cnt == 0 {
+		t.Fail()
+	}
+
+	dbi.Close()
 	dsuc := si.DeleteStore(id)
 	fmt.Println("delete suc: ", dsuc)
 	if !dsuc {

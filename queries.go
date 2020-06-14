@@ -54,6 +54,9 @@ const (
 		" FROM store " +
 		" WHERE local_domain = ? "
 
+	getStoreCount = " SELECT count(*) as cnt " +
+		" FROM store "
+
 	deleteStore = "DELETE FROM store WHERE id = ? "
 
 	insertCustomer = "INSERT into customer(email, reset_password, first_name, last_name, " +
