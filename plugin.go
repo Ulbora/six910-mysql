@@ -71,7 +71,7 @@ func (d *Six910Mysql) GetPluginList(start int64, end int64) *[]mdb.Plugins {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Plugins
+	var rtn = []mdb.Plugins{}
 	var a []interface{}
 	a = append(a, start, end)
 	rows := d.DB.GetList(getPluginList, a...)

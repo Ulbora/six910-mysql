@@ -70,7 +70,7 @@ func (d *Six910Mysql) GetShippingMethodList(storeID int64) *[]mdb.ShippingMethod
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.ShippingMethod
+	var rtn = []mdb.ShippingMethod{}
 	var a []interface{}
 	a = append(a, storeID)
 	rows := d.DB.GetList(getShippingMethodList, a...)

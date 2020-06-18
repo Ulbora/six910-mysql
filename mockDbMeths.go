@@ -736,6 +736,11 @@ func (d *MockSix910Mysql) UpdatePaymentGateway(pgw *mdb.PaymentGateway) bool {
 	return d.MockUpdatePaymentGatewaySuccess
 }
 
+//GetPaymentGateway GetPaymentGateway
+func (d *MockSix910Mysql) GetPaymentGateway(id int64) *mdb.PaymentGateway {
+	return d.MockPaymentGateway
+}
+
 //GetPaymentGateways GetPaymentGateways
 func (d *MockSix910Mysql) GetPaymentGateways(storeID int64) *[]mdb.PaymentGateway {
 	return d.MockPaymentGatewayList
@@ -756,6 +761,11 @@ func (d *MockSix910Mysql) AddShippingCarrier(c *mdb.ShippingCarrier) (bool, int6
 //UpdateShippingCarrier UpdateShippingCarrier
 func (d *MockSix910Mysql) UpdateShippingCarrier(c *mdb.ShippingCarrier) bool {
 	return d.MockUpdateShippingMethodSuccess
+}
+
+//GetShippingCarrier GetShippingCarrier
+func (d *MockSix910Mysql) GetShippingCarrier(id int64) *mdb.ShippingCarrier {
+	return d.MockShippingCarrier
 }
 
 //GetShippingCarrierList GetShippingCarrierList

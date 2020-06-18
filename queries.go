@@ -283,6 +283,10 @@ const (
 
 	updateShippingCarrier = "UPDATE shipping_carrier SET carrier = ?, type = ? WHERE id = ? "
 
+	getShipmentCarrier = "SELECT id, carrier, type, store_id " +
+		" FROM shipping_carrier " +
+		" WHERE id = ? "
+
 	getShippingCarrierList = "SELECT id, carrier, type, store_id " +
 		" FROM shipping_carrier " +
 		" WHERE store_id = ? "
@@ -414,6 +418,11 @@ const (
 
 	updatePaymentGateway = "UPDATE payment_gateway SET checkout_url = ?, post_order_url = ?, logo_url = ?, " +
 		" client_id = ?, client_key = ? " +
+		" WHERE id = ? "
+
+	getPaymentGateway = "SELECT id, store_plugins_id, checkout_url, post_order_url, logo_url, " +
+		" client_id, client_key " +
+		" FROM payment_gateway " +
 		" WHERE id = ? "
 
 	getPaymentGatewayByStore = " SELECT g.id, g.store_plugins_id, g.checkout_url, " +

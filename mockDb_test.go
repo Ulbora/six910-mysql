@@ -973,6 +973,11 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	sdb.MockPaymentGateway = &pgw
+	fpgw := si.GetPaymentGateway(4)
+	if fpgw.CheckoutURL != pgw.CheckoutURL {
+		t.Fail()
+	}
 	var pgwlst []sdbi.PaymentGateway
 	pgwlst = append(pgwlst, pgw)
 
@@ -1005,6 +1010,12 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	}
 
 	var sclst []sdbi.ShippingCarrier
+
+	sdb.MockShippingCarrier = &sc
+	fsc := si.GetShippingCarrier(5)
+	if fsc.Carrier != sc.Carrier {
+		t.Fail()
+	}
 	sclst = append(sclst, sc)
 	sdb.MockShippingCarrierList = &sclst
 	fsclst := si.GetShippingCarrierList(4)

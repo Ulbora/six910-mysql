@@ -69,7 +69,7 @@ func (d *Six910Mysql) GetCategoryList(storeID int64) *[]mdb.Category {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Category
+	var rtn = []mdb.Category{}
 	var a []interface{}
 	a = append(a, storeID)
 	rows := d.DB.GetList(getCategoryList, a...)
@@ -89,7 +89,7 @@ func (d *Six910Mysql) GetSubCategoryList(catID int64) *[]mdb.Category {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Category
+	var rtn = []mdb.Category{}
 	var a []interface{}
 	a = append(a, catID)
 	rows := d.DB.GetList(getSubCategoryList, a...)

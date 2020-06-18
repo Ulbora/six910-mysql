@@ -109,6 +109,13 @@ func TestSix910Mysql_Customer(t *testing.T) {
 	if !dsuc {
 		t.Fail()
 	}
+
+	cusList2 := si.GetCustomerList(sid)
+	fmt.Println("cusList", cusList2)
+	if len(*cusList2) != 0 {
+		t.Fail()
+	}
+
 	dssuc := si.DeleteStore(sid)
 	fmt.Println("delete store in customer suc: ", dssuc)
 	if !dssuc {

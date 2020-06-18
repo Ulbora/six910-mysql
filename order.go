@@ -74,7 +74,7 @@ func (d *Six910Mysql) GetOrderList(cid int64) *[]mdb.Order {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Order
+	var rtn = []mdb.Order{}
 	var a []interface{}
 	a = append(a, cid)
 	rows := d.DB.GetList(getOrderByCid, a...)

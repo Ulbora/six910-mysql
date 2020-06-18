@@ -54,12 +54,24 @@ func (d *Six910Mysql) UpdatePaymentGateway(pgw *mdb.PaymentGateway) bool {
 	return suc
 }
 
+//GetPaymentGateway GetPaymentGateway
+func (d *Six910Mysql) GetPaymentGateway(id int64) *mdb.PaymentGateway {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getPaymentGateway, a...)
+	rtn := d.parsePaymentGatewayRow(&row.Row)
+	return rtn
+}
+
 //GetPaymentGateways GetPaymentGateways
 func (d *Six910Mysql) GetPaymentGateways(storeID int64) *[]mdb.PaymentGateway {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.PaymentGateway
+	var rtn = []mdb.PaymentGateway{}
 	var a []interface{}
 	a = append(a, storeID)
 	rows := d.DB.GetList(getPaymentGatewayByStore, a...)

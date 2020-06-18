@@ -72,7 +72,7 @@ func (d *Six910Mysql) GetShipmentBoxList(shipmentID int64) *[]mdb.ShipmentBox {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.ShipmentBox
+	var rtn = []mdb.ShipmentBox{}
 	var a []interface{}
 	a = append(a, shipmentID)
 	rows := d.DB.GetList(getShipmentBoxList, a...)

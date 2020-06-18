@@ -71,6 +71,13 @@ func TestSix910Mysql_AddShippingCarrier(t *testing.T) {
 	}
 
 	dbi.Close()
+	fsc := si.GetShippingCarrier(scid)
+	fmt.Println("fsc: ", fsc)
+	if fsc.Carrier != sc.Carrier {
+		t.Fail()
+	}
+
+	dbi.Close()
 	fsclist := si.GetShippingCarrierList(sid)
 	fmt.Println("fsclist: ", fsclist)
 	if len(*fsclist) != 1 {

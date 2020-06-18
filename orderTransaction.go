@@ -48,7 +48,7 @@ func (d *Six910Mysql) GetOrderTransactionList(orderID int64) *[]mdb.OrderTransac
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.OrderTransaction
+	var rtn = []mdb.OrderTransaction{}
 	var a []interface{}
 	a = append(a, orderID)
 	rows := d.DB.GetList(getOrderTransaction, a...)

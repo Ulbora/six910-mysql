@@ -83,7 +83,7 @@ func (d *Six910Mysql) GetStorePluginList(storeID int64) *[]mdb.StorePlugins {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.StorePlugins
+	var rtn = []mdb.StorePlugins{}
 	var a []interface{}
 	a = append(a, storeID)
 	rows := d.DB.GetList(getStorePluginList, a...)

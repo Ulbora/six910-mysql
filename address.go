@@ -69,7 +69,7 @@ func (d *Six910Mysql) GetAddressList(cid int64) *[]mdb.Address {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Address
+	var rtn = []mdb.Address{}
 	var a []interface{}
 	a = append(a, cid)
 	rows := d.DB.GetList(getAddressList, a...)

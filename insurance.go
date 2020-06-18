@@ -69,7 +69,7 @@ func (d *Six910Mysql) GetInsuranceList(storeID int64) *[]mdb.Insurance {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Insurance
+	var rtn = []mdb.Insurance{}
 	var a []interface{}
 	a = append(a, storeID)
 	rows := d.DB.GetList(getInsuranceList, a...)

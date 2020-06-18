@@ -117,6 +117,12 @@ func TestSix910Mysql_Address(t *testing.T) {
 		t.Fail()
 	}
 
+	raddlist2 := si.GetAddressList(cid)
+	fmt.Println("raddlist", raddlist2)
+	if len(*raddlist2) != 0 {
+		t.Fail()
+	}
+
 	dssuc := si.DeleteStore(sid)
 	fmt.Println("delete store in customer suc: ", dssuc)
 	if !dssuc {

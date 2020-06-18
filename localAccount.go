@@ -70,7 +70,7 @@ func (d *Six910Mysql) GetLocalAccountList(store int64) *[]mdb.LocalAccount {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.LocalAccount
+	var rtn = []mdb.LocalAccount{}
 	var a []interface{}
 	a = append(a, store)
 	rows := d.DB.GetList(getLocalAccountList, a...)

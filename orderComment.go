@@ -46,7 +46,7 @@ func (d *Six910Mysql) GetOrderCommentList(orderID int64) *[]mdb.OrderComment {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.OrderComment
+	var rtn = []mdb.OrderComment{}
 	var a []interface{}
 	a = append(a, orderID)
 	rows := d.DB.GetList(getOrderCommentList, a...)

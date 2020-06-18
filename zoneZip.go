@@ -46,7 +46,7 @@ func (d *Six910Mysql) GetZoneZipListByExclusion(exID int64) *[]mdb.ZoneZip {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.ZoneZip
+	var rtn = []mdb.ZoneZip{}
 	var a []interface{}
 	a = append(a, exID)
 	rows := d.DB.GetList(getZipExclustionList, a...)
@@ -66,7 +66,7 @@ func (d *Six910Mysql) GetZoneZipListByInclusion(incID int64) *[]mdb.ZoneZip {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.ZoneZip
+	var rtn = []mdb.ZoneZip{}
 	var a []interface{}
 	a = append(a, incID)
 	rows := d.DB.GetList(getZipInclustionList, a...)

@@ -69,7 +69,7 @@ func (d *Six910Mysql) GetCartItemList(cartID int64) *[]mdb.CartItem {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.CartItem
+	var rtn = []mdb.CartItem{}
 	var a []interface{}
 	a = append(a, cartID)
 	rows := d.DB.GetList(getCartItemList, a...)

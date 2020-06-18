@@ -116,6 +116,13 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	}
 
 	dbi.Close()
+	fpgw := si.GetPaymentGateway(pgwid)
+	fmt.Println("fpgw: ", fpgw)
+	if fpgw.ClientID != pgw.ClientID {
+		t.Fail()
+	}
+
+	dbi.Close()
 	fpgwliststr := si.GetPaymentGateways(sid)
 	fmt.Println("fpgw: ", fpgwliststr)
 	if len(*fpgwliststr) != 1 {

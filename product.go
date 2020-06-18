@@ -80,7 +80,7 @@ func (d *Six910Mysql) GetProductsByName(name string, start int64, end int64) *[]
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Product
+	var rtn = []mdb.Product{}
 	var a []interface{}
 	a = append(a, "%"+name+"%", start, end)
 	rows := d.DB.GetList(getProductByName, a...)
@@ -100,7 +100,7 @@ func (d *Six910Mysql) GetProductsByCaterory(catID int64, start int64, end int64)
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Product
+	var rtn = []mdb.Product{}
 	var a []interface{}
 	a = append(a, catID, start, end)
 	rows := d.DB.GetList(getProductByCat, a...)
@@ -120,7 +120,7 @@ func (d *Six910Mysql) GetProductList(storeID int64, start int64, end int64) *[]m
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Product
+	var rtn = []mdb.Product{}
 	var a []interface{}
 	a = append(a, storeID, start, end)
 	rows := d.DB.GetList(getProductByStore, a...)

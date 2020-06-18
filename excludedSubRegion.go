@@ -58,7 +58,7 @@ func (d *Six910Mysql) GetExcludedSubRegionList(regionID int64) *[]mdb.ExcludedSu
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.ExcludedSubRegion
+	var rtn = []mdb.ExcludedSubRegion{}
 	var a []interface{}
 	a = append(a, regionID)
 	rows := d.DB.GetList(getExcludedSubRegionList, a...)

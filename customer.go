@@ -72,7 +72,7 @@ func (d *Six910Mysql) GetCustomerList(storeID int64) *[]mdb.Customer {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Customer
+	var rtn = []mdb.Customer{}
 	var a []interface{}
 	a = append(a, storeID)
 	rows := d.DB.GetList(getCustemerList, a...)

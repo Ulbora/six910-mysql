@@ -52,12 +52,24 @@ func (d *Six910Mysql) UpdateShippingCarrier(c *mdb.ShippingCarrier) bool {
 	return suc
 }
 
+//GetShippingCarrier GetShippingCarrier
+func (d *Six910Mysql) GetShippingCarrier(id int64) *mdb.ShippingCarrier {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getShipmentCarrier, a...)
+	rtn := d.parseShippingCarrierRow(&row.Row)
+	return rtn
+}
+
 //GetShippingCarrierList GetShippingCarrierList
 func (d *Six910Mysql) GetShippingCarrierList(storeID int64) *[]mdb.ShippingCarrier {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.ShippingCarrier
+	var rtn = []mdb.ShippingCarrier{}
 	var a []interface{}
 	a = append(a, storeID)
 	rows := d.DB.GetList(getShippingCarrierList, a...)

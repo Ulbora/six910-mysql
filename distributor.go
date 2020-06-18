@@ -69,7 +69,7 @@ func (d *Six910Mysql) GetDistributorList(store int64) *[]mdb.Distributor {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.Distributor
+	var rtn = []mdb.Distributor{}
 	var a []interface{}
 	a = append(a, store)
 	rows := d.DB.GetList(getDistributorList, a...)

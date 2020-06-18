@@ -69,7 +69,7 @@ func (d *Six910Mysql) GetSubRegionList(regionID int64) *[]mdb.SubRegion {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
-	var rtn []mdb.SubRegion
+	var rtn = []mdb.SubRegion{}
 	var a []interface{}
 	a = append(a, regionID)
 	rows := d.DB.GetList(getSubRegionList, a...)
