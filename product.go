@@ -76,13 +76,13 @@ func (d *Six910Mysql) GetProductByID(id int64) *mdb.Product {
 }
 
 //GetProductsByName GetProductsByName
-func (d *Six910Mysql) GetProductsByName(name string, start int64, end int64) *[]mdb.Product {
+func (d *Six910Mysql) GetProductsByName(name string, storeID int64, start int64, end int64) *[]mdb.Product {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
 	var rtn = []mdb.Product{}
 	var a []interface{}
-	a = append(a, "%"+name+"%", start, end)
+	a = append(a, "%"+name+"%", storeID, start, end)
 	rows := d.DB.GetList(getProductByName, a...)
 	if rows != nil && len(rows.Rows) != 0 {
 		foundRows := rows.Rows

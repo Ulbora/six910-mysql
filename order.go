@@ -70,13 +70,13 @@ func (d *Six910Mysql) GetOrder(id int64) *mdb.Order {
 }
 
 //GetOrderList GetOrderList
-func (d *Six910Mysql) GetOrderList(cid int64) *[]mdb.Order {
+func (d *Six910Mysql) GetOrderList(cid int64, storeID int64) *[]mdb.Order {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
 	var rtn = []mdb.Order{}
 	var a []interface{}
-	a = append(a, cid)
+	a = append(a, cid, storeID)
 	rows := d.DB.GetList(getOrderByCid, a...)
 	if rows != nil && len(rows.Rows) != 0 {
 		foundRows := rows.Rows

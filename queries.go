@@ -198,7 +198,7 @@ const (
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type " +
 		" FROM product " +
-		" WHERE name like ? LIMIT ?, ? "
+		" WHERE name like ? and store_id = ? LIMIT ?, ? "
 
 	getProductByCat = "SELECT p.id, p.sku, p.gtin, p.name, p.short_description, p.description, " +
 		" p.cost, p.msrp, p.map, p.price, p.sale_price, p.currency, p.manufacturer, p.stock, p.stock_alert, p.weight, " +
@@ -488,7 +488,7 @@ const (
 		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
 		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username" +
 		" FROM orders " +
-		" WHERE customer_id = ? "
+		" WHERE customer_id = ? and store_id = ? "
 
 	deleteOrder = "DELETE FROM orders WHERE id = ? "
 

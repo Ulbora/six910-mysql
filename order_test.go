@@ -110,7 +110,7 @@ func TestSix910Mysql_Order(t *testing.T) {
 	}
 
 	dbi.Close()
-	fodrlist := si.GetOrderList(44)
+	fodrlist := si.GetOrderList(44, sid)
 	fmt.Println("fodrlist: ", fodrlist)
 	if len(*fodrlist) != 1 {
 		t.Fail()

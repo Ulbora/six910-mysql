@@ -345,7 +345,7 @@ func (d *MockSix910Mysql) GetProductByID(id int64) *mdb.Product {
 }
 
 //GetProductsByName GetProductsByName
-func (d *MockSix910Mysql) GetProductsByName(name string, start int64, end int64) *[]mdb.Product {
+func (d *MockSix910Mysql) GetProductsByName(name string, storeID int64, start int64, end int64) *[]mdb.Product {
 	return d.MockProductList
 }
 
@@ -524,7 +524,7 @@ func (d *MockSix910Mysql) GetOrder(id int64) *mdb.Order {
 }
 
 //GetOrderList GetOrderList
-func (d *MockSix910Mysql) GetOrderList(cid int64) *[]mdb.Order {
+func (d *MockSix910Mysql) GetOrderList(cid int64, storeID int64) *[]mdb.Order {
 	return d.MockOrderList
 }
 

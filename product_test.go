@@ -197,7 +197,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	}
 
 	dbi.Close()
-	fprodn := si.GetProductsByName("well2", 0, 100)
+	fprodn := si.GetProductsByName("well2", sid, 0, 100)
 	fmt.Println("fprodn", fprodn)
 	if len(*fprodn) != 1 {
 		t.Fail()

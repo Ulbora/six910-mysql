@@ -461,7 +461,7 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
-	fprodlst3 := si.GetProductsByName("tst", 3, 3)
+	fprodlst3 := si.GetProductsByName("tst", 5, 3, 3)
 	if len(*fprodlst3) != 1 {
 		t.Fail()
 	}
@@ -694,7 +694,7 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	var odrlst []sdbi.Order
 	odrlst = append(odrlst, odr)
 	sdb.MockOrderList = &odrlst
-	fodrlst := si.GetOrderList(4)
+	fodrlst := si.GetOrderList(4, 6)
 	if len(*fodrlst) != 1 {
 		t.Fail()
 	}
