@@ -503,7 +503,7 @@ func (d *MockSix910Mysql) AddProductCategory(pc *mdb.ProductCategory) bool {
 
 //DeleteProductCategory DeleteProductCategory
 func (d *MockSix910Mysql) DeleteProductCategory(pc *mdb.ProductCategory) bool {
-	return d.MockDeleteProductSuccess
+	return d.MockDeleteProductCategorySuccess
 }
 
 //Orders
