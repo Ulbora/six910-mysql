@@ -760,7 +760,7 @@ func (d *MockSix910Mysql) AddShippingCarrier(c *mdb.ShippingCarrier) (bool, int6
 
 //UpdateShippingCarrier UpdateShippingCarrier
 func (d *MockSix910Mysql) UpdateShippingCarrier(c *mdb.ShippingCarrier) bool {
-	return d.MockUpdateShippingMethodSuccess
+	return d.MockUpdateShippingCarrierSuccess
 }
 
 //GetShippingCarrier GetShippingCarrier
