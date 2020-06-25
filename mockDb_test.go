@@ -66,6 +66,12 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	sdb.MockStore = &str
+	flstr := si.GetLocalStore()
+	if flstr.StoreName != "test" {
+		t.Fail()
+	}
+
 	fstr2 := si.GetStoreID(1)
 	if fstr2.StoreName != "test" {
 		t.Fail()

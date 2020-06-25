@@ -59,6 +59,11 @@ func (d *MockSix910Mysql) GetStore(sname string) *mdb.Store {
 	return d.MockStore
 }
 
+//GetLocalStore GetLocalStore
+func (d *MockSix910Mysql) GetLocalStore() *mdb.Store {
+	return d.MockStore
+}
+
 //GetStoreID GetStoreID
 func (d *MockSix910Mysql) GetStoreID(id int64) *mdb.Store {
 	return d.MockStore

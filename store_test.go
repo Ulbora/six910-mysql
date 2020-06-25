@@ -104,6 +104,13 @@ func TestSix910Mysql_AddStore(t *testing.T) {
 	}
 
 	dbi.Close()
+	lstr := si.GetLocalStore()
+	fmt.Println("found local store : ", lstr)
+	if lstr == nil || lstr.ID == 0 {
+		t.Fail()
+	}
+
+	dbi.Close()
 	dsuc := si.DeleteStore(id)
 	fmt.Println("delete suc: ", dsuc)
 	if !dsuc {

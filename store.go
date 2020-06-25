@@ -66,6 +66,31 @@ func (d *Six910Mysql) GetStore(sname string) *mdb.Store {
 	return rtn
 }
 
+//GetLocalStore GetLocalStore
+func (d *Six910Mysql) GetLocalStore() *mdb.Store {
+	var rtn *mdb.Store
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	if !d.GetSecurity().OauthOn {
+		var a []interface{}
+		//a = append(a, sname)
+		rows := d.DB.GetList(getAllStores, a...)
+		if rows != nil && len(rows.Rows) == 1 {
+			foundRows := rows.Rows
+			for r := range foundRows {
+				foundRow := foundRows[r]
+				rtn = d.parseStoreRow(&foundRow)
+				break
+				//rowContent := d.parseShippingMethodRow(&foundRow)
+				//rtn = append(rtn, *rowContent)
+			}
+		}
+		//rtn = d.parseStoreRow(&row.Row)
+	}
+	return rtn
+}
+
 //GetStoreID GetStoreID
 func (d *Six910Mysql) GetStoreID(id int64) *mdb.Store {
 	if !d.testConnection() {

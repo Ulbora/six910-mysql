@@ -47,6 +47,10 @@ const (
 		" store_name, store_slogan, logo, currency, enabled " +
 		" FROM store " +
 		" WHERE id = ? "
+	getAllStores = "SELECT id, company, first_name, last_name, local_domain, remote_domain, " +
+		" oauth_client_id, oauth_secret, email, city, state, zip, date_entered, date_updated, " +
+		" store_name, store_slogan, logo, currency, enabled " +
+		" FROM store "
 
 	getStoreByLocalDomain = "SELECT id, company, first_name, last_name, local_domain, remote_domain, " +
 		" oauth_client_id, oauth_secret, email, city, state, zip, date_entered, date_updated, " +
