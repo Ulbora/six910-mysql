@@ -126,7 +126,8 @@ func TestSix910Mysql_AddIncludedSubRegion(t *testing.T) {
 
 	// this is not implemented
 	fisr := si.GetIncludedSubRegion(isrid)
-	if fisr != nil {
+	fmt.Println("fisr: ", fisr)
+	if fisr == nil {
 		t.Fail()
 	}
 

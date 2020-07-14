@@ -49,8 +49,14 @@ func (d *Six910Mysql) UpdateExcludedSubRegion(e *mdb.ExcludedSubRegion) bool {
 
 //GetExcludedSubRegion GetExcludedSubRegion
 func (d *Six910Mysql) GetExcludedSubRegion(id int64) *mdb.ExcludedSubRegion {
-	//will not be implemented at this stage
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getExcludedSubRegion, a...)
+	rtn := d.parseExcludedSubRegionRow(&row.Row)
+	return rtn
 }
 
 //GetExcludedSubRegionList GetExcludedSubRegionList

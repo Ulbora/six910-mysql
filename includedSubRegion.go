@@ -49,8 +49,14 @@ func (d *Six910Mysql) UpdateIncludedSubRegion(e *mdb.IncludedSubRegion) bool {
 
 //GetIncludedSubRegion GetIncludedSubRegion
 func (d *Six910Mysql) GetIncludedSubRegion(id int64) *mdb.IncludedSubRegion {
-	//will not be implemented at this stage
-	return nil
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, id)
+	row := d.DB.Get(getIncludedSubRegion, a...)
+	rtn := d.parseIncludedSubRegionRow(&row.Row)
+	return rtn
 }
 
 //GetIncludedSubRegionList GetIncludedSubRegionList

@@ -333,6 +333,10 @@ const (
 	insertIncludedSubRegion = "INSERT INTO included_sub_region (region_id, sub_region_id, " +
 		" shipping_method_id) values(?, ?, ?) "
 
+	getIncludedSubRegion = "SELECT id, region_id, sub_region_id, shipping_method_id " +
+		" FROM included_sub_region " +
+		" WHERE id = ? "
+
 	getIncludedSubRegionList = "SELECT id, region_id, sub_region_id, shipping_method_id " +
 		" FROM included_sub_region " +
 		" WHERE region_id = ? "
@@ -341,6 +345,10 @@ const (
 
 	insertExcludedSubRegion = "INSERT INTO excluded_sub_region (region_id, sub_region_id, " +
 		" shipping_method_id) values(?, ?, ?) "
+
+	getExcludedSubRegion = "SELECT id, region_id, sub_region_id, shipping_method_id " +
+		" FROM excluded_sub_region " +
+		" WHERE id = ? "
 
 	getExcludedSubRegionList = "SELECT id, region_id, sub_region_id, shipping_method_id " +
 		" FROM excluded_sub_region " +

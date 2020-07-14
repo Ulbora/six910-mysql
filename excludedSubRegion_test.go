@@ -126,7 +126,8 @@ func TestSix910Mysql_AddExcludedSubRegion(t *testing.T) {
 
 	// this is not implemented
 	fesr := si.GetExcludedSubRegion(esrid)
-	if fesr != nil {
+	fmt.Println("fesr: ", fesr)
+	if fesr == nil {
 		t.Fail()
 	}
 
