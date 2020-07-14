@@ -35,7 +35,7 @@ func (d *Six910Mysql) AddOrder(o *mdb.Order) (bool, int64) {
 		d.DB.Connect()
 	}
 	var a []interface{}
-	a = append(a, o.OrderDate, o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
+	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.CustomerID, o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
 		o.ShippingAddress, o.StoreID, o.OrderNumber, o.OrderType, o.Pickup, o.Username)
 	suc, id := d.DB.Insert(insertOrder, a...)
@@ -50,7 +50,7 @@ func (d *Six910Mysql) UpdateOrder(o *mdb.Order) bool {
 		d.DB.Connect()
 	}
 	var a []interface{}
-	a = append(a, o.Updated, o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
+	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
 		o.ShippingAddress, o.OrderType, o.Pickup, o.Username, o.ID)
 	suc := d.DB.Update(updateOrder, a...)
