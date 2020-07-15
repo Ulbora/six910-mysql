@@ -606,7 +606,7 @@ const (
 		" FROM  shipment_item si " +
 		" inner join shipment_box sb " +
 		" on sb.id = si.shipment_box_id " +
-		" WHERE sb.box_number = ? "
+		" WHERE sb.box_number = ? and si.shipment_id = ?"
 
 	deleteShipmentItem = "DELETE FROM shipment_item WHERE id = ? "
 )

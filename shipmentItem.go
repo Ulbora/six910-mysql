@@ -86,13 +86,13 @@ func (d *Six910Mysql) GetShipmentItemList(shipmentID int64) *[]mdb.ShipmentItem 
 }
 
 //GetShipmentItemListByBox GetShipmentItemListByBox
-func (d *Six910Mysql) GetShipmentItemListByBox(boxNumber int64) *[]mdb.ShipmentItem {
+func (d *Six910Mysql) GetShipmentItemListByBox(boxNumber int64, shipmentID int64) *[]mdb.ShipmentItem {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
 	var rtn = []mdb.ShipmentItem{}
 	var a []interface{}
-	a = append(a, boxNumber)
+	a = append(a, boxNumber, shipmentID)
 	rows := d.DB.GetList(getShipmentItemsInBox, a...)
 	if rows != nil && len(rows.Rows) != 0 {
 		foundRows := rows.Rows

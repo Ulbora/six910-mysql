@@ -148,7 +148,7 @@ func TestSix910Mysql_ShipmentItem(t *testing.T) {
 	}
 
 	dbi.Close()
-	fsitmList2 := si.GetShipmentItemListByBox(1)
+	fsitmList2 := si.GetShipmentItemListByBox(1, shpid)
 	fmt.Println("fsitmList2: ", fsitmList2)
 	if len(*fsitmList2) != 1 {
 		t.Fail()

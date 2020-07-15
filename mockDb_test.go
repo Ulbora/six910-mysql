@@ -891,7 +891,7 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
-	fshpitlst2 := si.GetShipmentItemListByBox(1)
+	fshpitlst2 := si.GetShipmentItemListByBox(1, 5)
 	if len(*fshpitlst2) != 1 {
 		t.Fail()
 	}
@@ -959,6 +959,23 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	sdb.MockStorePlugin = &spi
 	fspi := si.GetStorePlugin(5)
 	if fspi.APIKey != spi.APIKey {
+		t.Fail()
+	}
+
+	var splst []sdbi.StorePlugins
+	splst = append(splst, spi)
+
+	sdb.MockStorePluginList = &splst
+
+	fsplst := si.GetStorePluginList(4)
+	if len(*fsplst) != 1 {
+		t.Fail()
+	}
+
+	sdb.MockDeleteStorePluginSuccess = true
+
+	dspisuc := si.DeleteStorePlugin(3)
+	if !dspisuc {
 		t.Fail()
 	}
 

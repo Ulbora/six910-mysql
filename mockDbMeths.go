@@ -666,7 +666,7 @@ func (d *MockSix910Mysql) GetShipmentItemList(shipmentID int64) *[]mdb.ShipmentI
 }
 
 //GetShipmentItemListByBox GetShipmentItemListByBox
-func (d *MockSix910Mysql) GetShipmentItemListByBox(boxNumber int64) *[]mdb.ShipmentItem {
+func (d *MockSix910Mysql) GetShipmentItemListByBox(boxNumber int64, shipmentID int64) *[]mdb.ShipmentItem {
 	return d.MockShipmentItemList
 }
 
