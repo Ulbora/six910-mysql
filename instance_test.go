@@ -88,6 +88,14 @@ func TestSix910Mysql_AddInstance(t *testing.T) {
 		t.Fail()
 	}
 
+	dbi.Close()
+	finsl := si.GetInstanceList("content", sid)
+	fmt.Println("finsl: ", finsl)
+	fmt.Println("ins: ", ins)
+	if (*finsl)[0].InstanceName != ins.InstanceName {
+		t.Fail()
+	}
+
 	dssuc := si.DeleteStore(sid)
 	fmt.Println("delete store in suc: ", dssuc)
 	if !dssuc {

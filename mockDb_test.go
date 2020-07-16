@@ -1094,6 +1094,14 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	var instlst []sdbi.Instances
+	instlst = append(instlst, inst)
+	sdb.MockInstancesList = &instlst
+	finstl := si.GetInstanceList("store", 3)
+	if (*finstl)[0].DataStoreName != inst.DataStoreName {
+		t.Fail()
+	}
+
 	var lc sdbi.DataStoreWriteLock
 	lc.DataStoreName = "content"
 

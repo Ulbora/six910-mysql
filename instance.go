@@ -71,6 +71,26 @@ func (d *Six910Mysql) GetInstance(name string, dataStoreName string, storeID int
 	return rtn
 }
 
+//GetInstanceList GetInstanceList
+func (d *Six910Mysql) GetInstanceList(dataStoreName string, storeID int64) *[]mdb.Instances {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []mdb.Instances{}
+	var a []interface{}
+	a = append(a, storeID, dataStoreName)
+	rows := d.DB.GetList(getInstancesList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseInstanceRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
+}
+
 func (d *Six910Mysql) parseInstanceRow(foundRow *[]string) *mdb.Instances {
 	d.Log.Debug("foundRow in get Instances", *foundRow)
 	var rtn mdb.Instances

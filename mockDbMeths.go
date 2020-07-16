@@ -833,6 +833,11 @@ func (d *MockSix910Mysql) GetInstance(name string, dataStoreName string, storeID
 	return d.MockInstances
 }
 
+//GetInstanceList GetInstanceList
+func (d *MockSix910Mysql) GetInstanceList(dataStoreName string, storeID int64) *[]mdb.Instances {
+	return d.MockInstancesList
+}
+
 //-------------------start write lock-------------
 //gets called after UI makes changes to one of the datastores
 //If the datastore already exists, the Update method is called from within add

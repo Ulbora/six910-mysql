@@ -468,6 +468,10 @@ const (
 		" FROM instances " +
 		" WHERE instance_name = ? and store_id = ? and data_store_name = ? "
 
+	getInstancesList = "SELECT instance_name, reload_date, store_id, data_store_name " +
+		" FROM instances " +
+		" WHERE store_id = ? and data_store_name = ? "
+
 	insertDataStoreWriteLock = "INSERT INTO datastore_write_lock (datastore_name, locked, " +
 		" locking_instance_name, locked_by_user, locked_time, store_id) values(?, ?, ?, ?, ?, ?) "
 
