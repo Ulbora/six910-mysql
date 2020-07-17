@@ -843,8 +843,8 @@ func (d *MockSix910Mysql) GetInstanceList(dataStoreName string, storeID int64) *
 //If the datastore already exists, the Update method is called from within add
 
 //AddDataStoreWriteLock AddDataStoreWriteLock
-func (d *MockSix910Mysql) AddDataStoreWriteLock(w *mdb.DataStoreWriteLock) (bool, int64) {
-	return d.MockAddDataStoreWriteLockSuccess, d.MockDataStoreWriteLockID
+func (d *MockSix910Mysql) AddDataStoreWriteLock(w *mdb.DataStoreWriteLock) bool {
+	return d.MockAddDataStoreWriteLockSuccess
 }
 
 //UpdateDataStoreWriteLock UpdateDataStoreWriteLock

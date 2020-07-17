@@ -477,9 +477,9 @@ const (
 
 	updateDataStoreWriteLock = "UPDATE datastore_write_lock SET locked = ?, " +
 		" locking_instance_name = ?, locked_by_user = ?, locked_time = ? " +
-		" WHERE id = ? "
+		" WHERE datastore_name = ? and store_id = ? "
 
-	getDataStoreWriteLock = "SELECT id, datastore_name, locked, locking_instance_name, locked_by_user, " +
+	getDataStoreWriteLock = "SELECT datastore_name, locked, locking_instance_name, locked_by_user, " +
 		" locked_time, store_id " +
 		" FROM datastore_write_lock " +
 		" WHERE datastore_name = ? and store_id = ?  "

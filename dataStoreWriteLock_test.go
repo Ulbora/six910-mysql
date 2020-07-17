@@ -59,12 +59,11 @@ func TestSix910Mysql_AddDataStoreWriteLock(t *testing.T) {
 	lc.StoreID = sid
 
 	dbi.Close()
-	lcsuc, lcid := si.AddDataStoreWriteLock(&lc)
-	if !lcsuc || lcid == 0 {
+	lcsuc := si.AddDataStoreWriteLock(&lc)
+	if !lcsuc {
 		t.Fail()
 	}
 
-	lc.ID = lcid
 	lc.Locked = false
 	lc.LockedByUser = "tester2"
 	lc.LockedInstanceName = "inst-12"

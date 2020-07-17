@@ -1107,8 +1107,8 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 
 	sdb.MockAddDataStoreWriteLockSuccess = true
 	sdb.MockDataStoreWriteLockID = 2
-	lcsuc, lcid := si.AddDataStoreWriteLock(&lc)
-	if !lcsuc || lcid == 0 {
+	lcsuc := si.AddDataStoreWriteLock(&lc)
+	if !lcsuc {
 		t.Fail()
 	}
 

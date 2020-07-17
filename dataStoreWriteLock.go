@@ -32,7 +32,7 @@ import (
 //If the datastore already exists, the Update method is called from within add
 
 //AddDataStoreWriteLock AddDataStoreWriteLock
-func (d *Six910Mysql) AddDataStoreWriteLock(w *mdb.DataStoreWriteLock) (bool, int64) {
+func (d *Six910Mysql) AddDataStoreWriteLock(w *mdb.DataStoreWriteLock) bool {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
@@ -42,7 +42,7 @@ func (d *Six910Mysql) AddDataStoreWriteLock(w *mdb.DataStoreWriteLock) (bool, in
 	suc, id := d.DB.Insert(insertDataStoreWriteLock, a...)
 	d.Log.Debug("suc in add DataStoreWriteLock", suc)
 	d.Log.Debug("id in add DataStoreWriteLock", id)
-	return suc, id
+	return suc
 }
 
 //UpdateDataStoreWriteLock UpdateDataStoreWriteLock
@@ -52,7 +52,7 @@ func (d *Six910Mysql) UpdateDataStoreWriteLock(w *mdb.DataStoreWriteLock) bool {
 	}
 	var a []interface{}
 	a = append(a, w.Locked, w.LockedInstanceName, w.LockedByUser, w.LockedTime,
-		w.ID)
+		w.DataStoreName, w.StoreID)
 	suc := d.DB.Update(updateDataStoreWriteLock, a...)
 	return suc
 }
@@ -75,26 +75,21 @@ func (d *Six910Mysql) parseDataStoreWriteLockRow(foundRow *[]string) *mdb.DataSt
 	d.Log.Debug("foundRow in get DataStoreWriteLock", *foundRow)
 	var rtn mdb.DataStoreWriteLock
 	if len(*foundRow) > 0 {
-		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
-		d.Log.Debug("id err in get DataStoreWriteLock", err)
+		loctime, err := time.Parse(timeFormat, (*foundRow)[4])
+		d.Log.Debug("reload time err in get DataStoreWriteLock", err)
 		if err == nil {
-			loctime, err := time.Parse(timeFormat, (*foundRow)[5])
-			d.Log.Debug("reload time err in get DataStoreWriteLock", err)
+			locked, err := strconv.ParseBool((*foundRow)[1])
 			if err == nil {
-				locked, err := strconv.ParseBool((*foundRow)[2])
+				sid, err := strconv.ParseInt((*foundRow)[5], 10, 64)
+				d.Log.Debug("sid err in get DataStoreWriteLock", err)
 				if err == nil {
-					sid, err := strconv.ParseInt((*foundRow)[6], 10, 64)
-					d.Log.Debug("sid err in get DataStoreWriteLock", err)
-					if err == nil {
-					}
-					rtn.ID = id
-					rtn.StoreID = sid
-					rtn.LockedTime = loctime
-					rtn.Locked = locked
-					rtn.DataStoreName = (*foundRow)[1]
-					rtn.LockedInstanceName = (*foundRow)[3]
-					rtn.LockedByUser = (*foundRow)[4]
 				}
+				rtn.StoreID = sid
+				rtn.LockedTime = loctime
+				rtn.Locked = locked
+				rtn.DataStoreName = (*foundRow)[0]
+				rtn.LockedInstanceName = (*foundRow)[2]
+				rtn.LockedByUser = (*foundRow)[3]
 			}
 		}
 	}
