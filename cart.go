@@ -48,7 +48,7 @@ func (d *Six910Mysql) UpdateCart(c *mdb.Cart) bool {
 		d.DB.Connect()
 	}
 	var a []interface{}
-	a = append(a, time.Now(), c.ID)
+	a = append(a, time.Now(), c.CustomerID, c.ID)
 	suc := d.DB.Update(updateCart, a...)
 	return suc
 }

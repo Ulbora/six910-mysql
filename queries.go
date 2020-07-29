@@ -233,7 +233,7 @@ const (
 
 	insertCart = "INSERT INTO cart (store_id, customer_id, date_entered) values(?, ?, ?) "
 
-	updateCart = "UPDATE cart SET date_updated = ? WHERE id = ? "
+	updateCart = "UPDATE cart SET date_updated = ?, customer_id = ? WHERE id = ? "
 
 	getCart = "SELECT id, store_id, customer_id, date_entered, date_updated " +
 		" FROM cart " +
