@@ -146,6 +146,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Image3 = "image32"
 	prod.Image4 = "image42"
 	prod.Manufacturer = "some mfg2"
+	prod.ManufacturerID = "mfg2-11111"
 	prod.Map = 150.92
 	prod.Msrp = 185.92
 	prod.MultiBox = true
@@ -193,6 +194,25 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 		t.Fail()
 	}
 	if fprod.MultiBox != prod.MultiBox {
+		t.Fail()
+	}
+
+	dbi.Close()
+	fprod2 := si.GetProductBySku("1234567892", did, sid)
+	fmt.Println("fprod", fprod2)
+	if fprod2.ID != pid || fprod2.ManufacturerID != prod.ManufacturerID {
+		t.Fail()
+	}
+	if fprod2.DistributorID != did {
+		t.Fail()
+	}
+	if fprod2.StoreID != sid {
+		t.Fail()
+	}
+	if fprod2.Map != prod.Map {
+		t.Fail()
+	}
+	if fprod2.MultiBox != prod.MultiBox {
 		t.Fail()
 	}
 

@@ -170,15 +170,15 @@ const (
 	deleteCategory = "DELETE FROM category WHERE id = ? or parent_category_id = ?"
 
 	insertProduct = "INSERT into product(sku, gtin, name, short_description, description, " +
-		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
+		" cost, msrp, map, price, sale_price, currency, manufacturer_id, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type) " +
-		" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+		" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
 	updateProduct = "UPDATE product SET sku = ?, gtin = ?, name = ?, short_description = ?, description = ?, " +
-		" cost = ?, msrp = ?, map = ?, price = ?, sale_price = ?, currency = ?, manufacturer = ?, stock = ?, " +
+		" cost = ?, msrp = ?, map = ?, price = ?, sale_price = ?, currency = ?, manufacturer_id = ?,  manufacturer = ?, stock = ?, " +
 		" stock_alert = ?, weight = ?, " +
 		" width = ?, height = ?, depth = ?, shipping_markup = ?, visible = ?, searchable = ?, multibox = ?, " +
 		" ship_separate = ?, free_shipping = ?, date_updated = ?, distributor_id = ?, promoted = ?, dropship = ?, " +
@@ -191,16 +191,24 @@ const (
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
 		" WHERE id = ? "
+	getProductBySku = "SELECT id, sku, gtin, name, short_description, description, " +
+		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
+		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
+		" FROM product " +
+		" WHERE sku = ? and distributor_id = ? and store_id = ? "
 
 	getProductByName = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
 		" WHERE name like ? and store_id = ? LIMIT ?, ? "
 
@@ -209,7 +217,7 @@ const (
 		" p.width, p.height, p.depth, p.shipping_markup, p.visible, p.searchable, p.multibox, " +
 		" p.ship_separate, p.free_shipping, p.date_entered, p.date_updated, p.distributor_id, p.promoted, p.dropship, " +
 		" p.size, p.color, p.parient_product_id, p.store_id, p.thumbnail, p.image1, p.image2, p.image3, " +
-		" p.image4, p.special_processing, p.special_processing_type " +
+		" p.image4, p.special_processing, p.special_processing_type, p.manufacturer_id " +
 		" FROM product p " +
 		" inner join product_category pc " +
 		" on p.id = pc.product_id " +
@@ -222,7 +230,7 @@ const (
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
 		" WHERE store_id = ? LIMIT ?, ? "
 

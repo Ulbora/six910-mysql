@@ -453,6 +453,11 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	fprod2 := si.GetProductBySku("3445", 4, 3)
+	if fprod2.Color != prod.Color {
+		t.Fail()
+	}
+
 	var prodlst []sdbi.Product
 	prodlst = append(prodlst, prod)
 	sdb.MockProductList = &prodlst

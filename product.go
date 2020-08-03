@@ -36,7 +36,7 @@ func (d *Six910Mysql) AddProduct(p *mdb.Product) (bool, int64) {
 	}
 	var a []interface{}
 	a = append(a, p.Sku, p.Gtin, p.Name, p.ShortDesc, p.Desc, p.Cost, p.Msrp, p.Map, p.Price, p.SalePrice,
-		p.Currency, p.Manufacturer, p.Stock, p.StockAlert, p.Weight, p.Width, p.Height, p.Depth,
+		p.Currency, p.ManufacturerID, p.Manufacturer, p.Stock, p.StockAlert, p.Weight, p.Width, p.Height, p.Depth,
 		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeperately, p.FreeShipping,
 		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
 		p.StoreID, p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
@@ -54,7 +54,7 @@ func (d *Six910Mysql) UpdateProduct(p *mdb.Product) bool {
 	}
 	var a []interface{}
 	a = append(a, p.Sku, p.Gtin, p.Name, p.ShortDesc, p.Desc, p.Cost, p.Msrp, p.Map, p.Price, p.SalePrice,
-		p.Currency, p.Manufacturer, p.Stock, p.StockAlert, p.Weight, p.Width, p.Height, p.Depth,
+		p.Currency, p.ManufacturerID, p.Manufacturer, p.Stock, p.StockAlert, p.Weight, p.Width, p.Height, p.Depth,
 		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeperately, p.FreeShipping,
 		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
 		p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
@@ -71,6 +71,18 @@ func (d *Six910Mysql) GetProductByID(id int64) *mdb.Product {
 	var a []interface{}
 	a = append(a, id)
 	row := d.DB.Get(getProduct, a...)
+	rtn := d.parseProductRow(&row.Row)
+	return rtn
+}
+
+//GetProductBySku GetProductBySku
+func (d *Six910Mysql) GetProductBySku(sku string, distributorID int64, storeID int64) *mdb.Product {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, sku, distributorID, storeID)
+	row := d.DB.Get(getProductBySku, a...)
 	rtn := d.parseProductRow(&row.Row)
 	return rtn
 }
@@ -258,6 +270,7 @@ func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
 																											rtn.Image3 = (*foundRow)[37]
 																											rtn.Image4 = (*foundRow)[39]
 																											rtn.SpecialProcessingType = (*foundRow)[40]
+																											rtn.ManufacturerID = (*foundRow)[41]
 
 																										}
 																									}
