@@ -37,7 +37,7 @@ func (d *Six910Mysql) AddProduct(p *mdb.Product) (bool, int64) {
 	var a []interface{}
 	a = append(a, p.Sku, p.Gtin, p.Name, p.ShortDesc, p.Desc, p.Cost, p.Msrp, p.Map, p.Price, p.SalePrice,
 		p.Currency, p.ManufacturerID, p.Manufacturer, p.Stock, p.StockAlert, p.Weight, p.Width, p.Height, p.Depth,
-		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeperately, p.FreeShipping,
+		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeparately, p.FreeShipping,
 		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
 		p.StoreID, p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
 		p.SpecialProcessingType)
@@ -55,7 +55,7 @@ func (d *Six910Mysql) UpdateProduct(p *mdb.Product) bool {
 	var a []interface{}
 	a = append(a, p.Sku, p.Gtin, p.Name, p.ShortDesc, p.Desc, p.Cost, p.Msrp, p.Map, p.Price, p.SalePrice,
 		p.Currency, p.ManufacturerID, p.Manufacturer, p.Stock, p.StockAlert, p.Weight, p.Width, p.Height, p.Depth,
-		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeperately, p.FreeShipping,
+		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeparately, p.FreeShipping,
 		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
 		p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
 		p.SpecialProcessingType, p.ID)
@@ -246,7 +246,7 @@ func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
 																											rtn.Promoted = promoted
 																											rtn.SalePrice = salePrice
 																											rtn.Searchable = searchable
-																											rtn.ShipSeperately = sSep
+																											rtn.ShipSeparately = sSep
 																											rtn.ShippingMarkup = sMarkup
 																											rtn.SpecialProcessing = sproc
 																											rtn.Stock = stock

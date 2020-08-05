@@ -110,7 +110,7 @@ func TestSix910Mysql_AddCartItem(t *testing.T) {
 	prod.Promoted = true
 	prod.SalePrice = 160.99
 	prod.Searchable = true
-	prod.ShipSeperately = false
+	prod.ShipSeparately = false
 	prod.ShippingMarkup = 3.40
 	prod.ShortDesc = "short desc"
 	prod.Size = "XL"
