@@ -89,6 +89,46 @@ func (d *Six910Mysql) GetOrderList(cid int64, storeID int64) *[]mdb.Order {
 	return &rtn
 }
 
+//GetStoreOrderList GetStoreOrderList
+func (d *Six910Mysql) GetStoreOrderList(storeID int64) *[]mdb.Order {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []mdb.Order{}
+	var a []interface{}
+	a = append(a, storeID)
+	rows := d.DB.GetList(getOrderForStore, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseOrderRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
+}
+
+//GetStoreOrderListByStatus GetStoreOrderListByStatus
+func (d *Six910Mysql) GetStoreOrderListByStatus(status string, storeID int64) *[]mdb.Order {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []mdb.Order{}
+	var a []interface{}
+	a = append(a, storeID, status)
+	rows := d.DB.GetList(getOrderForStoreByStatus, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseOrderRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
+}
+
 //DeleteOrder DeleteOrder
 func (d *Six910Mysql) DeleteOrder(id int64) bool {
 	if !d.testConnection() {

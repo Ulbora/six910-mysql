@@ -117,6 +117,27 @@ func TestSix910Mysql_Order(t *testing.T) {
 	}
 
 	dbi.Close()
+	fodrlist2 := si.GetStoreOrderList(sid)
+	fmt.Println("fodrlist2: ", fodrlist2)
+	if len(*fodrlist2) != 1 {
+		t.Fail()
+	}
+
+	dbi.Close()
+	fodrlist3 := si.GetStoreOrderListByStatus("Processing2", sid)
+	fmt.Println("fodrlist3: ", fodrlist3)
+	if len(*fodrlist3) != 1 {
+		t.Fail()
+	}
+
+	dbi.Close()
+	fodrlist4 := si.GetStoreOrderListByStatus("new", sid)
+	fmt.Println("fodrlist4: ", fodrlist4)
+	if len(*fodrlist4) != 0 {
+		t.Fail()
+	}
+
+	dbi.Close()
 	dlodr := si.DeleteOrder(oid)
 	if !dlodr {
 		t.Fail()

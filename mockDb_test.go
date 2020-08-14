@@ -710,6 +710,18 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	sdb.MockOrderList = &odrlst
+	fodrlst2 := si.GetStoreOrderList(6)
+	if len(*fodrlst2) != 1 {
+		t.Fail()
+	}
+
+	sdb.MockOrderList = &odrlst
+	fodrlst3 := si.GetStoreOrderListByStatus("test", 6)
+	if len(*fodrlst3) != 1 {
+		t.Fail()
+	}
+
 	sdb.MockDeleteOrderSuccess = true
 	dlodr := si.DeleteOrder(4)
 	if !dlodr {

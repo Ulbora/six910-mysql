@@ -538,6 +538,16 @@ func (d *MockSix910Mysql) GetOrderList(cid int64, storeID int64) *[]mdb.Order {
 	return d.MockOrderList
 }
 
+//GetStoreOrderList GetStoreOrderList
+func (d *MockSix910Mysql) GetStoreOrderList(storeID int64) *[]mdb.Order {
+	return d.MockOrderList
+}
+
+//GetStoreOrderListByStatus GetStoreOrderListByStatus
+func (d *MockSix910Mysql) GetStoreOrderListByStatus(status string, storeID int64) *[]mdb.Order {
+	return d.MockOrderList
+}
+
 //DeleteOrder DeleteOrder
 func (d *MockSix910Mysql) DeleteOrder(id int64) bool {
 	return d.MockDeleteOrderSuccess

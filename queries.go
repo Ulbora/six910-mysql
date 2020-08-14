@@ -514,6 +514,19 @@ const (
 		" FROM orders " +
 		" WHERE customer_id = ? and store_id = ? "
 
+	getOrderForStore = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
+		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
+		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username" +
+		" FROM orders " +
+		" WHERE store_id = ? " +
+		" ORDER by status"
+
+	getOrderForStoreByStatus = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
+		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
+		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username" +
+		" FROM orders " +
+		" WHERE store_id = ? and status = ? "
+
 	deleteOrder = "DELETE FROM orders WHERE id = ? "
 
 	insertOrderItem = "INSERT INTO order_item (order_id, product_id, product_name, product_short_desc, " +
