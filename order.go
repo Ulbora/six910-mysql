@@ -37,7 +37,8 @@ func (d *Six910Mysql) AddOrder(o *mdb.Order) (bool, int64) {
 	var a []interface{}
 	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.CustomerID, o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
-		o.ShippingAddress, o.StoreID, o.OrderNumber, o.OrderType, o.Pickup, o.Username)
+		o.ShippingAddress, o.StoreID, o.OrderNumber, o.OrderType, o.Pickup, o.Username,
+		o.ShippingMethodID, o.ShippingMethodName)
 	suc, id := d.DB.Insert(insertOrder, a...)
 	d.Log.Debug("suc in add Order", suc)
 	d.Log.Debug("id in add Order", id)
@@ -52,7 +53,8 @@ func (d *Six910Mysql) UpdateOrder(o *mdb.Order) bool {
 	var a []interface{}
 	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
-		o.ShippingAddress, o.OrderType, o.Pickup, o.Username, o.ID)
+		o.ShippingAddress, o.OrderType, o.Pickup, o.Username, o.ShippingMethodID, o.ShippingMethodName,
+		o.ID)
 	suc := d.DB.Update(updateOrder, a...)
 	return suc
 }
@@ -179,26 +181,32 @@ func (d *Six910Mysql) parseOrderRow(foundRow *[]string) *mdb.Order {
 													tot, err := strconv.ParseFloat((*foundRow)[8], 64)
 													d.Log.Debug("tot err in get Order", err)
 													if err == nil {
-														rtn.ID = id
-														rtn.CustomerID = cid
-														rtn.OrderDate = oTime
-														rtn.Updated = uTime
-														rtn.Pickup = pickup
-														rtn.BillingAddressID = baid
-														rtn.ShippingAddressID = said
-														rtn.StoreID = sid
-														rtn.Subtotal = subtot
-														rtn.ShippingHandling = sandh
-														rtn.Insurance = ins
-														rtn.Taxes = tax
-														rtn.Total = tot
-														rtn.Status = (*foundRow)[3]
-														rtn.CustomerName = (*foundRow)[12]
-														rtn.BillingAddress = (*foundRow)[13]
-														rtn.ShippingAddress = (*foundRow)[14]
-														rtn.OrderNumber = (*foundRow)[16]
-														rtn.OrderType = (*foundRow)[17]
-														rtn.Username = (*foundRow)[19]
+														smid, err := strconv.ParseInt((*foundRow)[20], 10, 64)
+														d.Log.Debug("smid err in get Order", err)
+														if err == nil {
+															rtn.ID = id
+															rtn.CustomerID = cid
+															rtn.OrderDate = oTime
+															rtn.Updated = uTime
+															rtn.Pickup = pickup
+															rtn.BillingAddressID = baid
+															rtn.ShippingAddressID = said
+															rtn.StoreID = sid
+															rtn.Subtotal = subtot
+															rtn.ShippingHandling = sandh
+															rtn.Insurance = ins
+															rtn.Taxes = tax
+															rtn.Total = tot
+															rtn.Status = (*foundRow)[3]
+															rtn.CustomerName = (*foundRow)[12]
+															rtn.BillingAddress = (*foundRow)[13]
+															rtn.ShippingAddress = (*foundRow)[14]
+															rtn.OrderNumber = (*foundRow)[16]
+															rtn.OrderType = (*foundRow)[17]
+															rtn.Username = (*foundRow)[19]
+															rtn.ShippingMethodID = smid
+															rtn.ShippingMethodName = (*foundRow)[21]
+														}
 													}
 												}
 											}

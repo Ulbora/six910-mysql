@@ -95,6 +95,8 @@ func TestSix910Mysql_Order(t *testing.T) {
 	odr.Taxes = 5.22
 	odr.Total = 146.22
 	odr.Username = "billybob2"
+	odr.ShippingMethodID = 23
+	odr.ShippingMethodName = "UPS Ground"
 
 	dbi.Close()
 	uodrsuc := si.UpdateOrder(&odr)
