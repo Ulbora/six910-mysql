@@ -354,6 +354,11 @@ func (d *MockSix910Mysql) GetProductBySku(sku string, distributorID int64, store
 	return d.MockProduct
 }
 
+//GetProductsByPromoted GetProductsByPromoted
+func (d *MockSix910Mysql) GetProductsByPromoted(storeID int64, start int64, end int64) *[]mdb.Product {
+	return d.MockProductList
+}
+
 //GetProductsByName GetProductsByName
 func (d *MockSix910Mysql) GetProductsByName(name string, storeID int64, start int64, end int64) *[]mdb.Product {
 	return d.MockProductList

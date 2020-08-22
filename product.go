@@ -87,6 +87,26 @@ func (d *Six910Mysql) GetProductBySku(sku string, distributorID int64, storeID i
 	return rtn
 }
 
+//GetProductsByPromoted GetProductsByPromoted
+func (d *Six910Mysql) GetProductsByPromoted(storeID int64, start int64, end int64) *[]mdb.Product {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []mdb.Product{}
+	var a []interface{}
+	a = append(a, storeID, start, end)
+	rows := d.DB.GetList(getProductByPromoted, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseProductRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
+}
+
 //GetProductsByName GetProductsByName
 func (d *Six910Mysql) GetProductsByName(name string, storeID int64, start int64, end int64) *[]mdb.Product {
 	if !d.testConnection() {

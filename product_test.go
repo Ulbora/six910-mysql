@@ -155,7 +155,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Price = 170.92
 	prod.Promoted = false
 	prod.SalePrice = 160.92
-	prod.Searchable = false
+	prod.Searchable = true
 	prod.ShipSeparately = true
 	prod.ShippingMarkup = 3.42
 	prod.ShortDesc = "short desc2"
@@ -167,7 +167,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.StockAlert = 102
 	prod.StoreID = sid
 	prod.Thumbnail = "someimage2"
-	prod.Visible = false
+	prod.Visible = true
 	prod.Weight = 15.42
 	prod.Width = 22.42
 	prod.ParentProductID = 0
@@ -219,6 +219,13 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	dbi.Close()
 	fprodn := si.GetProductsByName("well2", sid, 0, 100)
 	fmt.Println("fprodn", fprodn)
+	if len(*fprodn) != 1 {
+		t.Fail()
+	}
+
+	dbi.Close()
+	fprodprom := si.GetProductsByPromoted(sid, 0, 100)
+	fmt.Println("fprodprom", fprodprom)
 	if len(*fprodn) != 1 {
 		t.Fail()
 	}

@@ -477,6 +477,11 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	fprodlst4 := si.GetProductsByPromoted(5, 3, 3)
+	if len(*fprodlst4) != 1 {
+		t.Fail()
+	}
+
 	sdb.MockDeleteProductSuccess = true
 	dlprod := si.DeleteProduct(3)
 	if !dlprod {

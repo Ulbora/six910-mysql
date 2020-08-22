@@ -212,6 +212,15 @@ const (
 		" FROM product " +
 		" WHERE name like ? and store_id = ? LIMIT ?, ? "
 
+	getProductByPromoted = "SELECT id, sku, gtin, name, short_description, description, " +
+		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
+		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
+		" FROM product " +
+		" WHERE searchable = true and visible = true and promoted = true and store_id = ? LIMIT ?, ? "
+
 	getProductByCat = "SELECT p.id, p.sku, p.gtin, p.name, p.short_description, p.description, " +
 		" p.cost, p.msrp, p.map, p.price, p.sale_price, p.currency, p.manufacturer, p.stock, p.stock_alert, p.weight, " +
 		" p.width, p.height, p.depth, p.shipping_markup, p.visible, p.searchable, p.multibox, " +
