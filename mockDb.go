@@ -256,6 +256,13 @@ type MockSix910Mysql struct {
 	MockDataStoreWriteLock              *mdb.DataStoreWriteLock
 	MockDataStoreWriteLockList          *[]mdb.DataStoreWriteLock
 	MockDeleteDataStoreWriteLockSuccess bool
+
+	MockAddTaxRateSuccess    bool
+	MockTaxRateID            int64
+	MockUpdateTaxRateSuccess bool
+	MockTaxRate              *mdb.TaxRate
+	MockTaxRateList          *[]mdb.TaxRate
+	MockDeleteTaxRateSuccess bool
 }
 
 //GetNew GetNew

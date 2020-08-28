@@ -347,6 +347,26 @@ const (
 
 	deleteShippingMethod = "DELETE FROM shipping_method WHERE id = ? "
 
+	insertTaxRate = "INSERT INTO tax_rate (country, state, zip_start, zip_end, " +
+		"percent_rate, product_category_id, include_handling, include_shipping, " +
+		" tax_type, store_id) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+
+	updateTaxRate = "UPDATE tax_rate SET zip_start = ?, zip_end = ?, percent_rate = ?, " +
+		" product_category_id = ?, include_handling = ?, include_shipping = ?, tax_type = ?  " +
+		" WHERE id = ? "
+
+	getTaxRate = "SELECT id, country, state, zip_start, zip_end, " +
+		" percent_rate, product_category_id, include_handling, include_shipping, tax_type, store_id" +
+		" FROM tax_rate " +
+		" WHERE country = ? and state = ? and store_id = ? "
+
+	getTaxRateList = "SELECT id, country, state, zip_start, zip_end, " +
+		" percent_rate, product_category_id, include_handling, include_shipping, tax_type, store_id" +
+		" FROM tax_rate " +
+		" WHERE store_id = ? "
+
+	deleteTaxRate = "DELETE FROM tax_rate WHERE id = ? "
+
 	insertIncludedSubRegion = "INSERT INTO included_sub_region (region_id, sub_region_id, " +
 		" shipping_method_id) values(?, ?, ?) "
 

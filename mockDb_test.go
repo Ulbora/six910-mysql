@@ -1,6 +1,7 @@
 package six910mysql
 
 import (
+	"fmt"
 	"testing"
 
 	lg "github.com/Ulbora/Level_Logger"
@@ -1143,6 +1144,60 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	sdb.MockDataStoreWriteLock = &lc
 	flc := si.GetDataStoreWriteLock("test", 1)
 	if flc.DataStoreName != lc.DataStoreName {
+		t.Fail()
+	}
+
+	var txr sdbi.TaxRate
+	txr.Country = "USA"
+	txr.State = "GA"
+	txr.PercentRate = 7
+	txr.TaxType = "Sales"
+	txr.StoreID = sid
+
+	sdb.MockAddTaxRateSuccess = true
+	sdb.MockTaxRateID = 4
+	psuc, tid := si.AddTaxRate(&txr)
+	if !psuc || tid == 0 {
+		t.Fail()
+	}
+
+	txr.ID = tid
+	txr.PercentRate = 7
+	txr.IncludeHandling = true
+	txr.IncludeShipping = true
+	txr.ProductCategoryID = 3
+	txr.ZipStart = "12345"
+	txr.ZipEnd = "23456"
+
+	sdb.MockUpdateTaxRateSuccess = true
+	usuc := si.UpdateTaxRate(&txr)
+	if !usuc {
+		t.Fail()
+	}
+
+	var tr sdbi.TaxRate
+	tr.Country = "test"
+
+	var trlst []sdbi.TaxRate
+	trlst = append(trlst, tr)
+
+	sdb.MockTaxRateList = &trlst
+
+	txlst1 := si.GetTaxRate("USA", "GA", sid)
+	fmt.Println("txlst1", txlst1)
+	if len(*txlst1) != 1 {
+		t.Fail()
+	}
+
+	txlst2 := si.GetTaxRateList(sid)
+	fmt.Println("txlst2", txlst2)
+	if len(*txlst2) != 1 {
+		t.Fail()
+	}
+
+	sdb.MockDeleteTaxRateSuccess = true
+	dprodSuc := si.DeleteTaxRate(tid)
+	if !dprodSuc {
 		t.Fail()
 	}
 

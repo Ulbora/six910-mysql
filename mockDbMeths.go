@@ -878,3 +878,28 @@ func (d *MockSix910Mysql) UpdateDataStoreWriteLock(w *mdb.DataStoreWriteLock) bo
 func (d *MockSix910Mysql) GetDataStoreWriteLock(dataStore string, storeID int64) *mdb.DataStoreWriteLock {
 	return d.MockDataStoreWriteLock
 }
+
+//AddTaxRate AddTaxRate
+func (d *MockSix910Mysql) AddTaxRate(t *mdb.TaxRate) (bool, int64) {
+	return d.MockAddTaxRateSuccess, d.MockTaxRateID
+}
+
+//UpdateTaxRate UpdateTaxRate
+func (d *MockSix910Mysql) UpdateTaxRate(t *mdb.TaxRate) bool {
+	return d.MockUpdateTaxRateSuccess
+}
+
+//GetTaxRate GetTaxRate
+func (d *MockSix910Mysql) GetTaxRate(country string, state string, storeID int64) *[]mdb.TaxRate {
+	return d.MockTaxRateList
+}
+
+//GetTaxRateList GetTaxRateList
+func (d *MockSix910Mysql) GetTaxRateList(storeID int64) *[]mdb.TaxRate {
+	return d.MockTaxRateList
+}
+
+//DeleteTaxRate DeleteTaxRate
+func (d *MockSix910Mysql) DeleteTaxRate(id int64) bool {
+	return d.MockDeleteTaxRateSuccess
+}
