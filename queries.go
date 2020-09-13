@@ -162,6 +162,16 @@ const (
 		" FROM category " +
 		" WHERE store_id = ? "
 
+	getHierarchicalCategoryList = " SELECT c6.name as c6, c5.name as c5, c4.name as c4, " +
+		" c3.name as c3, c2.name as c2, c1.name as c1, c1.id " +
+		" FROM category c1 " +
+		" LEFT JOIN category c2 ON c1.parent_category_id=c2.id " +
+		" LEFT JOIN category c3 ON c2.parent_category_id=c3.id " +
+		" LEFT JOIN category c4 ON c3.parent_category_id=c4.id " +
+		" LEFT JOIN category c5 ON c4.parent_category_id=c4.id " +
+		" LEFT JOIN category c6 ON c5.parent_category_id=c5.id " +
+		" WHERE c1.store_id = ? "
+
 	getSubCategoryList = "SELECT id, name, description, image, thumbnail, parent_category_id, " +
 		" store_id " +
 		" FROM category " +

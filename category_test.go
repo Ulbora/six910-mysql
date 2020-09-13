@@ -122,6 +122,13 @@ func TestSix910Mysql_AddCategory(t *testing.T) {
 	}
 
 	dbi.Close()
+	ffcatList := si.GetHierarchicalCategoryList(sid)
+	fmt.Println("ffcatList", ffcatList)
+	if len(*ffcatList) != 2 {
+		t.Fail()
+	}
+
+	dbi.Close()
 	fscatList := si.GetSubCategoryList(ctid)
 	fmt.Println("fscatList", fscatList)
 	if len(*fscatList) != 1 {

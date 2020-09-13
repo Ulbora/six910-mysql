@@ -263,6 +263,11 @@ func (d *MockSix910Mysql) GetCategory(id int64) *mdb.Category {
 	return d.MockCategory
 }
 
+//GetHierarchicalCategoryList GetHierarchicalCategoryList
+func (d *MockSix910Mysql) GetHierarchicalCategoryList(storeID int64) *[]mdb.Category {
+	return d.MockCategoryList
+}
+
 //GetCategoryList GetCategoryList
 func (d *MockSix910Mysql) GetCategoryList(storeID int64) *[]mdb.Category {
 	return d.MockCategoryList

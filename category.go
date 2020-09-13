@@ -64,6 +64,43 @@ func (d *Six910Mysql) GetCategory(id int64) *mdb.Category {
 	return rtn
 }
 
+//GetHierarchicalCategoryList GetHierarchicalCategoryList
+func (d *Six910Mysql) GetHierarchicalCategoryList(storeID int64) *[]mdb.Category {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var hmap = make(map[int64]string)
+	var ha []interface{}
+	ha = append(ha, storeID)
+	hrows := d.DB.GetList(getHierarchicalCategoryList, ha...)
+	d.Log.Debug("hrows", *hrows)
+	if hrows != nil && len(hrows.Rows) != 0 {
+		foundRows := hrows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			id, hcat := d.parseHCategoryRow(&foundRow)
+			d.Log.Debug("hcat", hcat)
+			hmap[id] = hcat
+		}
+	}
+	d.Log.Debug("H Category", hmap)
+	var rtn = []mdb.Category{}
+	var a []interface{}
+	a = append(a, storeID)
+	rows := d.DB.GetList(getCategoryList, a...)
+	d.Log.Debug("rows", *rows)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseCategoryRow(&foundRow)
+			rowContent.Name = hmap[rowContent.ID]
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
+}
+
 //GetCategoryList GetCategoryList
 func (d *Six910Mysql) GetCategoryList(storeID int64) *[]mdb.Category {
 	if !d.testConnection() {
@@ -139,4 +176,28 @@ func (d *Six910Mysql) parseCategoryRow(foundRow *[]string) *mdb.Category {
 		}
 	}
 	return &rtn
+}
+
+func (d *Six910Mysql) parseHCategoryRow(foundRow *[]string) (int64, string) {
+	//var hmap = make(map[int64]string)
+	var id int64
+	var hcat = ""
+	if len(*foundRow) > 0 {
+		fid, err := strconv.ParseInt((*foundRow)[6], 10, 64)
+		d.Log.Debug("id err in get HCategory", err)
+		if err == nil {
+			id = fid
+			for i, e := range *foundRow {
+				d.Log.Debug("e in HCategory", e)
+				if i != 6 {
+					if e != "NULL" && hcat == "" {
+						hcat += (*foundRow)[i]
+					} else if e != "NULL" {
+						hcat += ("->" + (*foundRow)[i])
+					}
+				}
+			}
+		}
+	}
+	return id, hcat
 }
