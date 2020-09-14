@@ -158,6 +158,7 @@ type MockSix910Mysql struct {
 	MockProductCategoryRegion        *mdb.ProductCategory
 	MockProductCategoryList          *[]mdb.ProductCategory
 	MockDeleteProductCategorySuccess bool
+	MockCategoryIDList               *[]int64
 
 	MockAddOrderSuccess    bool
 	MockOrderID            int64

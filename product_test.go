@@ -263,6 +263,13 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	}
 
 	dbi.Close()
+	catlist := si.GetProductCategoryList(pid)
+	fmt.Println("catlist", catlist)
+	if len(*catlist) != 1 {
+		t.Fail()
+	}
+
+	dbi.Close()
 	prodStr := si.GetProductList(sid, 0, 100)
 	fmt.Println("prodStr", prodStr)
 	if len(*prodStr) != 2 {

@@ -521,6 +521,11 @@ func (d *MockSix910Mysql) AddProductCategory(pc *mdb.ProductCategory) bool {
 	return d.MockAddProductCategorySuccess
 }
 
+//GetProductCategoryList GetProductCategoryList
+func (d *MockSix910Mysql) GetProductCategoryList(productID int64) *[]int64 {
+	return d.MockCategoryIDList
+}
+
 //DeleteProductCategory DeleteProductCategory
 func (d *MockSix910Mysql) DeleteProductCategory(pc *mdb.ProductCategory) bool {
 	return d.MockDeleteProductCategorySuccess

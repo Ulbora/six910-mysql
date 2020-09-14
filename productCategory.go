@@ -1,6 +1,10 @@
 package six910mysql
 
-import mdb "github.com/Ulbora/six910-database-interface"
+import (
+	"strconv"
+
+	mdb "github.com/Ulbora/six910-database-interface"
+)
 
 /*
  Six910 is a shopping cart and E-commerce system.
@@ -35,6 +39,27 @@ func (d *Six910Mysql) AddProductCategory(pc *mdb.ProductCategory) bool {
 	d.Log.Debug("suc in add ProductCategory", suc)
 	d.Log.Debug("id in add ProductCategory", id)
 	return suc
+}
+
+//GetProductCategoryList GetProductCategoryList
+func (d *Six910Mysql) GetProductCategoryList(productID int64) *[]int64 {
+	var rtn []int64
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, productID)
+	rows := d.DB.GetList(getProductCategory, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			cid, err := strconv.ParseInt((foundRow)[0], 10, 64)
+			d.Log.Debug("id err in get GetProductCategory", err)
+			rtn = append(rtn, cid)
+		}
+	}
+	return &rtn
 }
 
 //DeleteProductCategory DeleteProductCategory

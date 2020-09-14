@@ -256,6 +256,11 @@ const (
 	deleteProduct = "DELETE FROM product WHERE id = ? "
 
 	insertProductCategory = "INSERT INTO product_category (category_id, product_id) values(?, ?) "
+
+	getProductCategory = "SELECT category_id " +
+		" FROM product_category " +
+		" WHERE product_id = ? "
+
 	deleteProductCategory = "DELETE FROM product_category WHERE category_id = ? and product_id = ? "
 
 	insertCart = "INSERT INTO cart (store_id, customer_id, date_entered) values(?, ?, ?) "

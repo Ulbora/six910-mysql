@@ -343,6 +343,11 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	fcatlsth := si.GetHierarchicalCategoryList(4)
+	if len(*fcatlsth) != 1 {
+		t.Fail()
+	}
+
 	fcatlst2 := si.GetSubCategoryList(3)
 	if len(*fcatlst2) != 1 {
 		t.Fail()
@@ -677,6 +682,12 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	sdb.MockAddProductCategorySuccess = true
 	pcatsuc := si.AddProductCategory(&pcat)
 	if !pcatsuc {
+		t.Fail()
+	}
+
+	sdb.MockCategoryIDList = &[]int64{2, 5}
+	catIDLst := si.GetProductCategoryList(4)
+	if len(*catIDLst) != 2 {
 		t.Fail()
 	}
 
