@@ -171,6 +171,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Weight = 15.42
 	prod.Width = 22.42
 	prod.ParentProductID = 0
+	prod.Image4 = "/test/test"
 
 	dbi.Close()
 	usuc := si.UpdateProduct(&prod)
