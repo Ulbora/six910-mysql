@@ -109,7 +109,7 @@ func (d *Six910Mysql) parseTaxRateRow(foundRow *[]string) *mdb.TaxRate {
 		id, err := strconv.ParseInt((*foundRow)[0], 10, 64)
 		d.Log.Debug("id err in get TaxRate", err)
 		if err == nil {
-			rate, err := strconv.ParseInt((*foundRow)[5], 10, 64)
+			rate, err := strconv.ParseFloat((*foundRow)[5], 64)
 			d.Log.Debug("rate err in get TaxRate", err)
 			if err == nil {
 				pid, err := strconv.ParseInt((*foundRow)[6], 10, 64)
