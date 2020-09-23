@@ -54,7 +54,7 @@ func (d *Six910Mysql) UpdateOrder(o *mdb.Order) bool {
 	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
 		o.ShippingAddress, o.OrderType, o.Pickup, o.Username, o.ShippingMethodID, o.ShippingMethodName,
-		o.ID)
+		o.Refunded, o.ID)
 	suc := d.DB.Update(updateOrder, a...)
 	return suc
 }
@@ -184,28 +184,34 @@ func (d *Six910Mysql) parseOrderRow(foundRow *[]string) *mdb.Order {
 														smid, err := strconv.ParseInt((*foundRow)[20], 10, 64)
 														d.Log.Debug("smid err in get Order", err)
 														if err == nil {
-															rtn.ID = id
-															rtn.CustomerID = cid
-															rtn.OrderDate = oTime
-															rtn.Updated = uTime
-															rtn.Pickup = pickup
-															rtn.BillingAddressID = baid
-															rtn.ShippingAddressID = said
-															rtn.StoreID = sid
-															rtn.Subtotal = subtot
-															rtn.ShippingHandling = sandh
-															rtn.Insurance = ins
-															rtn.Taxes = tax
-															rtn.Total = tot
-															rtn.Status = (*foundRow)[3]
-															rtn.CustomerName = (*foundRow)[12]
-															rtn.BillingAddress = (*foundRow)[13]
-															rtn.ShippingAddress = (*foundRow)[14]
-															rtn.OrderNumber = (*foundRow)[16]
-															rtn.OrderType = (*foundRow)[17]
-															rtn.Username = (*foundRow)[19]
-															rtn.ShippingMethodID = smid
-															rtn.ShippingMethodName = (*foundRow)[21]
+															refunded, err := strconv.ParseFloat((*foundRow)[22], 64)
+															d.Log.Debug("refunded err in get Order", err)
+															if err == nil {
+																rtn.ID = id
+																rtn.CustomerID = cid
+																rtn.OrderDate = oTime
+																rtn.Updated = uTime
+																rtn.Pickup = pickup
+																rtn.BillingAddressID = baid
+																rtn.ShippingAddressID = said
+																rtn.StoreID = sid
+																rtn.Subtotal = subtot
+																rtn.ShippingHandling = sandh
+																rtn.Insurance = ins
+																rtn.Taxes = tax
+																rtn.Total = tot
+																rtn.Refunded = refunded
+																rtn.Status = (*foundRow)[3]
+																rtn.CustomerName = (*foundRow)[12]
+																rtn.BillingAddress = (*foundRow)[13]
+																rtn.ShippingAddress = (*foundRow)[14]
+																rtn.OrderNumber = (*foundRow)[16]
+																rtn.OrderType = (*foundRow)[17]
+																rtn.Username = (*foundRow)[19]
+																rtn.ShippingMethodID = smid
+																rtn.ShippingMethodName = (*foundRow)[21]
+															}
+
 														}
 													}
 												}

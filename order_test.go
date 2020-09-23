@@ -97,6 +97,7 @@ func TestSix910Mysql_Order(t *testing.T) {
 	odr.Username = "billybob2"
 	odr.ShippingMethodID = 23
 	odr.ShippingMethodName = "UPS Ground"
+	odr.Refunded = 15.00
 
 	dbi.Close()
 	uodrsuc := si.UpdateOrder(&odr)
@@ -107,7 +108,8 @@ func TestSix910Mysql_Order(t *testing.T) {
 	dbi.Close()
 	fodr := si.GetOrder(oid)
 	fmt.Println("fodr: ", fodr)
-	if fodr.CustomerID != odr.CustomerID || fodr.OrderType != odr.OrderType {
+	fmt.Println("Refunded: ", fodr.Refunded)
+	if fodr.CustomerID != odr.CustomerID || fodr.OrderType != odr.OrderType || fodr.Refunded != 15.00 {
 		t.Fail()
 	}
 
