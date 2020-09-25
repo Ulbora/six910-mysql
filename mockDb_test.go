@@ -127,7 +127,7 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	var cusList []sdbi.Customer
 	cusList = append(cusList, cus)
 	sdb.MockCustomerList = &cusList
-	fcuslist := si.GetCustomerList(3)
+	fcuslist := si.GetCustomerList(3, 0, 10)
 	if len(*fcuslist) != 1 {
 		t.Fail()
 	}

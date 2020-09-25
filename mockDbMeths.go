@@ -102,7 +102,7 @@ func (d *MockSix910Mysql) GetCustomer(email string, storeID int64) *mdb.Customer
 }
 
 //GetCustomerList GetCustomerList
-func (d *MockSix910Mysql) GetCustomerList(storeID int64) *[]mdb.Customer {
+func (d *MockSix910Mysql) GetCustomerList(storeID int64, start int64, end int64) *[]mdb.Customer {
 	return d.MockCustomerList
 }
 

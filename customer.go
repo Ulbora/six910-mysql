@@ -68,13 +68,13 @@ func (d *Six910Mysql) GetCustomer(email string, storeID int64) *mdb.Customer {
 }
 
 //GetCustomerList GetCustomerList
-func (d *Six910Mysql) GetCustomerList(storeID int64) *[]mdb.Customer {
+func (d *Six910Mysql) GetCustomerList(storeID int64, start int64, end int64) *[]mdb.Customer {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
 	var rtn = []mdb.Customer{}
 	var a []interface{}
-	a = append(a, storeID)
+	a = append(a, storeID, start, end)
 	rows := d.DB.GetList(getCustemerList, a...)
 	if rows != nil && len(rows.Rows) != 0 {
 		foundRows := rows.Rows

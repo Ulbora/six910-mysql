@@ -84,7 +84,9 @@ const (
 	getCustemerList = "SELECT id, email, reset_password, first_name, last_name, " +
 		" company, city, state, zip, phone, store_id, date_entered, date_updated " +
 		" FROM customer " +
-		" WHERE store_id = ? "
+		" WHERE store_id = ? " +
+		" ORDER BY email " +
+		" LIMIT ?, ? "
 
 	deleteCustomer = "DELETE FROM customer WHERE id = ? "
 
@@ -140,7 +142,8 @@ const (
 	getDistributorList = "SELECT id, company, contact_name, phone, " +
 		" store_id " +
 		" FROM distributor " +
-		" WHERE store_id = ? "
+		" WHERE store_id = ? " +
+		" ORDER BY company "
 
 	deleteDistributor = "DELETE FROM distributor WHERE id = ? "
 
@@ -229,7 +232,8 @@ const (
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
-		" WHERE searchable = true and visible = true and promoted = true and store_id = ? LIMIT ?, ? "
+		" WHERE searchable = true and visible = true and promoted = true and store_id = ? " +
+		" ORDER BY name LIMIT ?, ? "
 
 	getProductByCat = "SELECT p.id, p.sku, p.gtin, p.name, p.short_description, p.description, " +
 		" p.cost, p.msrp, p.map, p.price, p.sale_price, p.currency, p.manufacturer, p.stock, p.stock_alert, p.weight, " +
@@ -242,7 +246,7 @@ const (
 		" on p.id = pc.product_id " +
 		" inner join category c " +
 		" on pc.category_id = c.id " +
-		" WHERE c.id = ? LIMIT ?, ? "
+		" WHERE c.id = ? ORDER BY name LIMIT ?, ? "
 
 	getProductByStore = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
@@ -251,7 +255,7 @@ const (
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
-		" WHERE store_id = ? LIMIT ?, ? "
+		" WHERE store_id = ? ORDER BY name LIMIT ?, ? "
 
 	deleteProduct = "DELETE FROM product WHERE id = ? "
 
@@ -297,7 +301,8 @@ const (
 
 	getRegionList = "SELECT id, name, region_code, store_id " +
 		" FROM region " +
-		" WHERE store_id = ? "
+		" WHERE store_id = ? " +
+		" ORDER BY name "
 
 	deleteRegion = "DELETE FROM region WHERE id = ? "
 
@@ -325,7 +330,8 @@ const (
 
 	getShippingCarrierList = "SELECT id, carrier, type, store_id " +
 		" FROM shipping_carrier " +
-		" WHERE store_id = ? "
+		" WHERE store_id = ? " +
+		" ORDER BY carrier "
 
 	deleteShippingCarrier = "DELETE FROM shipping_carrier WHERE id = ? "
 
@@ -358,7 +364,8 @@ const (
 	getShippingMethodList = "SELECT id, name, cost, max_weight, handling, " +
 		"minimum_order, maximum_order, region_id, shipping_carrier_id, insurance_id, store_id" +
 		" FROM shipping_method " +
-		" WHERE store_id = ? "
+		" WHERE store_id = ? " +
+		" ORDER BY name "
 
 	deleteShippingMethod = "DELETE FROM shipping_method WHERE id = ? "
 
@@ -440,6 +447,7 @@ const (
 		"fee, category, activate_url, oauth_redirect_url, " +
 		" is_pgw, enabled  " +
 		" FROM plugins " +
+		" ORDER BY plugin_name " +
 		" LIMIT ?, ? "
 
 	deletePlugin = "DELETE FROM plugins WHERE id = ? "
@@ -472,7 +480,8 @@ const (
 		" api_key, rekey_try_count, rekey_date, iframe_url, menu_title, menu_icon_url, is_pgw, " +
 		" store_id " +
 		" FROM store_plugins " +
-		" WHERE store_id = ? "
+		" WHERE store_id = ? " +
+		" ORDER BY plugin_name "
 
 	deleteStorePlugin = "DELETE FROM store_plugins WHERE id = ? "
 
@@ -560,7 +569,8 @@ const (
 		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username, " +
 		" shipping_method_id, shipping_method_name, refunded " +
 		" FROM orders " +
-		" WHERE customer_id = ? and store_id = ? "
+		" WHERE customer_id = ? and store_id = ? " +
+		" ORDER BY order_date "
 
 	getOrderForStore = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
 		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +

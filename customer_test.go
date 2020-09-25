@@ -91,7 +91,7 @@ func TestSix910Mysql_Customer(t *testing.T) {
 	}
 
 	dbi.Close()
-	cusList := si.GetCustomerList(sid)
+	cusList := si.GetCustomerList(sid, 0, 10)
 	fmt.Println("cusList", cusList)
 	if len(*cusList) != 1 {
 		t.Fail()
@@ -110,7 +110,7 @@ func TestSix910Mysql_Customer(t *testing.T) {
 		t.Fail()
 	}
 
-	cusList2 := si.GetCustomerList(sid)
+	cusList2 := si.GetCustomerList(sid, 0, 10)
 	fmt.Println("cusList", cusList2)
 	if len(*cusList2) != 0 {
 		t.Fail()
