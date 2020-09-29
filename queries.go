@@ -163,7 +163,8 @@ const (
 	getCategoryList = "SELECT id, name, description, image, thumbnail, parent_category_id, " +
 		" store_id " +
 		" FROM category " +
-		" WHERE store_id = ? "
+		" WHERE store_id = ? " +
+		" ORDER by name "
 
 	getHierarchicalCategoryList = " SELECT c6.name as c6, c5.name as c5, c4.name as c4, " +
 		" c3.name as c3, c2.name as c2, c1.name as c1, c1.id " +
