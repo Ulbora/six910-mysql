@@ -1212,4 +1212,24 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	sdb.MockManufacturerList = &[]string{"test1", "test2"}
+	manlst := si.GetProductManufacturerListByProductName("test", 4)
+	if len(*manlst) != 2 {
+		t.Fail()
+	}
+
+	manpdn := si.GetProductByNameAndManufacturerName("test", "tyest", 4, 0, 10)
+	if len(*manpdn) != 1 {
+		t.Fail()
+	}
+
+	manlstc := si.GetProductManufacturerListByCatID(3, 2)
+	if len(*manlstc) != 2 {
+		t.Fail()
+	}
+
+	manpdc := si.GetProductByCatAndManufacturer(5, "test", 4, 0, 10)
+	if len(*manpdc) != 1 {
+		t.Fail()
+	}
 }

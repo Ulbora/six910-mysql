@@ -913,3 +913,25 @@ func (d *MockSix910Mysql) GetTaxRateList(storeID int64) *[]mdb.TaxRate {
 func (d *MockSix910Mysql) DeleteTaxRate(id int64) bool {
 	return d.MockDeleteTaxRateSuccess
 }
+
+//GetProductManufacturerListByProductName GetProductManufacturerListByProductName
+func (d *MockSix910Mysql) GetProductManufacturerListByProductName(name string, storeID int64) *[]string {
+	return d.MockManufacturerList
+}
+
+//GetProductByNameAndManufacturerName GetProductByNameAndManufacturerName
+func (d *MockSix910Mysql) GetProductByNameAndManufacturerName(manf string, name string, storeID int64,
+	start int64, end int64) *[]mdb.Product {
+	return d.MockProductList
+}
+
+//GetProductManufacturerListByCatID GetProductManufacturerListByCatID
+func (d *MockSix910Mysql) GetProductManufacturerListByCatID(catID int64, storeID int64) *[]string {
+	return d.MockManufacturerList
+}
+
+//GetProductByCatAndManufacturer GetProductByCatAndManufacturer
+func (d *MockSix910Mysql) GetProductByCatAndManufacturer(catID int64, manf string, storeID int64,
+	start int64, end int64) *[]mdb.Product {
+	return d.MockProductList
+}

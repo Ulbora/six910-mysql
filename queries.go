@@ -226,6 +226,78 @@ const (
 		" FROM product " +
 		" WHERE name like ? and store_id = ? LIMIT ?, ? "
 
+	// get manf list by prod name
+	// "select distinct manufacturer
+	// from product
+	// where name like '%holster%'"
+
+	getProductManufacturerListByProductName = " SELECT DISTINCT manufacturer " +
+		" FROM product " +
+		" WHERE name like ? and store_id = ? "
+
+	//get product by manf name and name
+	// 	select *
+	// from product
+	// where manufacturer = 'Blackhawk'
+	// and name like '%holster%'
+
+	getProductByNameAndManfName = " SELECT id, sku, gtin, name, short_description, description, " +
+		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
+		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
+		" FROM product " +
+		" WHERE manufacturer = ? and name like ? and store_id = ? LIMIT ?, ? "
+
+	//get manf by cat id
+	// 	SELECT distinct p.manufacturer
+	// FROM product p
+	// inner join product_category pc
+	// on p.id = pc.product_id
+	// inner join category c
+	// on pc.category_id = c.id
+	// WHERE c.id = 188
+	// order by p.manufacturer
+
+	getProductManufacturerListByCatID = " SELECT distinct p.manufacturer " +
+		" FROM product p " +
+		" inner join product_category pc " +
+		" on p.id = pc.product_id " +
+		" inner join category c " +
+		" on pc.category_id = c.id " +
+		" WHERE c.id = ? and p.store_id = ? " +
+		" order by p.manufacturer "
+
+	//get product by cat and manf
+	// 	SELECT p.id, p.sku, p.gtin, p.name, p.short_description, p.description,
+	// p.cost, p.msrp, p.map, p.price, p.sale_price, p.currency, p.manufacturer, p.stock, p.stock_alert, p.weight,
+	// p.width, p.height, p.depth, p.shipping_markup, p.visible, p.searchable, p.multibox,
+	// p.ship_separate, p.free_shipping, p.date_entered, p.date_updated, p.distributor_id, p.promoted, p.dropship,
+	// p.size, p.color, p.parient_product_id, p.store_id, p.thumbnail, p.image1, p.image2, p.image3,
+	// p.image4, p.special_processing, p.special_processing_type, p.manufacturer_id
+	// FROM product p
+	// inner join product_category pc
+	// on p.id = pc.product_id
+	// inner join category c
+	// on pc.category_id = c.id
+	// WHERE c.id = 200 and p.manufacturer = 'Blackhawk'
+	// ORDER BY p.name
+
+	getProductByCatAndManufacturer = "SELECT p.id, p.sku, p.gtin, p.name, p.short_description, p.description, " +
+		" p.cost, p.msrp, p.map, p.price, p.sale_price, p.currency, p.manufacturer, p.stock, p.stock_alert, p.weight, " +
+		" p.width, p.height, p.depth, p.shipping_markup, p.visible, p.searchable, p.multibox, " +
+		" p.ship_separate, p.free_shipping, p.date_entered, p.date_updated, p.distributor_id, p.promoted, p.dropship, " +
+		" p.size, p.color, p.parient_product_id, p.store_id, p.thumbnail, p.image1, p.image2, p.image3, " +
+		" p.image4, p.special_processing, p.special_processing_type, p.manufacturer_id " +
+		" FROM product p " +
+		" inner join product_category pc " +
+		" on p.id = pc.product_id " +
+		" inner join category c " +
+		" on pc.category_id = c.id " +
+		" WHERE c.id = ? and p.manufacturer = ? and p.store_id = ? " +
+		" ORDER BY p.name LIMIT ?, ? "
+
 	getProductByPromoted = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
@@ -247,7 +319,7 @@ const (
 		" on p.id = pc.product_id " +
 		" inner join category c " +
 		" on pc.category_id = c.id " +
-		" WHERE c.id = ? ORDER BY name LIMIT ?, ? "
+		" WHERE c.id = ? ORDER BY p.name LIMIT ?, ? "
 
 	getProductByStore = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +

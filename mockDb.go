@@ -264,6 +264,8 @@ type MockSix910Mysql struct {
 	MockTaxRate              *mdb.TaxRate
 	MockTaxRateList          *[]mdb.TaxRate
 	MockDeleteTaxRateSuccess bool
+
+	MockManufacturerList *[]string
 }
 
 //GetNew GetNew
