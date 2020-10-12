@@ -233,7 +233,8 @@ const (
 
 	getProductManufacturerListByProductName = " SELECT DISTINCT manufacturer " +
 		" FROM product " +
-		" WHERE name like ? and store_id = ? "
+		" WHERE name like ? and store_id = ? " +
+		" ORDER by manufacturer"
 
 	//get product by manf name and name
 	// 	select *
