@@ -579,7 +579,7 @@ const (
 		" on sp.id = g.store_plugins_id " +
 		" inner join store s " +
 		" on s.id = sp.store_id " +
-		" where s.id = ? "
+		" where s.id = ? and sp.active = true"
 
 	deletePaymentGateway = "DELETE FROM payment_gateway WHERE id = ? "
 

@@ -70,7 +70,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	var spi sdbi.StorePlugins
 	spi.APIKey = "123"
 	spi.ActivateURL = "/test"
-	spi.Active = false
+	spi.Active = true
 	spi.Category = "inventory"
 	spi.IframeURL = "/iframe"
 	spi.IsPGW = true
@@ -124,7 +124,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 
 	dbi.Close()
 	fpgwliststr := si.GetPaymentGateways(sid)
-	fmt.Println("fpgw: ", fpgwliststr)
+	fmt.Println("fpgw list: ", fpgwliststr)
 	if len(*fpgwliststr) != 1 {
 		t.Fail()
 	}
