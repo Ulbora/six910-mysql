@@ -35,7 +35,7 @@ func (d *Six910Mysql) AddOrderItem(i *mdb.OrderItem) (bool, int64) {
 	}
 	var a []interface{}
 	a = append(a, i.OrderID, i.ProductID, i.ProductName, i.ProductShortDesc, i.Quantity,
-		i.Dropship, i.BackOrdered)
+		i.Dropship, i.BackOrdered, i.Price, i.Total, i.Image)
 	suc, id := d.DB.Insert(insertOrderItem, a...)
 	d.Log.Debug("suc in add OrderItem", suc)
 	d.Log.Debug("id in add OrderItem", id)
@@ -48,7 +48,7 @@ func (d *Six910Mysql) UpdateOrderItem(i *mdb.OrderItem) bool {
 		d.DB.Connect()
 	}
 	var a []interface{}
-	a = append(a, i.Quantity, i.Dropship, i.BackOrdered, i.ID)
+	a = append(a, i.Quantity, i.Dropship, i.BackOrdered, i.Price, i.Total, i.Image, i.ID)
 	suc := d.DB.Update(updateOrderItem, a...)
 	return suc
 }
@@ -115,14 +115,23 @@ func (d *Six910Mysql) parseOrderItemRow(foundRow *[]string) *mdb.OrderItem {
 						if enerr == nil {
 							back, enerr := strconv.ParseBool((*foundRow)[7])
 							if enerr == nil {
-								rtn.ID = id
-								rtn.OrderID = oid
-								rtn.ProductID = pid
-								rtn.Quantity = qty
-								rtn.Dropship = dship
-								rtn.BackOrdered = back
-								rtn.ProductName = (*foundRow)[3]
-								rtn.ProductShortDesc = (*foundRow)[4]
+								price, err := strconv.ParseFloat((*foundRow)[8], 64)
+								if err == nil {
+									total, err := strconv.ParseFloat((*foundRow)[9], 64)
+									if err == nil {
+										rtn.ID = id
+										rtn.OrderID = oid
+										rtn.ProductID = pid
+										rtn.Quantity = qty
+										rtn.Dropship = dship
+										rtn.BackOrdered = back
+										rtn.Price = price
+										rtn.Total = total
+										rtn.ProductName = (*foundRow)[3]
+										rtn.ProductShortDesc = (*foundRow)[4]
+										rtn.Image = (*foundRow)[10]
+									}
+								}
 							}
 						}
 					}

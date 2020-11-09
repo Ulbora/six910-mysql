@@ -664,19 +664,20 @@ const (
 	deleteOrder = "DELETE FROM orders WHERE id = ? "
 
 	insertOrderItem = "INSERT INTO order_item (order_id, product_id, product_name, product_short_desc, " +
-		" quantity, dropship, backordered) " +
-		" values(?, ?, ?, ?, ?, ?, ?) "
+		" quantity, dropship, backordered, price, total, image) " +
+		" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
 
-	updateOrderItem = " UPDATE order_item SET quantity = ?, dropship = ?, backordered = ? " +
+	updateOrderItem = " UPDATE order_item SET quantity = ?, dropship = ?, backordered = ?, " +
+		" price = ?, total = ?, image = ? " +
 		" WHERE id = ? "
 
 	getOrderItem = "SELECT id, order_id, product_id, product_name, product_short_desc, " +
-		" quantity, dropship, backordered " +
+		" quantity, dropship, backordered, price, total, image " +
 		" FROM order_item " +
 		" WHERE id = ? "
 
 	getOrderItemList = "SELECT id, order_id, product_id, product_name, product_short_desc, " +
-		" quantity, dropship, backordered " +
+		" quantity, dropship, backordered, price, total, image " +
 		" FROM order_item " +
 		" WHERE order_id = ? "
 

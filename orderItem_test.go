@@ -83,6 +83,9 @@ func TestSix910Mysql_AddOrderItem(t *testing.T) {
 	oi.ProductName = "Printer"
 	oi.ProductShortDesc = "HP deskjet printer"
 	oi.Quantity = 1
+	oi.Price = 10.25
+	oi.Total = 10.25
+	oi.Image = "/testimg"
 
 	dbi.Close()
 	oisuc, oiid := si.AddOrderItem(&oi)
