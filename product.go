@@ -63,6 +63,17 @@ func (d *Six910Mysql) UpdateProduct(p *mdb.Product) bool {
 	return suc
 }
 
+//UpdateProductQuantity UpdateProductQuantity
+func (d *Six910Mysql) UpdateProductQuantity(p *mdb.Product) bool {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, p.Stock, p.ID)
+	suc := d.DB.Update(updateProductQuantity, a...)
+	return suc
+}
+
 //GetProductByID GetProductByID
 func (d *Six910Mysql) GetProductByID(id int64) *mdb.Product {
 	if !d.testConnection() {

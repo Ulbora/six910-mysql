@@ -179,10 +179,17 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 		t.Fail()
 	}
 
+	prod.Stock = 400
+	dbi.Close()
+	uqsuc := si.UpdateProductQuantity(&prod)
+	if !uqsuc {
+		t.Fail()
+	}
+
 	dbi.Close()
 	fprod := si.GetProductByID(pid)
 	fmt.Println("fprod", fprod)
-	if fprod.ID != pid {
+	if fprod.ID != pid || fprod.Stock != 400 {
 		t.Fail()
 	}
 	if fprod.DistributorID != did {

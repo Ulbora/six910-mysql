@@ -453,6 +453,12 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	sdb.MockUpdateProductQuantitySuccess = true
+	uqprodsuc := si.UpdateProductQuantity(&prod)
+	if !uqprodsuc {
+		t.Fail()
+	}
+
 	sdb.MockProduct = &prod
 	fprod := si.GetProductByID(2)
 	if fprod.Color != prod.Color {

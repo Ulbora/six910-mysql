@@ -349,6 +349,11 @@ func (d *MockSix910Mysql) UpdateProduct(p *mdb.Product) bool {
 	return d.MockUpdateProductSuccess
 }
 
+//UpdateProductQuantity UpdateProductQuantity
+func (d *MockSix910Mysql) UpdateProductQuantity(p *mdb.Product) bool {
+	return d.MockUpdateProductQuantitySuccess
+}
+
 //GetProductByID GetProductByID
 func (d *MockSix910Mysql) GetProductByID(id int64) *mdb.Product {
 	return d.MockProduct

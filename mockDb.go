@@ -110,12 +110,13 @@ type MockSix910Mysql struct {
 	MockInsuranceList          *[]mdb.Insurance
 	MockDeleteInsuranceSuccess bool
 
-	MockAddProductSuccess    bool
-	MockProductID            int64
-	MockUpdateProductSuccess bool
-	MockProduct              *mdb.Product
-	MockProductList          *[]mdb.Product
-	MockDeleteProductSuccess bool
+	MockAddProductSuccess            bool
+	MockProductID                    int64
+	MockUpdateProductSuccess         bool
+	MockUpdateProductQuantitySuccess bool
+	MockProduct                      *mdb.Product
+	MockProductList                  *[]mdb.Product
+	MockDeleteProductSuccess         bool
 
 	MockAddRegionSuccess    bool
 	MockRegionID            int64

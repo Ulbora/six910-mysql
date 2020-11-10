@@ -200,6 +200,9 @@ const (
 		" image4 = ?, special_processing = ?, special_processing_type = ? " +
 		" WHERE id = ?"
 
+	updateProductQuantity = "UPDATE product SET  stock = ? " +
+		" WHERE id = ?"
+
 	getProduct = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
