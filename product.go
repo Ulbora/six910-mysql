@@ -2,6 +2,7 @@ package six910mysql
 
 import (
 	"strconv"
+	"strings"
 	"time"
 
 	mdb "github.com/Ulbora/six910-database-interface"
@@ -173,6 +174,66 @@ func (d *Six910Mysql) GetProductList(storeID int64, start int64, end int64) *[]m
 			foundRow := foundRows[r]
 			rowContent := d.parseProductRow(&foundRow)
 			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
+}
+
+//GetProductIDList GetProductIDList
+func (d *Six910Mysql) GetProductIDList(storeID int64) *[]int64 {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []int64{}
+	var a []interface{}
+	a = append(a, storeID)
+	rows := d.DB.GetList(getProductIDList, a...)
+	//d.Log.Debug("rows Order sales", *rows)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			if len(foundRow) > 0 {
+				id, err := strconv.ParseInt(foundRow[0], 10, 64)
+				d.Log.Debug("id err in get product id list", err)
+				if err == nil {
+					rtn = append(rtn, id)
+				}
+			}
+		}
+	}
+	return &rtn
+}
+
+//GetProductIDListByCategories GetProductIDListByCategories
+func (d *Six910Mysql) GetProductIDListByCategories(storeID int64, catList *[]int64) *[]int64 {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []int64{}
+	var a []interface{}
+	a = append(a, storeID)
+	for _, id := range *catList {
+		a = append(a, id)
+	}
+	var getProductIDListByCategory = " SELECT pc.product_id " +
+		" FROM product_category pc " +
+		" inner join category c " +
+		" on c.id = pc.category_id " +
+		" WHERE c.store_id = ? and pc.category_id IN (?" + strings.Repeat(",?", len(*catList)-1) + ")"
+	rows := d.DB.GetList(getProductIDListByCategory, a...)
+	//d.Log.Debug("rows Order sales", *rows)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			if len(foundRow) > 0 {
+				id, err := strconv.ParseInt(foundRow[0], 10, 64)
+				d.Log.Debug("product_id err in get product id by cat list", err)
+				if err == nil {
+					rtn = append(rtn, id)
+				}
+			}
 		}
 	}
 	return &rtn

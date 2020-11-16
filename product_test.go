@@ -285,6 +285,20 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	}
 
 	dbi.Close()
+	prodIDLst := si.GetProductIDList(sid)
+	fmt.Println("prodIDLst", prodIDLst)
+	if len(*prodIDLst) != 2 {
+		t.Fail()
+	}
+
+	dbi.Close()
+	prodIDByCatLst := si.GetProductIDListByCategories(sid, catlist)
+	fmt.Println("prodIDByCatLst", prodIDByCatLst)
+	if len(*prodIDByCatLst) != 1 {
+		t.Fail()
+	}
+
+	dbi.Close()
 	dprodCatSuc := si.DeleteProductCategory(&pcat)
 	if !dprodCatSuc {
 		t.Fail()

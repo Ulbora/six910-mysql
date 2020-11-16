@@ -479,6 +479,21 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	var prodIDlst []int64
+	prodIDlst = append(prodIDlst, 1)
+	sdb.MockProductIDList = &prodIDlst
+	pidlst := si.GetProductIDList(4)
+	if len(*pidlst) != 1 {
+		t.Fail()
+	}
+
+	var prodctIDlst []int64
+	prodctIDlst = append(prodctIDlst, 1)
+	pcidlst := si.GetProductIDListByCategories(4, &prodctIDlst)
+	if len(*pcidlst) != 1 {
+		t.Fail()
+	}
+
 	fprodlst2 := si.GetProductsByCaterory(3, 3, 3)
 	if len(*fprodlst2) != 1 {
 		t.Fail()
@@ -742,6 +757,26 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	sdb.MockOrderList = &odrlst
 	fodrlst3 := si.GetStoreOrderListByStatus("test", 6)
 	if len(*fodrlst3) != 1 {
+		t.Fail()
+	}
+
+	var octlst []sdbi.OrderCountData
+	var oct sdbi.OrderCountData
+	oct.OrderCount = 5
+	octlst = append(octlst, oct)
+	sdb.MockOrderCountData = &octlst
+	foctlst := si.GetOrderCountData(5)
+	if len(*foctlst) != 1 {
+		t.Fail()
+	}
+
+	var oslst []sdbi.OrderSalesData
+	var os sdbi.OrderSalesData
+	os.OrderTotal = 5.5
+	oslst = append(oslst, os)
+	sdb.MockOrderSalesData = &oslst
+	foslst := si.GetOrderSalesData(5)
+	if len(*foslst) != 1 {
 		t.Fail()
 	}
 
@@ -1236,6 +1271,23 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 
 	manpdc := si.GetProductByCatAndManufacturer(5, "test", 4, 0, 10)
 	if len(*manpdc) != 1 {
+		t.Fail()
+	}
+
+	sdb.MockAddVisitorResp = true
+	var vst sdbi.Visitor
+	avissuc := si.AddVisit(&vst)
+	if !avissuc {
+		t.Fail()
+	}
+
+	var vslst []sdbi.VisitorData
+	var vs sdbi.VisitorData
+	vs.VisitCount = 5
+	vslst = append(vslst, vs)
+	sdb.MockVisitorData = &vslst
+	fvslst := si.GetVisitorData(5)
+	if len(*fvslst) != 1 {
 		t.Fail()
 	}
 }

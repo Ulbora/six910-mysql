@@ -116,6 +116,7 @@ type MockSix910Mysql struct {
 	MockUpdateProductQuantitySuccess bool
 	MockProduct                      *mdb.Product
 	MockProductList                  *[]mdb.Product
+	MockProductIDList                *[]int64
 	MockDeleteProductSuccess         bool
 
 	MockAddRegionSuccess    bool
@@ -166,6 +167,8 @@ type MockSix910Mysql struct {
 	MockUpdateOrderSuccess bool
 	MockOrder              *mdb.Order
 	MockOrderList          *[]mdb.Order
+	MockOrderCountData     *[]mdb.OrderCountData
+	MockOrderSalesData     *[]mdb.OrderSalesData
 	MockDeleteOrderSuccess bool
 
 	MockAddOrderItemSuccess    bool
@@ -267,6 +270,9 @@ type MockSix910Mysql struct {
 	MockDeleteTaxRateSuccess bool
 
 	MockManufacturerList *[]string
+
+	MockAddVisitorResp bool
+	MockVisitorData    *[]mdb.VisitorData
 }
 
 //GetNew GetNew

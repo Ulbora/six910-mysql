@@ -384,6 +384,16 @@ func (d *MockSix910Mysql) GetProductList(storeID int64, start int64, end int64) 
 	return d.MockProductList
 }
 
+//GetProductIDList GetProductIDList
+func (d *MockSix910Mysql) GetProductIDList(storeID int64) *[]int64 {
+	return d.MockProductIDList
+}
+
+//GetProductIDListByCategories GetProductIDListByCategories
+func (d *MockSix910Mysql) GetProductIDListByCategories(storeID int64, catList *[]int64) *[]int64 {
+	return d.MockProductIDList
+}
+
 //DeleteProduct DeleteProduct
 func (d *MockSix910Mysql) DeleteProduct(id int64) bool {
 	return d.MockDeleteProductSuccess
@@ -566,6 +576,16 @@ func (d *MockSix910Mysql) GetStoreOrderList(storeID int64) *[]mdb.Order {
 //GetStoreOrderListByStatus GetStoreOrderListByStatus
 func (d *MockSix910Mysql) GetStoreOrderListByStatus(status string, storeID int64) *[]mdb.Order {
 	return d.MockOrderList
+}
+
+//GetOrderCountData GetOrderCountData
+func (d *MockSix910Mysql) GetOrderCountData(storeID int64) *[]mdb.OrderCountData {
+	return d.MockOrderCountData
+}
+
+//GetOrderSalesData GetOrderSalesData
+func (d *MockSix910Mysql) GetOrderSalesData(storeID int64) *[]mdb.OrderSalesData {
+	return d.MockOrderSalesData
 }
 
 //DeleteOrder DeleteOrder
@@ -940,3 +960,14 @@ func (d *MockSix910Mysql) GetProductByCatAndManufacturer(catID int64, manf strin
 	start int64, end int64) *[]mdb.Product {
 	return d.MockProductList
 }
+
+//AddVisit AddVisit
+func (d *MockSix910Mysql) AddVisit(v *mdb.Visitor) bool {
+	return d.MockAddVisitorResp
+}
+
+//GetVisitorData GetVisitorData
+func (d *MockSix910Mysql) GetVisitorData(storeID int64) *[]mdb.VisitorData {
+	return d.MockVisitorData
+}
+

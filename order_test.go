@@ -2,12 +2,14 @@ package six910mysql
 
 import (
 	"fmt"
+
 	"testing"
 	"time"
 
 	lg "github.com/Ulbora/Level_Logger"
 	db "github.com/Ulbora/dbinterface"
 	mdb "github.com/Ulbora/dbinterface_mysql"
+
 	sdbi "github.com/Ulbora/six910-database-interface"
 )
 
@@ -138,6 +140,20 @@ func TestSix910Mysql_Order(t *testing.T) {
 	fodrlist4 := si.GetStoreOrderListByStatus("new", sid)
 	fmt.Println("fodrlist4: ", fodrlist4)
 	if len(*fodrlist4) != 0 {
+		t.Fail()
+	}
+
+	dbi.Close()
+	cntLst := si.GetOrderCountData(sid)
+	fmt.Println("cntLst: ", cntLst)
+	if len(*cntLst) != 1 {
+		t.Fail()
+	}
+
+	dbi.Close()
+	salLst := si.GetOrderSalesData(sid)
+	fmt.Println("salLst: ", salLst)
+	if len(*salLst) != 1 || (*salLst)[0].OrderTotal != 146.22 {
 		t.Fail()
 	}
 

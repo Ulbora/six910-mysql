@@ -32,7 +32,8 @@ import (
 )
 
 const (
-	timeFormat = "2006-01-02 15:04:05"
+	timeFormat     = "2006-01-02 15:04:05"
+	dateOnlyFormat = "2006-01-02"
 )
 
 //Six910Mysql Six910Mysql

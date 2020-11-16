@@ -131,6 +131,72 @@ func (d *Six910Mysql) GetStoreOrderListByStatus(status string, storeID int64) *[
 	return &rtn
 }
 
+//GetOrderCountData GetOrderCountData
+func (d *Six910Mysql) GetOrderCountData(storeID int64) *[]mdb.OrderCountData {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []mdb.OrderCountData{}
+	var a []interface{}
+	a = append(a, storeID)
+	rows := d.DB.GetList(getOrderCountData, a...)
+	//d.Log.Debug("rows Order count", *rows)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			var oct mdb.OrderCountData
+			if len(foundRow) > 0 {
+				dt, err := time.Parse(dateOnlyFormat, foundRow[0])
+				d.Log.Debug("dt err in get Order count", err)
+				if err == nil {
+					cnt, err := strconv.ParseInt(foundRow[1], 10, 64)
+					d.Log.Debug("cnt err in get Order count", err)
+					if err == nil {
+						oct.OrderDate = dt
+						oct.OrderCount = cnt
+						rtn = append(rtn, oct)
+					}
+				}
+			}
+		}
+	}
+	return &rtn
+}
+
+//GetOrderSalesData GetOrderSalesData
+func (d *Six910Mysql) GetOrderSalesData(storeID int64) *[]mdb.OrderSalesData {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []mdb.OrderSalesData{}
+	var a []interface{}
+	a = append(a, storeID)
+	rows := d.DB.GetList(getOrderSalesData, a...)
+	//d.Log.Debug("rows Order sales", *rows)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			var osl mdb.OrderSalesData
+			if len(foundRow) > 0 {
+				dt, err := time.Parse(dateOnlyFormat, foundRow[0])
+				d.Log.Debug("dt err in get Order sales", err)
+				if err == nil {
+					tot, err := strconv.ParseFloat(foundRow[1], 64)
+					d.Log.Debug("cnt err in get Order sales", err)
+					if err == nil {
+						osl.OrderDate = dt
+						osl.OrderTotal = tot
+						rtn = append(rtn, osl)
+					}
+				}
+			}
+		}
+	}
+	return &rtn
+}
+
 //DeleteOrder DeleteOrder
 func (d *Six910Mysql) DeleteOrder(id int64) bool {
 	if !d.testConnection() {

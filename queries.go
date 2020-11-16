@@ -229,6 +229,10 @@ const (
 		" FROM product " +
 		" WHERE name like ? and store_id = ? LIMIT ?, ? "
 
+	getProductIDList = " SELECT id " +
+		" FROM product " +
+		" WHERE store_id = ? "
+
 	// get manf list by prod name
 	// "select distinct manufacturer
 	// from product
@@ -664,6 +668,28 @@ const (
 		" FROM orders " +
 		" WHERE store_id = ? and status = ? "
 
+	getOrderCountData = " SELECT DATE(order_date) dateOnly , count(*) cnt " +
+		" FROM orders " +
+		" WHERE store_id = ? " +
+		" group by dateOnly " +
+		" order by dateOnly "
+
+	// SELECT  DATE(order_date) dateOnly , count(*)
+	// FROM `orders`
+	// group by dateOnly
+	// order by dateOnly
+
+	getOrderSalesData = " SELECT DATE(order_date) dateOnly , sum(total) sales " +
+		" FROM orders " +
+		" WHERE store_id = ? " +
+		" group by dateOnly " +
+		" order by dateOnly "
+
+	// 	SELECT  DATE(order_date) dateOnly , sum(total)
+	// FROM `orders`
+	// group by dateOnly
+	// order by dateOnly
+
 	deleteOrder = "DELETE FROM orders WHERE id = ? "
 
 	insertOrderItem = "INSERT INTO order_item (order_id, product_id, product_name, product_short_desc, " +
@@ -772,4 +798,17 @@ const (
 		" WHERE sb.box_number = ? and si.shipment_id = ?"
 
 	deleteShipmentItem = "DELETE FROM shipment_item WHERE id = ? "
+
+	insertVisitor = "INSERT INTO visitor (origin, host, ip_address, " +
+		" date_entered, store_id )" +
+		" values(?, ?, ?, ?, ?) "
+
+	getVisitorCharteInfo = "SELECT DATE(date_entered) dateOnly , count(*) " +
+		" FROM visitor " +
+		" WHERE store_id = ? " +
+		" group by dateOnly" +
+		" order by dateOnly"
+
+//also add code for site map generation
+
 )
