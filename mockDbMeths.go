@@ -970,4 +970,3 @@ func (d *MockSix910Mysql) AddVisit(v *mdb.Visitor) bool {
 func (d *MockSix910Mysql) GetVisitorData(storeID int64) *[]mdb.VisitorData {
 	return d.MockVisitorData
 }
-
