@@ -106,6 +106,11 @@ func (d *MockSix910Mysql) GetCustomerList(storeID int64, start int64, end int64)
 	return d.MockCustomerList
 }
 
+//GetCustomerUsers GetCustomerUsers
+func (d *MockSix910Mysql) GetCustomerUsers(cid int64, storeID int64) *[]mdb.LocalAccount {
+	return d.MockLocalAccountList
+}
+
 //GetCustomerID GetCustomerID
 func (d *MockSix910Mysql) GetCustomerID(id int64) *mdb.Customer {
 	return d.MockCustomer

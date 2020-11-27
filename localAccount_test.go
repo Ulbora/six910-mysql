@@ -105,6 +105,13 @@ func TestSix910Mysql_AddLocalAccount(t *testing.T) {
 	}
 
 	dbi.Close()
+	clacList := si.GetCustomerUsers(cid, sid)
+	fmt.Println("clacList", clacList)
+	if len(*clacList) != 1 {
+		t.Fail()
+	}
+
+	dbi.Close()
 	dsuc := si.DeleteLocalAccount("someuser", sid)
 	if !dsuc {
 		t.Fail()

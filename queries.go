@@ -88,6 +88,11 @@ const (
 		" ORDER BY email " +
 		" LIMIT ?, ? "
 
+	getCustomerUserList = "SELECT username, password, enabled, role, " +
+		" store_id, customer_id, date_entered, date_updated " +
+		" FROM local_account " +
+		" WHERE customer_id = ? and store_id = ?  "
+
 	deleteCustomer = "DELETE FROM customer WHERE id = ? "
 
 	insertLocalAccount = " insert into local_account (username, password, enabled, role, " +

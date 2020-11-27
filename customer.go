@@ -99,6 +99,26 @@ func (d *Six910Mysql) GetCustomerID(id int64) *mdb.Customer {
 	return rtn
 }
 
+//GetCustomerUsers GetCustomerUsers
+func (d *Six910Mysql) GetCustomerUsers(cid int64, storeID int64) *[]mdb.LocalAccount {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []mdb.LocalAccount{}
+	var a []interface{}
+	a = append(a, cid, storeID)
+	rows := d.DB.GetList(getCustomerUserList, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			rowContent := d.parseLocalAccountRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+	return &rtn
+}
+
 //DeleteCustomer DeleteCustomer
 func (d *Six910Mysql) DeleteCustomer(id int64) bool {
 	if !d.testConnection() {

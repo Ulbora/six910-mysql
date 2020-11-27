@@ -167,6 +167,11 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	fculist := si.GetCustomerUsers(3, 5)
+	if len(*fculist) != 1 {
+		t.Fail()
+	}
+
 	sdb.MockDeleteLocalAccountSuccess = true
 	dllacsuc := si.DeleteLocalAccount("test", 4)
 	if !dllacsuc {
