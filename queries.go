@@ -572,20 +572,25 @@ const (
 	deleteStorePlugin = "DELETE FROM store_plugins WHERE id = ? "
 
 	insertPaymentGateway = "INSERT into payment_gateway(store_plugins_id, checkout_url, post_order_url, logo_url, " +
-		" client_id, client_key) " +
-		" values(?,?,?,?,?,?)"
+		" client_id, client_key, name, token) " +
+		" values(?,?,?,?,?,?,?,?)"
 
 	updatePaymentGateway = "UPDATE payment_gateway SET checkout_url = ?, post_order_url = ?, logo_url = ?, " +
-		" client_id = ?, client_key = ? " +
+		" client_id = ?, client_key = ?, token = ? " +
 		" WHERE id = ? "
 
 	getPaymentGateway = "SELECT id, store_plugins_id, checkout_url, post_order_url, logo_url, " +
-		" client_id, client_key " +
+		" client_id, client_key, name, token " +
 		" FROM payment_gateway " +
 		" WHERE id = ? "
 
+	getPaymentGatewayByName = "SELECT id, store_plugins_id, checkout_url, post_order_url, logo_url, " +
+		" client_id, client_key, name, token " +
+		" FROM payment_gateway " +
+		" WHERE name = ? "
+
 	getPaymentGatewayByStore = " SELECT g.id, g.store_plugins_id, g.checkout_url, " +
-		" g.post_order_url, g.logo_url, g.client_id, g.client_key " +
+		" g.post_order_url, g.logo_url, g.client_id, g.client_key, g.name, g.token " +
 		" FROM payment_gateway g " +
 		" inner join store_plugins sp " +
 		" on sp.id = g.store_plugins_id " +

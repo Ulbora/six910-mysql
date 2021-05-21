@@ -42,6 +42,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 
 	pisuc, piid := si.AddPlugin(&pi)
 	if !pisuc || piid == 0 {
+		fmt.Println("failing add plugin-------------------")
 		t.Fail()
 	}
 
@@ -64,6 +65,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	str.Enabled = false
 	suc, sid := si.AddStore(&str)
 	if !suc || sid == 0 {
+		fmt.Println("failing add store-------------------")
 		t.Fail()
 	}
 
@@ -85,6 +87,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 
 	spisuc, spiid := si.AddStorePlugin(&spi)
 	if !spisuc || spiid == 0 {
+		fmt.Println("failing add store plugin-------------------")
 		t.Fail()
 	}
 
@@ -95,10 +98,13 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	pgw.LogoURL = "/login"
 	pgw.PostOrderURL = "/post"
 	pgw.StorePluginsID = spiid
+	pgw.Token = "token"
+	pgw.Name = "BTC Test"
 
 	dbi.Close()
 	pgwsuc, pgwid := si.AddPaymentGateway(&pgw)
 	if !pgwsuc || pgwid == 0 {
+		fmt.Println("failing add payment gw-------------------")
 		t.Fail()
 	}
 
@@ -108,10 +114,12 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	pgw.ClientKey = "56165162"
 	pgw.LogoURL = "/login2"
 	pgw.PostOrderURL = "/post2"
+	pgw.Token = "token2"
 
 	dbi.Close()
 	upgwsuc := si.UpdatePaymentGateway(&pgw)
 	if !upgwsuc {
+		fmt.Println("failing update payment gw-------------------")
 		t.Fail()
 	}
 
@@ -119,6 +127,15 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	fpgw := si.GetPaymentGateway(pgwid)
 	fmt.Println("fpgw: ", fpgw)
 	if fpgw.ClientID != pgw.ClientID {
+		fmt.Println("failing get payment gw-------------------")
+		t.Fail()
+	}
+
+	dbi.Close()
+	fpgw2 := si.GetPaymentGatewayByName("BTC Test")
+	fmt.Println("fpgw2: ", fpgw)
+	if fpgw2.ClientID != pgw.ClientID || fpgw2.Name != "BTC Test" || fpgw2.Token != "token2" {
+		fmt.Println("failing get payment gw by name-------------------")
 		t.Fail()
 	}
 
@@ -126,6 +143,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	fpgwliststr := si.GetPaymentGateways(sid)
 	fmt.Println("fpgw list: ", fpgwliststr)
 	if len(*fpgwliststr) != 1 {
+		fmt.Println("failing get payment gw list-------------------")
 		t.Fail()
 	}
 

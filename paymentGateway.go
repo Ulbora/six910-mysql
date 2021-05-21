@@ -35,7 +35,7 @@ func (d *Six910Mysql) AddPaymentGateway(pgw *mdb.PaymentGateway) (bool, int64) {
 	}
 	var a []interface{}
 	a = append(a, pgw.StorePluginsID, pgw.CheckoutURL, pgw.PostOrderURL, pgw.LogoURL, pgw.ClientID,
-		pgw.ClientKey)
+		pgw.ClientKey, pgw.Name, pgw.Token)
 	suc, id := d.DB.Insert(insertPaymentGateway, a...)
 	d.Log.Debug("suc in add PaymentGateway", suc)
 	d.Log.Debug("id in add PaymentGateway", id)
@@ -49,7 +49,7 @@ func (d *Six910Mysql) UpdatePaymentGateway(pgw *mdb.PaymentGateway) bool {
 	}
 	var a []interface{}
 	a = append(a, pgw.CheckoutURL, pgw.PostOrderURL, pgw.LogoURL, pgw.ClientID,
-		pgw.ClientKey, pgw.ID)
+		pgw.ClientKey, pgw.Token, pgw.ID)
 	suc := d.DB.Update(updatePaymentGateway, a...)
 	return suc
 }
@@ -62,6 +62,18 @@ func (d *Six910Mysql) GetPaymentGateway(id int64) *mdb.PaymentGateway {
 	var a []interface{}
 	a = append(a, id)
 	row := d.DB.Get(getPaymentGateway, a...)
+	rtn := d.parsePaymentGatewayRow(&row.Row)
+	return rtn
+}
+
+//GetPaymentGatewayByName GetPaymentGatewayByName
+func (d *Six910Mysql) GetPaymentGatewayByName(name string) *mdb.PaymentGateway {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, name)
+	row := d.DB.Get(getPaymentGatewayByName, a...)
 	rtn := d.parsePaymentGatewayRow(&row.Row)
 	return rtn
 }
@@ -113,6 +125,8 @@ func (d *Six910Mysql) parsePaymentGatewayRow(foundRow *[]string) *mdb.PaymentGat
 				rtn.LogoURL = (*foundRow)[4]
 				rtn.ClientID = (*foundRow)[5]
 				rtn.ClientKey = (*foundRow)[6]
+				rtn.Name = (*foundRow)[7]
+				rtn.Token = (*foundRow)[8]
 			}
 		}
 	}

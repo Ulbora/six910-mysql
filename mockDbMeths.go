@@ -806,6 +806,11 @@ func (d *MockSix910Mysql) GetPaymentGateway(id int64) *mdb.PaymentGateway {
 	return d.MockPaymentGateway
 }
 
+//GetPaymentGatewayByName GetPaymentGatewayByName
+func (d *MockSix910Mysql) GetPaymentGatewayByName(name string) *mdb.PaymentGateway {
+	return d.MockPaymentGateway
+}
+
 //GetPaymentGateways GetPaymentGateways
 func (d *MockSix910Mysql) GetPaymentGateways(storeID int64) *[]mdb.PaymentGateway {
 	return d.MockPaymentGatewayList
