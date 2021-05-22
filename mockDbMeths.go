@@ -807,7 +807,7 @@ func (d *MockSix910Mysql) GetPaymentGateway(id int64) *mdb.PaymentGateway {
 }
 
 //GetPaymentGatewayByName GetPaymentGatewayByName
-func (d *MockSix910Mysql) GetPaymentGatewayByName(name string) *mdb.PaymentGateway {
+func (d *MockSix910Mysql) GetPaymentGatewayByName(name string, storeID int64) *mdb.PaymentGateway {
 	return d.MockPaymentGateway
 }
 

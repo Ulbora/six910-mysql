@@ -132,7 +132,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	}
 
 	dbi.Close()
-	fpgw2 := si.GetPaymentGatewayByName("BTC Test")
+	fpgw2 := si.GetPaymentGatewayByName("BTC Test", sid)
 	fmt.Println("fpgw2: ", fpgw)
 	if fpgw2.ClientID != pgw.ClientID || fpgw2.Name != "BTC Test" || fpgw2.Token != "token2" {
 		fmt.Println("failing get payment gw by name-------------------")
@@ -165,5 +165,7 @@ func TestSix910Mysql_AddPaymentGateway(t *testing.T) {
 	}
 
 	dbi.Close()
+
+	// t.Fail()
 
 }

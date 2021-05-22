@@ -584,10 +584,13 @@ const (
 		" FROM payment_gateway " +
 		" WHERE id = ? "
 
-	getPaymentGatewayByName = "SELECT id, store_plugins_id, checkout_url, post_order_url, logo_url, " +
-		" client_id, client_key, name, token " +
-		" FROM payment_gateway " +
-		" WHERE name = ? "
+	getPaymentGatewayByName = "SELECT pg.id, pg.store_plugins_id, pg.checkout_url, " +
+		" pg.post_order_url, pg.logo_url, " +
+		" pg.client_id, pg.client_key, pg.name, pg.token " +
+		" FROM payment_gateway pg " +
+		" inner join store_plugins p " +
+		" on p.id = pg.store_plugins_id " +
+		" WHERE pg.name = ? and p.store_id = ? "
 
 	getPaymentGatewayByStore = " SELECT g.id, g.store_plugins_id, g.checkout_url, " +
 		" g.post_order_url, g.logo_url, g.client_id, g.client_key, g.name, g.token " +

@@ -67,12 +67,12 @@ func (d *Six910Mysql) GetPaymentGateway(id int64) *mdb.PaymentGateway {
 }
 
 //GetPaymentGatewayByName GetPaymentGatewayByName
-func (d *Six910Mysql) GetPaymentGatewayByName(name string) *mdb.PaymentGateway {
+func (d *Six910Mysql) GetPaymentGatewayByName(name string, storeID int64) *mdb.PaymentGateway {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
 	var a []interface{}
-	a = append(a, name)
+	a = append(a, name, storeID)
 	row := d.DB.Get(getPaymentGatewayByName, a...)
 	rtn := d.parsePaymentGatewayRow(&row.Row)
 	return rtn

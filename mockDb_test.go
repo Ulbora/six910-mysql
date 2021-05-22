@@ -1082,7 +1082,7 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
-	fpgw2 := si.GetPaymentGatewayByName("test")
+	fpgw2 := si.GetPaymentGatewayByName("test", 5)
 	if fpgw2.CheckoutURL != pgw.CheckoutURL {
 		t.Fail()
 	}
