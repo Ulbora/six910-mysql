@@ -694,7 +694,7 @@ const (
 
 	getOrderSalesData = " SELECT DATE(order_date) dateOnly , sum(total) sales " +
 		" FROM orders " +
-		" WHERE store_id = ? " +
+		" WHERE store_id = ? and order_date > DATE_SUB(NOW(), INTERVAL 90 DAY)" +
 		" group by dateOnly " +
 		" order by dateOnly "
 
