@@ -818,7 +818,7 @@ const (
 
 	getVisitorCharteInfo = "SELECT DATE(date_entered) dateOnly , count(*) " +
 		" FROM visitor " +
-		" WHERE store_id = ? " +
+		" WHERE store_id = ? and date_entered > DATE_SUB(NOW(), INTERVAL 90 DAY)" +
 		" group by dateOnly" +
 		" order by dateOnly"
 
