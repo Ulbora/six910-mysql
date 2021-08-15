@@ -34,7 +34,8 @@ func (d *Six910Mysql) AddAddress(ad *mdb.Address) (bool, int64) {
 		d.DB.Connect()
 	}
 	var a []interface{}
-	a = append(a, ad.Address, ad.City, ad.State, ad.Zip, ad.County, ad.Country, ad.Type, ad.CustomerID)
+	a = append(a, ad.Address, ad.City, ad.State, ad.Zip, ad.County, ad.Country, ad.Type, ad.CustomerID,
+		ad.Attr1, ad.Attr2, ad.Attr3, ad.Attr4)
 	suc, id := d.DB.Insert(insertAddress, a...)
 	d.Log.Debug("suc in add address", suc)
 	d.Log.Debug("id in add address", id)
@@ -47,7 +48,8 @@ func (d *Six910Mysql) UpdateAddress(ad *mdb.Address) bool {
 		d.DB.Connect()
 	}
 	var a []interface{}
-	a = append(a, ad.Address, ad.City, ad.State, ad.Zip, ad.County, ad.Country, ad.Type, ad.ID)
+	a = append(a, ad.Address, ad.City, ad.State, ad.Zip, ad.County, ad.Country, ad.Type,
+		ad.Attr1, ad.Attr2, ad.Attr3, ad.Attr4, ad.ID)
 	suc := d.DB.Update(updateAddress, a...)
 	return suc
 }
@@ -113,6 +115,10 @@ func (d *Six910Mysql) parseAddressRow(foundRow *[]string) *mdb.Address {
 				rtn.County = (*foundRow)[5]
 				rtn.Country = (*foundRow)[6]
 				rtn.Type = (*foundRow)[7]
+				rtn.Attr1 = (*foundRow)[9]
+				rtn.Attr2 = (*foundRow)[10]
+				rtn.Attr3 = (*foundRow)[11]
+				rtn.Attr4 = (*foundRow)[12]
 			}
 		}
 	}

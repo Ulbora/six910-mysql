@@ -115,19 +115,20 @@ const (
 	deleteLocalAccount = "DELETE FROM local_account WHERE username = ? and store_id = ? "
 
 	insertAddress = "INSERT into address(address, city, state, zip, " +
-		" county, country, address_type, customer_id) " +
-		" values(?,?,?,?,?,?,?,?)"
+		" county, country, address_type, customer_id, attr1, attr2, attr3, attr4) " +
+		" values(?,?,?,?,?,?,?,?,?,?,?,?)"
 
 	updateAddress = " UPDATE address SET address = ?, city = ?, state = ?, " +
-		" zip = ?, county = ?, country = ?, address_type = ? " +
+		" zip = ?, county = ?, country = ?, address_type = ?, " +
+		" attr1 = ?, attr2 = ?, attr3 = ?, attr4 = ? " +
 		" WHERE id = ?"
 
 	getAddress = "SELECT id, address, city, state, " +
-		" zip, county, country, address_type, customer_id " +
+		" zip, county, country, address_type, customer_id, attr1, attr2, attr3, attr4 " +
 		" FROM address " +
 		" WHERE id = ? "
 	getAddressList = "SELECT id, address, city, state, " +
-		" zip, county, country, address_type, customer_id " +
+		" zip, county, country, address_type, customer_id, attr1, attr2, attr3, attr4 " +
 		" FROM address " +
 		" WHERE customer_id = ? "
 

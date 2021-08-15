@@ -75,6 +75,10 @@ func TestSix910Mysql_Address(t *testing.T) {
 	add.Country = "US"
 	add.Type = "BILLING"
 	add.CustomerID = cid
+	add.Attr1 = "one"
+	add.Attr2 = "two"
+	add.Attr3 = "three"
+	add.Attr4 = "four"
 
 	dbi.Close()
 	asuc, aid := si.AddAddress(&add)
@@ -100,7 +104,7 @@ func TestSix910Mysql_Address(t *testing.T) {
 	dbi.Close()
 	radd := si.GetAddress(aid)
 	fmt.Println("radd", radd)
-	if radd.CustomerID != cid {
+	if radd.CustomerID != cid || radd.Attr4 != "four" {
 		t.Fail()
 	}
 
