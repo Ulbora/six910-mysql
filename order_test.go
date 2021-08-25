@@ -71,6 +71,8 @@ func TestSix910Mysql_Order(t *testing.T) {
 	odr.Taxes = 5.27
 	odr.Total = 146.32
 	odr.Username = "billybob"
+	odr.FFLShippingAddressID = 21
+	odr.FFLShippingAddress = "My FFL"
 
 	dbi.Close()
 	odrsuc, oid := si.AddOrder(&odr)
@@ -100,6 +102,8 @@ func TestSix910Mysql_Order(t *testing.T) {
 	odr.ShippingMethodID = 23
 	odr.ShippingMethodName = "UPS Ground"
 	odr.Refunded = 15.00
+	odr.FFLShippingAddressID = 22
+	odr.FFLShippingAddress = "My New FFL"
 
 	dbi.Close()
 	uodrsuc := si.UpdateOrder(&odr)
@@ -110,6 +114,8 @@ func TestSix910Mysql_Order(t *testing.T) {
 	dbi.Close()
 	fodr := si.GetOrder(oid)
 	fmt.Println("fodr: ", fodr)
+	fmt.Println("fodr fflid: ", fodr.FFLShippingAddressID)
+	fmt.Println("fodr ffl: ", fodr.FFLShippingAddress)
 	fmt.Println("Refunded: ", fodr.Refunded)
 	if fodr.CustomerID != odr.CustomerID || fodr.OrderType != odr.OrderType || fodr.Refunded != 15.00 {
 		t.Fail()
@@ -170,4 +176,5 @@ func TestSix910Mysql_Order(t *testing.T) {
 	}
 
 	dbi.Close()
+	// t.Fail()
 }

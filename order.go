@@ -38,7 +38,7 @@ func (d *Six910Mysql) AddOrder(o *mdb.Order) (bool, int64) {
 	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.CustomerID, o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
 		o.ShippingAddress, o.StoreID, o.OrderNumber, o.OrderType, o.Pickup, o.Username,
-		o.ShippingMethodID, o.ShippingMethodName)
+		o.ShippingMethodID, o.ShippingMethodName, o.FFLShippingAddressID, o.FFLShippingAddress)
 	suc, id := d.DB.Insert(insertOrder, a...)
 	d.Log.Debug("suc in add Order", suc)
 	d.Log.Debug("id in add Order", id)
@@ -54,7 +54,7 @@ func (d *Six910Mysql) UpdateOrder(o *mdb.Order) bool {
 	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
 		o.ShippingAddress, o.OrderType, o.Pickup, o.Username, o.ShippingMethodID, o.ShippingMethodName,
-		o.Refunded, o.ID)
+		o.Refunded, o.FFLShippingAddressID, o.FFLShippingAddress, o.ID)
 	suc := d.DB.Update(updateOrder, a...)
 	return suc
 }
@@ -253,6 +253,8 @@ func (d *Six910Mysql) parseOrderRow(foundRow *[]string) *mdb.Order {
 															refunded, err := strconv.ParseFloat((*foundRow)[22], 64)
 															d.Log.Debug("refunded err in get Order", err)
 															if err == nil {
+																fflid, _ := strconv.ParseInt((*foundRow)[23], 10, 64)
+																d.Log.Debug("smid err in get Order", err)
 																rtn.ID = id
 																rtn.CustomerID = cid
 																rtn.OrderDate = oTime
@@ -267,6 +269,7 @@ func (d *Six910Mysql) parseOrderRow(foundRow *[]string) *mdb.Order {
 																rtn.Taxes = tax
 																rtn.Total = tot
 																rtn.Refunded = refunded
+																rtn.FFLShippingAddressID = fflid
 																rtn.Status = (*foundRow)[3]
 																rtn.CustomerName = (*foundRow)[12]
 																rtn.BillingAddress = (*foundRow)[13]
@@ -276,6 +279,7 @@ func (d *Six910Mysql) parseOrderRow(foundRow *[]string) *mdb.Order {
 																rtn.Username = (*foundRow)[19]
 																rtn.ShippingMethodID = smid
 																rtn.ShippingMethodName = (*foundRow)[21]
+																rtn.FFLShippingAddress = (*foundRow)[24]
 															}
 
 														}

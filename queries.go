@@ -643,26 +643,27 @@ const (
 	insertOrder = "INSERT INTO orders (order_date, status, subtotal, shipping_handling, " +
 		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
 		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username, " +
-		" shipping_method_id, shipping_method_name)" +
-		" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+		" shipping_method_id, shipping_method_name, ffl_address_id, ffl_address)" +
+		" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
 
 	updateOrder = "UPDATE orders SET updated = ?, status = ?, subtotal = ?, shipping_handling = ?, " +
 		" insurance = ?, taxes = ?, total = ?, billing_address_id = ?, shipping_address_id = ?, customer_name = ?, " +
 		" billing_address = ?, shipping_address = ?, order_type = ?, pickup = ?, username = ?, " +
-		" shipping_method_id = ?, shipping_method_name = ?, refunded = ? " +
+		" shipping_method_id = ?, shipping_method_name = ?, refunded = ?, ffl_address_id = ?, " +
+		" ffl_address = ? " +
 		" WHERE id = ? "
 
 	getOrder = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
 		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
 		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username, " +
-		" shipping_method_id, shipping_method_name, refunded " +
+		" shipping_method_id, shipping_method_name, refunded, ffl_address_id, ffl_address " +
 		" FROM orders " +
 		" WHERE id = ? "
 
 	getOrderByCid = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
 		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
 		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username, " +
-		" shipping_method_id, shipping_method_name, refunded " +
+		" shipping_method_id, shipping_method_name, refunded, ffl_address_id, ffl_address " +
 		" FROM orders " +
 		" WHERE customer_id = ? and store_id = ? " +
 		" ORDER BY order_date "
@@ -670,7 +671,7 @@ const (
 	getOrderForStore = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
 		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
 		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username, " +
-		" shipping_method_id, shipping_method_name, refunded " +
+		" shipping_method_id, shipping_method_name, refunded, ffl_address_id, ffl_address " +
 		" FROM orders " +
 		" WHERE store_id = ? " +
 		" ORDER by status"
@@ -678,7 +679,7 @@ const (
 	getOrderForStoreByStatus = "SELECT id, order_date, updated, status, subtotal, shipping_handling, " +
 		" insurance, taxes, total, customer_id, billing_address_id, shipping_address_id, customer_name, " +
 		" billing_address, shipping_address, store_id, order_number, order_type, pickup, username, " +
-		" shipping_method_id, shipping_method_name, refunded " +
+		" shipping_method_id, shipping_method_name, refunded, ffl_address_id, ffl_address " +
 		" FROM orders " +
 		" WHERE store_id = ? and status = ? "
 
