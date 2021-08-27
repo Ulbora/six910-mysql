@@ -73,6 +73,10 @@ func TestSix910Mysql_Order(t *testing.T) {
 	odr.Username = "billybob"
 	odr.FFLShippingAddressID = 21
 	odr.FFLShippingAddress = "My FFL"
+	odr.FFLName = "bobs guns"
+	odr.FFLLic = "abcd"
+	odr.FFLExpDate = "tomorrow"
+	odr.FFLPhone = "123456789"
 
 	dbi.Close()
 	odrsuc, oid := si.AddOrder(&odr)
@@ -104,6 +108,10 @@ func TestSix910Mysql_Order(t *testing.T) {
 	odr.Refunded = 15.00
 	odr.FFLShippingAddressID = 22
 	odr.FFLShippingAddress = "My New FFL"
+	odr.FFLName = "bobs guns 2"
+	odr.FFLLic = "abcd2"
+	odr.FFLExpDate = "tomorrow2"
+	odr.FFLPhone = "123456789222"
 
 	dbi.Close()
 	uodrsuc := si.UpdateOrder(&odr)

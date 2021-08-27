@@ -38,7 +38,8 @@ func (d *Six910Mysql) AddOrder(o *mdb.Order) (bool, int64) {
 	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.CustomerID, o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
 		o.ShippingAddress, o.StoreID, o.OrderNumber, o.OrderType, o.Pickup, o.Username,
-		o.ShippingMethodID, o.ShippingMethodName, o.FFLShippingAddressID, o.FFLShippingAddress)
+		o.ShippingMethodID, o.ShippingMethodName, o.FFLShippingAddressID, o.FFLShippingAddress,
+		o.FFLName, o.FFLLic, o.FFLExpDate, o.FFLPhone)
 	suc, id := d.DB.Insert(insertOrder, a...)
 	d.Log.Debug("suc in add Order", suc)
 	d.Log.Debug("id in add Order", id)
@@ -54,7 +55,8 @@ func (d *Six910Mysql) UpdateOrder(o *mdb.Order) bool {
 	a = append(a, time.Now(), o.Status, o.Subtotal, o.ShippingHandling, o.Insurance, o.Taxes, o.Total,
 		o.BillingAddressID, o.ShippingAddressID, o.CustomerName, o.BillingAddress,
 		o.ShippingAddress, o.OrderType, o.Pickup, o.Username, o.ShippingMethodID, o.ShippingMethodName,
-		o.Refunded, o.FFLShippingAddressID, o.FFLShippingAddress, o.ID)
+		o.Refunded, o.FFLShippingAddressID, o.FFLShippingAddress,
+		o.FFLName, o.FFLLic, o.FFLExpDate, o.FFLPhone, o.ID)
 	suc := d.DB.Update(updateOrder, a...)
 	return suc
 }
@@ -280,6 +282,11 @@ func (d *Six910Mysql) parseOrderRow(foundRow *[]string) *mdb.Order {
 																rtn.ShippingMethodID = smid
 																rtn.ShippingMethodName = (*foundRow)[21]
 																rtn.FFLShippingAddress = (*foundRow)[24]
+																rtn.FFLName = (*foundRow)[25]
+																rtn.FFLLic = (*foundRow)[26]
+																rtn.FFLExpDate = (*foundRow)[27]
+																rtn.FFLPhone = (*foundRow)[28]
+
 															}
 
 														}
