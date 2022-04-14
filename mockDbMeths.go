@@ -399,6 +399,11 @@ func (d *MockSix910Mysql) GetProductIDListByCategories(storeID int64, catList *[
 	return d.MockProductIDList
 }
 
+//GetProductSubSkuList GetProductSubSkuList
+func (d *MockSix910Mysql) GetProductSubSkuList(parentProdID int64) *[]mdb.Product {
+	return d.MockProductSubSkuList
+}
+
 //DeleteProduct DeleteProduct
 func (d *MockSix910Mysql) DeleteProduct(id int64) bool {
 	return d.MockDeleteProductSuccess

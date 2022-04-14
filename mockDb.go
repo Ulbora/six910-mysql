@@ -116,6 +116,7 @@ type MockSix910Mysql struct {
 	MockUpdateProductQuantitySuccess bool
 	MockProduct                      *mdb.Product
 	MockProductList                  *[]mdb.Product
+	MockProductSubSkuList            *[]mdb.Product
 	MockProductIDList                *[]int64
 	MockDeleteProductSuccess         bool
 

@@ -172,6 +172,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Width = 22.42
 	prod.ParentProductID = 0
 	prod.Image4 = "/test/test"
+	prod.HasSubSkus = true
 
 	dbi.Close()
 	usuc := si.UpdateProduct(&prod)
@@ -189,7 +190,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	dbi.Close()
 	fprod := si.GetProductByID(pid)
 	fmt.Println("fprod", fprod)
-	if fprod.ID != pid || fprod.Stock != 400 {
+	if fprod.ID != pid || fprod.Stock != 400 || !fprod.HasSubSkus {
 		t.Fail()
 	}
 	if fprod.DistributorID != did {
@@ -281,6 +282,13 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prodStr := si.GetProductList(sid, 0, 100)
 	fmt.Println("prodStr", prodStr)
 	if len(*prodStr) != 2 {
+		t.Fail()
+	}
+
+	dbi.Close()
+	prodssStr := si.GetProductSubSkuList(pid)
+	fmt.Println("prodssStr", prodssStr)
+	if len(*prodssStr) != 1 {
 		t.Fail()
 	}
 
