@@ -180,13 +180,13 @@ func (d *Six910Mysql) GetProductList(storeID int64, start int64, end int64) *[]m
 }
 
 //GetProductSubSkuList GetProductSubSkuList
-func (d *Six910Mysql) GetProductSubSkuList(parentProdID int64) *[]mdb.Product {
+func (d *Six910Mysql) GetProductSubSkuList(storeID int64, parentProdID int64) *[]mdb.Product {
 	if !d.testConnection() {
 		d.DB.Connect()
 	}
 	var rtn = []mdb.Product{}
 	var a []interface{}
-	a = append(a, parentProdID)
+	a = append(a, storeID, parentProdID)
 	rows := d.DB.GetList(getProductByParentSku, a...)
 	if rows != nil && len(rows.Rows) != 0 {
 		foundRows := rows.Rows

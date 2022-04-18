@@ -485,7 +485,7 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 	}
 
 	sdb.MockProductSubSkuList = &prodlst
-	fprodsslst := si.GetProductSubSkuList(3)
+	fprodsslst := si.GetProductSubSkuList(3, 3)
 	if len(*fprodsslst) != 1 {
 		t.Fail()
 	}

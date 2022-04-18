@@ -356,7 +356,7 @@ const (
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
 		" image4, special_processing, special_processing_type, manufacturer_id, sub_sku " +
 		" FROM product " +
-		" WHERE parient_product_id = ?"
+		" WHERE  store_id = ? and parient_product_id = ?"
 
 	deleteProduct = "DELETE FROM product WHERE id = ? "
 

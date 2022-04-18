@@ -45,6 +45,9 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	str.Zip = "30036"
 	str.Enabled = false
 	suc, sid := si.AddStore(&str)
+	fmt.Println("new store in prod suc", suc)
+	fmt.Println("new store in prod id", sid)
+
 	if !suc || sid == 0 {
 		t.Fail()
 	}
@@ -154,7 +157,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Name = "some top product that sale well2"
 	//prod.ParentProductID
 	prod.Price = 170.92
-	prod.Promoted = false
+	prod.Promoted = true
 	prod.SalePrice = 160.92
 	prod.Searchable = true
 	prod.ShipSeparately = true
@@ -287,7 +290,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	}
 
 	dbi.Close()
-	prodssStr := si.GetProductSubSkuList(pid)
+	prodssStr := si.GetProductSubSkuList(sid, pid)
 	fmt.Println("prodssStr", prodssStr)
 	if len(*prodssStr) != 1 {
 		t.Fail()

@@ -68,6 +68,7 @@ func TestSix910Mysql_AddVisit(t *testing.T) {
 	vis2.IPAddress = "123.123.456.777"
 	vis2.StoreID = sid
 
+	dbi.Close()
 	vsuc2 := si.AddVisit(&vis2)
 	if !vsuc2 {
 		t.Fail()

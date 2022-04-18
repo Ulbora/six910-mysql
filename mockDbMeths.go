@@ -400,7 +400,7 @@ func (d *MockSix910Mysql) GetProductIDListByCategories(storeID int64, catList *[
 }
 
 //GetProductSubSkuList GetProductSubSkuList
-func (d *MockSix910Mysql) GetProductSubSkuList(parentProdID int64) *[]mdb.Product {
+func (d *MockSix910Mysql) GetProductSubSkuList(storeID int64, parentProdID int64) *[]mdb.Product {
 	return d.MockProductSubSkuList
 }
 
