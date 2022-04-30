@@ -119,7 +119,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Visible = true
 	prod.Weight = 15.4
 	prod.Width = 22.4
-	prod.SubSku = true
+	//prod.SubSku = true
 
 	dbi.Close()
 	psuc, pid := si.AddProduct(&prod)
@@ -176,7 +176,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	prod.Width = 22.42
 	prod.ParentProductID = 0
 	prod.Image4 = "/test/test"
-	prod.SubSku = false
+	//prod.SubSku = false
 
 	dbi.Close()
 	usuc := si.UpdateProduct(&prod)
@@ -194,7 +194,7 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	dbi.Close()
 	fprod := si.GetProductByID(pid)
 	fmt.Println("fprod", fprod)
-	if fprod.ID != pid || fprod.Stock != 400 || fprod.SubSku {
+	if fprod.ID != pid || fprod.Stock != 400 {
 		t.Fail()
 	}
 	if fprod.DistributorID != did {
@@ -319,6 +319,12 @@ func TestSix910Mysql_AddProduct(t *testing.T) {
 	dbi.Close()
 	dprodSuc := si.DeleteProduct(pid)
 	if !dprodSuc {
+		t.Fail()
+	}
+
+	dbi.Close()
+	dsprodSuc := si.DeleteSubProduct(pid)
+	if !dsprodSuc {
 		t.Fail()
 	}
 

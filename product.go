@@ -41,7 +41,7 @@ func (d *Six910Mysql) AddProduct(p *mdb.Product) (bool, int64) {
 		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeparately, p.FreeShipping,
 		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
 		p.StoreID, p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
-		p.SpecialProcessingType, p.SubSku)
+		p.SpecialProcessingType)
 	suc, id := d.DB.Insert(insertProduct, a...)
 	d.Log.Debug("suc in add Product", suc)
 	d.Log.Debug("id in add Product", id)
@@ -59,7 +59,7 @@ func (d *Six910Mysql) UpdateProduct(p *mdb.Product) bool {
 		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeparately, p.FreeShipping,
 		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
 		p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
-		p.SpecialProcessingType, p.SubSku, p.ID)
+		p.SpecialProcessingType, p.ID)
 	suc := d.DB.Update(updateProduct, a...)
 	return suc
 }
@@ -269,6 +269,16 @@ func (d *Six910Mysql) DeleteProduct(id int64) bool {
 	return d.DB.Delete(deleteProduct, a...)
 }
 
+//DeleteSubProduct DeleteSubProduct
+func (d *Six910Mysql) DeleteSubProduct(parentProdID int64) bool {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var a []interface{}
+	a = append(a, parentProdID)
+	return d.DB.Delete(deleteSubProduct, a...)
+}
+
 func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
 	d.Log.Debug("foundRow in get Product", *foundRow)
 	var rtn mdb.Product
@@ -341,52 +351,52 @@ func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
 																										ppid, err := strconv.ParseInt((*foundRow)[32], 10, 64)
 																										d.Log.Debug("ppid err in get Product", err)
 																										if err == nil {
-																											hspproc, err := strconv.ParseBool((*foundRow)[42])
-																											if err == nil {
-																												rtn.ID = id
-																												rtn.Cost = cost
-																												rtn.DateEntered = eTime
-																												rtn.DateUpdated = uTime
-																												rtn.Depth = depth
-																												rtn.DistributorID = did
-																												rtn.Dropship = dship
-																												rtn.FreeShipping = sFree
-																												rtn.Height = height
-																												rtn.Map = mapPrice
-																												rtn.Msrp = msrp
-																												rtn.MultiBox = mbox
-																												rtn.ParentProductID = ppid
-																												rtn.Price = price
-																												rtn.Promoted = promoted
-																												rtn.SalePrice = salePrice
-																												rtn.Searchable = searchable
-																												rtn.ShipSeparately = sSep
-																												rtn.ShippingMarkup = sMarkup
-																												rtn.SpecialProcessing = sproc
-																												rtn.Stock = stock
-																												rtn.StockAlert = stockAlert
-																												rtn.StoreID = sid
-																												rtn.Visible = visible
-																												rtn.Weight = weight
-																												rtn.Width = width
-																												rtn.SubSku = hspproc
-																												rtn.Sku = (*foundRow)[1]
-																												rtn.Gtin = (*foundRow)[2]
-																												rtn.Name = (*foundRow)[3]
-																												rtn.ShortDesc = (*foundRow)[4]
-																												rtn.Desc = (*foundRow)[5]
-																												rtn.Currency = (*foundRow)[11]
-																												rtn.Manufacturer = (*foundRow)[12]
-																												rtn.Size = (*foundRow)[30]
-																												rtn.Color = (*foundRow)[31]
-																												rtn.Thumbnail = (*foundRow)[34]
-																												rtn.Image1 = (*foundRow)[35]
-																												rtn.Image2 = (*foundRow)[36]
-																												rtn.Image3 = (*foundRow)[37]
-																												rtn.Image4 = (*foundRow)[38]
-																												rtn.SpecialProcessingType = (*foundRow)[40]
-																												rtn.ManufacturerID = (*foundRow)[41]
-																											}
+																											//hspproc, err := strconv.ParseBool((*foundRow)[42])
+																											//if err == nil {
+																											rtn.ID = id
+																											rtn.Cost = cost
+																											rtn.DateEntered = eTime
+																											rtn.DateUpdated = uTime
+																											rtn.Depth = depth
+																											rtn.DistributorID = did
+																											rtn.Dropship = dship
+																											rtn.FreeShipping = sFree
+																											rtn.Height = height
+																											rtn.Map = mapPrice
+																											rtn.Msrp = msrp
+																											rtn.MultiBox = mbox
+																											rtn.ParentProductID = ppid
+																											rtn.Price = price
+																											rtn.Promoted = promoted
+																											rtn.SalePrice = salePrice
+																											rtn.Searchable = searchable
+																											rtn.ShipSeparately = sSep
+																											rtn.ShippingMarkup = sMarkup
+																											rtn.SpecialProcessing = sproc
+																											rtn.Stock = stock
+																											rtn.StockAlert = stockAlert
+																											rtn.StoreID = sid
+																											rtn.Visible = visible
+																											rtn.Weight = weight
+																											rtn.Width = width
+																											//rtn.SubSku = hspproc
+																											rtn.Sku = (*foundRow)[1]
+																											rtn.Gtin = (*foundRow)[2]
+																											rtn.Name = (*foundRow)[3]
+																											rtn.ShortDesc = (*foundRow)[4]
+																											rtn.Desc = (*foundRow)[5]
+																											rtn.Currency = (*foundRow)[11]
+																											rtn.Manufacturer = (*foundRow)[12]
+																											rtn.Size = (*foundRow)[30]
+																											rtn.Color = (*foundRow)[31]
+																											rtn.Thumbnail = (*foundRow)[34]
+																											rtn.Image1 = (*foundRow)[35]
+																											rtn.Image2 = (*foundRow)[36]
+																											rtn.Image3 = (*foundRow)[37]
+																											rtn.Image4 = (*foundRow)[38]
+																											rtn.SpecialProcessingType = (*foundRow)[40]
+																											rtn.ManufacturerID = (*foundRow)[41]
+																											//}
 																										}
 																									}
 																								}

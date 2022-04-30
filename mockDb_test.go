@@ -526,6 +526,12 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	sdb.MockDeleteSubProductSuccess = true
+	dlsprod := si.DeleteSubProduct(3)
+	if !dlsprod {
+		t.Fail()
+	}
+
 	var rgn sdbi.Region
 	rgn.Name = "USA"
 

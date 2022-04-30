@@ -194,8 +194,8 @@ const (
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type, sub_sku) " +
-		" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+		" image4, special_processing, special_processing_type) " +
+		" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
 	updateProduct = "UPDATE product SET sku = ?, gtin = ?, name = ?, short_description = ?, description = ?, " +
 		" cost = ?, msrp = ?, map = ?, price = ?, sale_price = ?, currency = ?, manufacturer_id = ?,  manufacturer = ?, stock = ?, " +
@@ -203,7 +203,7 @@ const (
 		" width = ?, height = ?, depth = ?, shipping_markup = ?, visible = ?, searchable = ?, multibox = ?, " +
 		" ship_separate = ?, free_shipping = ?, date_updated = ?, distributor_id = ?, promoted = ?, dropship = ?, " +
 		" size = ?, color = ?, parient_product_id = ?, thumbnail = ?, image1 = ?, image2 = ?, image3 = ?, " +
-		" image4 = ?, special_processing = ?, special_processing_type = ?, sub_sku = ? " +
+		" image4 = ?, special_processing = ?, special_processing_type = ? " +
 		" WHERE id = ?"
 
 	updateProductQuantity = "UPDATE product SET  stock = ? " +
@@ -214,7 +214,7 @@ const (
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type, manufacturer_id, sub_sku " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
 		" WHERE id = ? "
 	getProductBySku = "SELECT id, sku, gtin, name, short_description, description, " +
@@ -222,7 +222,7 @@ const (
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type, manufacturer_id, sub_sku " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
 		" WHERE sku = ? and distributor_id = ? and store_id = ? "
 
@@ -231,13 +231,13 @@ const (
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type, manufacturer_id, sub_sku " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
-		" WHERE sub_sku != true and name like ? and store_id = ? LIMIT ?, ? "
+		" WHERE parient_product_id = 0 and name like ? and store_id = ? LIMIT ?, ? "
 
 	getProductIDList = " SELECT id " +
 		" FROM product " +
-		" WHERE sub_sku != true and store_id = ? "
+		" WHERE parient_product_id = 0 and store_id = ? "
 
 	// get manf list by prod name
 	// "select distinct manufacturer
@@ -251,7 +251,7 @@ const (
 
 	getProductManufacturerListByProductName = " SELECT DISTINCT manufacturer " +
 		" FROM product " +
-		" WHERE sub_sku != true and name like ? and store_id = ? " +
+		" WHERE parient_product_id = 0 and name like ? and store_id = ? " +
 		" ORDER by manufacturer"
 
 	//get product by manf name and name
@@ -265,9 +265,9 @@ const (
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type, manufacturer_id, sub_sku " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
-		" WHERE sub_sku != true and manufacturer = ? and name like ? and store_id = ? LIMIT ?, ? "
+		" WHERE parient_product_id = 0 and manufacturer = ? and name like ? and store_id = ? LIMIT ?, ? "
 
 	//get manf by cat id
 	// 	SELECT distinct p.manufacturer
@@ -308,13 +308,13 @@ const (
 		" p.width, p.height, p.depth, p.shipping_markup, p.visible, p.searchable, p.multibox, " +
 		" p.ship_separate, p.free_shipping, p.date_entered, p.date_updated, p.distributor_id, p.promoted, p.dropship, " +
 		" p.size, p.color, p.parient_product_id, p.store_id, p.thumbnail, p.image1, p.image2, p.image3, " +
-		" p.image4, p.special_processing, p.special_processing_type, p.manufacturer_id, p.sub_sku " +
+		" p.image4, p.special_processing, p.special_processing_type, p.manufacturer_id " +
 		" FROM product p " +
 		" inner join product_category pc " +
 		" on p.id = pc.product_id " +
 		" inner join category c " +
 		" on pc.category_id = c.id " +
-		" WHERE p.sub_sku != true and c.id = ? and p.manufacturer = ? and p.store_id = ? " +
+		" WHERE p.parient_product_id = 0 and c.id = ? and p.manufacturer = ? and p.store_id = ? " +
 		" ORDER BY p.name LIMIT ?, ? "
 
 	getProductByPromoted = "SELECT id, sku, gtin, name, short_description, description, " +
@@ -322,9 +322,9 @@ const (
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type, manufacturer_id, sub_sku " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
-		" WHERE sub_sku != true and searchable = true and visible = true and promoted = true and store_id = ? " +
+		" WHERE parient_product_id = 0 and searchable = true and visible = true and promoted = true and store_id = ? " +
 		" ORDER BY name LIMIT ?, ? "
 
 	getProductByCat = "SELECT p.id, p.sku, p.gtin, p.name, p.short_description, p.description, " +
@@ -332,33 +332,35 @@ const (
 		" p.width, p.height, p.depth, p.shipping_markup, p.visible, p.searchable, p.multibox, " +
 		" p.ship_separate, p.free_shipping, p.date_entered, p.date_updated, p.distributor_id, p.promoted, p.dropship, " +
 		" p.size, p.color, p.parient_product_id, p.store_id, p.thumbnail, p.image1, p.image2, p.image3, " +
-		" p.image4, p.special_processing, p.special_processing_type, p.manufacturer_id, p.sub_sku " +
+		" p.image4, p.special_processing, p.special_processing_type, p.manufacturer_id " +
 		" FROM product p " +
 		" inner join product_category pc " +
 		" on p.id = pc.product_id " +
 		" inner join category c " +
 		" on pc.category_id = c.id " +
-		" WHERE p.sub_sku != true and c.id = ? ORDER BY p.name LIMIT ?, ? "
+		" WHERE p.parient_product_id = 0  and c.id = ? ORDER BY p.name LIMIT ?, ? "
 
 	getProductByStore = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type, manufacturer_id, sub_sku " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
-		" WHERE sub_sku != true and store_id = ? ORDER BY name LIMIT ?, ? "
+		" WHERE parient_product_id = 0 and store_id = ? ORDER BY name LIMIT ?, ? "
 
 	getProductByParentSku = "SELECT id, sku, gtin, name, short_description, description, " +
 		" cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight, " +
 		" width, height, depth, shipping_markup, visible, searchable, multibox, " +
 		" ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
 		" size, color, parient_product_id, store_id, thumbnail, image1, image2, image3, " +
-		" image4, special_processing, special_processing_type, manufacturer_id, sub_sku " +
+		" image4, special_processing, special_processing_type, manufacturer_id " +
 		" FROM product " +
 		" WHERE  store_id = ? and parient_product_id = ?"
 
 	deleteProduct = "DELETE FROM product WHERE id = ? "
+
+	deleteSubProduct = "DELETE FROM product WHERE parient_product_id = ? "
 
 	insertProductCategory = "INSERT INTO product_category (category_id, product_id) values(?, ?) "
 

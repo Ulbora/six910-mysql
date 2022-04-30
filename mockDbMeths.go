@@ -409,6 +409,11 @@ func (d *MockSix910Mysql) DeleteProduct(id int64) bool {
 	return d.MockDeleteProductSuccess
 }
 
+//DeleteSubProduct DeleteSubProduct
+func (d *MockSix910Mysql) DeleteSubProduct(id int64) bool {
+	return d.MockDeleteSubProductSuccess
+}
+
 //Geographic Regions
 
 //AddRegion AddRegion
