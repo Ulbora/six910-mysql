@@ -404,6 +404,11 @@ func (d *MockSix910Mysql) GetProductSubSkuList(storeID int64, parentProdID int64
 	return d.MockProductSubSkuList
 }
 
+//ProductSearch ProductSearch
+func (d *MockSix910Mysql) ProductSearch(p *mdb.ProductSearch) *[]mdb.Product {
+	return d.MockProductSearchList
+}
+
 //DeleteProduct DeleteProduct
 func (d *MockSix910Mysql) DeleteProduct(id int64) bool {
 	return d.MockDeleteProductSuccess

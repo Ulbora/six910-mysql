@@ -396,6 +396,7 @@ func (d *Six910Mysql) parseProductRow(foundRow *[]string) *mdb.Product {
 																											rtn.Image4 = (*foundRow)[38]
 																											rtn.SpecialProcessingType = (*foundRow)[40]
 																											rtn.ManufacturerID = (*foundRow)[41]
+																											rtn.Gender = (*foundRow)[42]
 																											//}
 																										}
 																									}

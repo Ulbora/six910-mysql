@@ -269,6 +269,25 @@ const (
 		" FROM product " +
 		" WHERE parient_product_id = 0 and manufacturer = ? and name like ? and store_id = ? LIMIT ?, ? "
 
+	productSearch = "SELECT id, sku, gtin, name, short_description, description,  " +
+		"cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight,  " +
+		"width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		"ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		"size, color, parient_product_id, store_id, thumbnail, image1, image2, image3,  " +
+		"image4, special_processing, special_processing_type, manufacturer_id, gender " +
+		"FROM product  " +
+		"WHERE parient_product_id = 0  and short_description like ? and store_id = ? LIMIT ?, ? "
+	// short_description: '%value%value%'
+
+	subProductSearch = "SELECT id, sku, gtin, name, short_description, description,  " +
+		"cost, msrp, map, price, sale_price, currency, manufacturer, stock, stock_alert, weight,  " +
+		"width, height, depth, shipping_markup, visible, searchable, multibox, " +
+		"ship_separate, free_shipping, date_entered, date_updated, distributor_id, promoted, dropship, " +
+		"size, color, parient_product_id, store_id, thumbnail, image1, image2, image3,  " +
+		"image4, special_processing, special_processing_type, manufacturer_id, gender " +
+		"FROM product  " +
+		"WHERE parient_product_id = ?  and store_id = ?"
+
 	//get manf by cat id
 	// 	SELECT distinct p.manufacturer
 	// FROM product p

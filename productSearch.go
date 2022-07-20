@@ -4,6 +4,9 @@ import (
 	//"strconv"
 	//"time"
 
+	"fmt"
+
+	"github.com/Ulbora/dbinterface"
 	mdb "github.com/Ulbora/six910-database-interface"
 )
 
@@ -107,4 +110,44 @@ func (d *Six910Mysql) GetProductByCatAndManufacturer(catID int64, manf string, s
 		}
 	}
 	return &rtn
+}
+
+//ProductSearch ProductSearch
+func (d *Six910Mysql) ProductSearch(p *mdb.ProductSearch) *[]mdb.Product {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []mdb.Product{}
+	var rows *dbinterface.DbRows
+	if p.ProductID == 0 {
+		var sdesc = "%"
+		for _, da := range *(p).DescAttributes {
+			sdesc += da + "%"
+		}
+		fmt.Println("sdesc: ", sdesc)
+		var a []interface{}
+		a = append(a, sdesc, p.StoreID, p.Start, p.End)
+		rows = d.DB.GetList(productSearch, a...)
+	} else {
+
+	}
+	if rows != nil && len(rows.Rows) != 0 {
+		cssfoundRows := rows.Rows
+		for r := range cssfoundRows {
+			foundRow := cssfoundRows[r]
+			rowContent := d.parseProductRow(&foundRow)
+			rtn = append(rtn, *rowContent)
+		}
+	}
+
+	return &rtn
+}
+
+func (d *Six910Mysql) productSubSearch(p *mdb.ProductSearch) *dbinterface.DbRows {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+
+	return nil
+	// return &rtn
 }
