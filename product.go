@@ -41,7 +41,7 @@ func (d *Six910Mysql) AddProduct(p *mdb.Product) (bool, int64) {
 		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeparately, p.FreeShipping,
 		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
 		p.StoreID, p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
-		p.SpecialProcessingType)
+		p.SpecialProcessingType, p.Gender)
 	suc, id := d.DB.Insert(insertProduct, a...)
 	d.Log.Debug("suc in add Product", suc)
 	d.Log.Debug("id in add Product", id)
@@ -59,7 +59,7 @@ func (d *Six910Mysql) UpdateProduct(p *mdb.Product) bool {
 		p.ShippingMarkup, p.Visible, p.Searchable, p.MultiBox, p.ShipSeparately, p.FreeShipping,
 		time.Now(), p.DistributorID, p.Promoted, p.Dropship, p.Size, p.Color, p.ParentProductID,
 		p.Thumbnail, p.Image1, p.Image2, p.Image3, p.Image4, p.SpecialProcessing,
-		p.SpecialProcessingType, p.ID)
+		p.SpecialProcessingType, p.Gender, p.ID)
 	suc := d.DB.Update(updateProduct, a...)
 	return suc
 }

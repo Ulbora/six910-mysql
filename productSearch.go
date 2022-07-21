@@ -4,7 +4,7 @@ import (
 	//"strconv"
 	//"time"
 
-	"fmt"
+	// "fmt"
 
 	"github.com/Ulbora/dbinterface"
 	mdb "github.com/Ulbora/six910-database-interface"
@@ -119,17 +119,20 @@ func (d *Six910Mysql) ProductSearch(p *mdb.ProductSearch) *[]mdb.Product {
 	}
 	var rtn = []mdb.Product{}
 	var rows *dbinterface.DbRows
+
 	if p.ProductID == 0 {
 		var sdesc = "%"
 		for _, da := range *(p).DescAttributes {
 			sdesc += da + "%"
 		}
-		fmt.Println("sdesc: ", sdesc)
+		// fmt.Println("sdesc: ", sdesc)
 		var a []interface{}
 		a = append(a, sdesc, p.StoreID, p.Start, p.End)
 		rows = d.DB.GetList(productSearch, a...)
 	} else {
-
+		var a []interface{}
+		a = append(a, p.ProductID, p.StoreID, p.Start, p.End)
+		rows = d.DB.GetList(subProductSearch, a...)
 	}
 	if rows != nil && len(rows.Rows) != 0 {
 		cssfoundRows := rows.Rows
@@ -139,15 +142,5 @@ func (d *Six910Mysql) ProductSearch(p *mdb.ProductSearch) *[]mdb.Product {
 			rtn = append(rtn, *rowContent)
 		}
 	}
-
 	return &rtn
-}
-
-func (d *Six910Mysql) productSubSearch(p *mdb.ProductSearch) *dbinterface.DbRows {
-	if !d.testConnection() {
-		d.DB.Connect()
-	}
-
-	return nil
-	// return &rtn
 }

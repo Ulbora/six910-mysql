@@ -484,6 +484,15 @@ func TestMockSix910Mysql_Mocks(t *testing.T) {
 		t.Fail()
 	}
 
+	sdb.MockProductSearchList = &prodlst
+
+	var sp sdbi.ProductSearch
+
+	fprodslst := si.ProductSearch(&sp)
+	if len(*fprodslst) != 1 {
+		t.Fail()
+	}
+
 	sdb.MockProductSubSkuList = &prodlst
 	fprodsslst := si.GetProductSubSkuList(3, 3)
 	if len(*fprodsslst) != 1 {
