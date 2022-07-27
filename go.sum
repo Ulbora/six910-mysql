@@ -22,6 +22,8 @@ github.com/Ulbora/six910-database-interface v1.2.1 h1:wCx4DqoI+o8CPfX1+FY4+YZR9a
 github.com/Ulbora/six910-database-interface v1.2.1/go.mod h1:HHC7AiKhsROflRoKg7gXL+de0ECcpaqgkhhJOtM0pQU=
 github.com/Ulbora/six910-database-interface v1.2.2 h1:v7XNopLceQRYbfgGGRfeBnXhkxlc4vqF5ldmOE8hKj0=
 github.com/Ulbora/six910-database-interface v1.2.2/go.mod h1:HHC7AiKhsROflRoKg7gXL+de0ECcpaqgkhhJOtM0pQU=
+github.com/Ulbora/six910-database-interface v1.2.3 h1:pVG1H5WuvFgw0A4kSzs373fzV4mZpj9FmU5BmcW3M8I=
+github.com/Ulbora/six910-database-interface v1.2.3/go.mod h1:HHC7AiKhsROflRoKg7gXL+de0ECcpaqgkhhJOtM0pQU=
 github.com/go-sql-driver/mysql v1.4.1/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfCHuOE=
 github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=

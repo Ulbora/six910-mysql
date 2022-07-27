@@ -969,6 +969,11 @@ func (d *MockSix910Mysql) GetProductManufacturerListByProductName(name string, s
 	return d.MockManufacturerList
 }
 
+//GetProductManufacturerListByProductSearch GetProductManufacturerListByProductSearch
+func (d *MockSix910Mysql) GetProductManufacturerListByProductSearch(attrs string, storeID int64) *[]string {
+	return d.MockManufacturerList
+}
+
 //GetProductByNameAndManufacturerName GetProductByNameAndManufacturerName
 func (d *MockSix910Mysql) GetProductByNameAndManufacturerName(manf string, name string, storeID int64,
 	start int64, end int64) *[]mdb.Product {

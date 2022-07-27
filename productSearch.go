@@ -6,6 +6,8 @@ import (
 
 	// "fmt"
 
+	"strings"
+
 	"github.com/Ulbora/dbinterface"
 	mdb "github.com/Ulbora/six910-database-interface"
 )
@@ -39,6 +41,37 @@ func (d *Six910Mysql) GetProductManufacturerListByProductName(name string, store
 	var a []interface{}
 	a = append(a, "%"+name+"%", storeID)
 	rows := d.DB.GetList(getProductManufacturerListByProductName, a...)
+	if rows != nil && len(rows.Rows) != 0 {
+		foundRows := rows.Rows
+		for r := range foundRows {
+			foundRow := foundRows[r]
+			manf := (foundRow)[0]
+			rtn = append(rtn, manf)
+		}
+	}
+	return &rtn
+}
+
+//GetProductManufacturerListByProductSearch GetProductManufacturerListByProductSearch
+func (d *Six910Mysql) GetProductManufacturerListByProductSearch(attrs string, storeID int64) *[]string {
+	if !d.testConnection() {
+		d.DB.Connect()
+	}
+	var rtn = []string{}
+	var a []interface{}
+	var attrbs = strings.Split(attrs, " ")
+	var revind []string
+	var sdesc = "%"
+	for _, da := range attrbs {
+		sdesc += da + "%"
+		revind = append(revind, da)
+	}
+	var rsdesc = "%"
+	for i := len(revind) - 1; i >= 0; i-- {
+		rsdesc += revind[i] + "%"
+	}
+	a = append(a, sdesc, rsdesc, storeID)
+	rows := d.DB.GetList(getProductManufacturerListByProductSearch, a...)
 	if rows != nil && len(rows.Rows) != 0 {
 		foundRows := rows.Rows
 		for r := range foundRows {
@@ -121,13 +154,18 @@ func (d *Six910Mysql) ProductSearch(p *mdb.ProductSearch) *[]mdb.Product {
 	var rows *dbinterface.DbRows
 
 	if p.ProductID == 0 {
+		var revind []string
 		var sdesc = "%"
 		for _, da := range *(p).DescAttributes {
 			sdesc += da + "%"
+			revind = append(revind, da)
 		}
-		// fmt.Println("sdesc: ", sdesc)
+		var rsdesc = "%"
+		for i := len(revind) - 1; i >= 0; i-- {
+			rsdesc += revind[i] + "%"
+		}
 		var a []interface{}
-		a = append(a, sdesc, p.StoreID, p.Start, p.End)
+		a = append(a, sdesc, rsdesc, p.StoreID, p.Start, p.End)
 		rows = d.DB.GetList(productSearch, a...)
 	} else {
 		var a []interface{}

@@ -254,6 +254,11 @@ const (
 		" WHERE parient_product_id = 0 and name like ? and store_id = ? " +
 		" ORDER by manufacturer"
 
+	getProductManufacturerListByProductSearch = " SELECT DISTINCT manufacturer " +
+		" FROM product " +
+		" WHERE parient_product_id = 0 and (short_description like ? or short_description like ?) and store_id = ? " +
+		" ORDER by manufacturer"
+
 	//get product by manf name and name
 	// 	select *
 	// from product
@@ -276,7 +281,7 @@ const (
 		"size, color, parient_product_id, store_id, thumbnail, image1, image2, image3,  " +
 		"image4, special_processing, special_processing_type, manufacturer_id, gender " +
 		"FROM product  " +
-		"WHERE parient_product_id = 0  and short_description like ? and store_id = ? LIMIT ?, ? "
+		"WHERE parient_product_id = 0  and (short_description like ? or short_description like ?) and store_id = ? LIMIT ?, ? "
 	// short_description: '%value%value%'
 
 	subProductSearch = "SELECT id, sku, gtin, name, short_description, description,  " +
